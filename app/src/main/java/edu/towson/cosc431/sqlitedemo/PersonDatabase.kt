@@ -1,4 +1,4 @@
-package cosc431.towson.edu.sqlitedemo
+package edu.towson.cosc431.sqlitedemo
 
 import android.content.ContentValues
 import android.content.Context

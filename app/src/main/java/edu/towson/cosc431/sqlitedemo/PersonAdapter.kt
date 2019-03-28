@@ -1,12 +1,12 @@
-package cosc431.towson.edu.sqlitedemo
+package edu.towson.cosc431.sqlitedemo
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.person_item.view.*
 
-class PersonAdapter(val controller: IController) :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PersonAdapter(val controller: IController) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.person_item, parent, false)
         return PersonViewHolder(view)

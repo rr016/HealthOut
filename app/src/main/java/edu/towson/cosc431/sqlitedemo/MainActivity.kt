@@ -1,8 +1,8 @@
-package cosc431.towson.edu.sqlitedemo
+package edu.towson.cosc431.sqlitedemo
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), IController {
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), IController {
         list.clear()
         list.addAll(db.getPeople())
         // notify the recyclerview
-        recyclerView.adapter.notifyDataSetChanged()
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override val list: MutableList<Person> = mutableListOf()
