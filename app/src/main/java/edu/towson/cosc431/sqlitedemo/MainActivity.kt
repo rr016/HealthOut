@@ -1,9 +1,9 @@
-package cosc431.towson.edu.sqlitedemo
+package edu.towson.cosc431.sqlitedemo
 
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
