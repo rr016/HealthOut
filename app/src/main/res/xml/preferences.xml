@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:key="sample_bool"
+        app:title="Sample boolean setting"/>
+
+    <EditTextPreference
+        app:key="sample_edit"
+        app:title="Sample input setting"/>
+
+</androidx.preference.PreferenceScreen>
