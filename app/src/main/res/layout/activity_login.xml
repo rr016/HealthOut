@@ -7,9 +7,9 @@
     android:layout_weight="0">
 
     <ImageView
-        android:id="@+id/Logo"
-        android:layout_width="395dp"
-        android:layout_height="55dp"
+        android:id="@+id/image_logo"
+        android:layout_width="351dp"
+        android:layout_height="47dp"
         android:layout_marginTop="64dp"
         android:layout_weight="0"
         android:contentDescription="HealthOut Logo"
@@ -28,7 +28,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Logo" />
+        app:layout_constraintTop_toBottomOf="@+id/image_logo" />
 
     <EditText
         android:id="@+id/edittext_password"
@@ -43,7 +43,7 @@
 
     <Button
         android:id="@+id/button_login"
-        android:layout_width="215dp"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@color/colorRed"
@@ -58,7 +58,7 @@
 
     <Button
         android:id="@+id/button_register"
-        android:layout_width="215dp"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@color/colorRed"
@@ -70,5 +70,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_login" />
+
+    <Button
+        android:id="@+id/button_forget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:fontFamily="Arial"
+        android:text="Forgot Password?"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_register" />
+
+    <ImageView
+        android:id="@+id/image_ekg"
+        android:layout_width="553dp"
+        android:layout_height="128dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_ekg" />
 
 </android.support.constraint.ConstraintLayout>
