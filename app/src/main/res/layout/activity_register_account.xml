@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="0">
+    android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/image_logo"
+        android:id="@+id/image_logo2"
         android:layout_width="351dp"
         android:layout_height="47dp"
         android:layout_marginTop="64dp"
@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/logo_red_text" />
 
     <EditText
-        android:id="@+id/edittext_email"
+        android:id="@+id/edittext_email2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -27,66 +27,52 @@
         android:hint="Email Address"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/image_logo2" />
 
     <EditText
-        android:id="@+id/edittext_password"
+        android:id="@+id/edittext_password2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_email" />
+        app:layout_constraintTop_toBottomOf="@+id/edittext_email2" />
+
+    <EditText
+        android:id="@+id/edittext_confirm_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_password2" />
 
     <Button
-        android:id="@+id/button_login"
+        android:id="@+id/button_sign_up"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@color/colorRed"
         android:fontFamily="Arial"
-        android:text="Login"
+        android:text="Sign Up"
         android:textColor="@color/colorWhite"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_password" />
-
-    <Button
-        android:id="@+id/button_register"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@color/colorRed"
-        android:fontFamily="Arial"
-        android:text="Register"
-        android:textColor="@color/colorWhite"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login" />
-
-    <Button
-        android:id="@+id/button_forget"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:background="@color/colorWhite"
-        android:fontFamily="Arial"
-        android:text="Forgot Password?"
-        android:textStyle="bold"
-        style="?android:attr/borderlessButtonStyle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_register" />
+        app:layout_constraintTop_toBottomOf="@+id/edittext_confirm_password" />
 
     <ImageView
-        android:id="@+id/image_ekg"
+        android:id="@+id/image_ekg2"
         android:layout_width="553dp"
         android:layout_height="128dp"
         android:layout_marginBottom="16dp"
@@ -94,5 +80,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_ekg" />
-
 </android.support.constraint.ConstraintLayout>
