@@ -3,9 +3,6 @@ package com.example.android.healthout;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +17,8 @@ public class LoginActivity extends AppCompatActivity {
     Button forgotButton;
     String sEmail;
     String sPassword;
+
+    User user = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +37,17 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sEmail = emailEditText.getText().toString();
+                sPassword = passwordEditText.getText().toString();
+
+                user.setEmail(sEmail);
+                user.setPassword(sPassword);
+                user.setUser_id(0);
+                user.setLogged_in(true);
+
                 Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
                 startActivity(intent);
+
             }
         });
 

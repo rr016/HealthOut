@@ -47,8 +47,8 @@ public class MainMenuActivity extends AppCompatActivity {
         editGoalsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Edit Goals Clicked!", Toast.LENGTH_LONG);
-                toast.show();
+                Intent intent = new Intent(MainMenuActivity.this, EditGoalsActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -57,7 +57,7 @@ public class MainMenuActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_bar, menu);
+        inflater.inflate(R.menu.menu_options, menu);
         return true;
     }
 
@@ -72,8 +72,8 @@ public class MainMenuActivity extends AppCompatActivity {
 
             // Edit Account
             case R.id.two:
-                Toast toast2 = Toast.makeText(getApplicationContext(), "Edit Account Clicked!", Toast.LENGTH_LONG);
-                toast2.show();
+                Intent intent2 = new Intent(MainMenuActivity.this, EditAccountActivity.class);
+                startActivity(intent2);
                 return true;
 
             // Delete Account

@@ -6,14 +6,48 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-public class RegisterAppsActivity extends AppCompatActivity {
+public class EditGoalDetailActivity extends AppCompatActivity {
+
+    Button applyButton;
+    Spinner appSpinner;
+    Spinner goalTypeSpinner;
+    EditText targetEditText;
+    Spinner periodSpinner;
+    String sApp;
+    String sGoalType;
+    String sTarget;
+    String sPeriod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_apps);
+        setContentView(R.layout.activity_goal_detail);
+
+        appSpinner = findViewById(R.id.spinner_app);
+        goalTypeSpinner = findViewById(R.id.spinner_goal_type);
+        targetEditText = findViewById(R.id.editText_target);
+        periodSpinner = findViewById(R.id.spinner_period);
+        applyButton = findViewById(R.id.button_apply_goal);
+
+        // Click Apply Button
+        applyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sApp = appSpinner.getSelectedItem().toString();
+                sGoalType = goalTypeSpinner.getSelectedItem().toString();
+                sTarget = targetEditText.getText().toString();
+                sPeriod = periodSpinner.getSelectedItem().toString();
+
+                Goal addedGoal = new Goal(sApp, 0, sGoalType, 0, sTarget, sPeriod, 0, null);
+
+            }
+        });
     }
 
     /************************ MENU BAR ************************/
@@ -29,7 +63,7 @@ public class RegisterAppsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Home - Main Menu
             case R.id.home:
-                Intent intent1 = new Intent(RegisterAppsActivity.this, MainMenuActivity.class);
+                Intent intent1 = new Intent(EditGoalDetailActivity.this, MainMenuActivity.class);
                 startActivity(intent1);
                 return true;
 
@@ -41,7 +75,7 @@ public class RegisterAppsActivity extends AppCompatActivity {
 
             // Edit Account
             case R.id.two:
-                Intent intent2 = new Intent(RegisterAppsActivity.this, EditAccountActivity.class);
+                Intent intent2 = new Intent(EditGoalDetailActivity.this, EditAccountActivity.class);
                 startActivity(intent2);
                 return true;
 

@@ -5,10 +5,10 @@ public class Goal extends User {
     private int app_id;
     private String goal_type;
     private int goal_id;
-    private int target;
+    private String target;
     private String period;
     private int period_id;
-    private int progress;
+    private String progress;
     ThirdPartyApp thirdPartyApp = new ThirdPartyApp();
 
     public Goal(){
@@ -16,10 +16,21 @@ public class Goal extends User {
         this.app_id = -1;
         this.goal_type = null;
         this.goal_id = -1;
-        this.target = -1;
+        this.target = null;
         this.period = null;
         this.period_id = -1;
-        this.progress = -1;
+        this.progress = null;
+    }
+
+    public Goal(String a, int b, String c, int d, String e, String f, int g, String h){
+        this.app_pulled_from = a;
+        this.app_id = b;
+        this.goal_type = c;
+        this.goal_id = d;
+        this.target = e;
+        this.period = f;
+        this.period_id = g;
+        this.progress = h;
     }
 
     public String getApp_pulled_from() {
@@ -54,11 +65,11 @@ public class Goal extends User {
         this.goal_id = goal_id;
     }
 
-    public int getTarget() {
+    public String getTarget() {
         return target;
     }
 
-    public void setTarget(int target) {
+    public void setTarget(String target) {
         this.target = target;
     }
 
@@ -78,11 +89,11 @@ public class Goal extends User {
         this.period_id = period_id;
     }
 
-    public int getProgress() {
+    public String getProgress() {
         return progress;
     }
 
-    public void setProgress(int progress) {
+    public void setProgress(String progress) {
         this.progress = progress;
     }
 }

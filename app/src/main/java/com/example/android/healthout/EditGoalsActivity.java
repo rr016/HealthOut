@@ -6,14 +6,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
-public class RegisterAppsActivity extends AppCompatActivity {
+public class EditGoalsActivity extends AppCompatActivity {
+
+    Button removeButton;
+    Button addNewButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_apps);
+        setContentView(R.layout.activity_edit_goals);
+
+        removeButton = findViewById(R.id.button_remove);
+        addNewButton = findViewById(R.id.button_add_new);
+
+        // Click Remove Button
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Remove Clicked!", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+
+        // Click Add New Goal
+        addNewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /************************ MENU BAR ************************/
@@ -29,7 +55,7 @@ public class RegisterAppsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Home - Main Menu
             case R.id.home:
-                Intent intent1 = new Intent(RegisterAppsActivity.this, MainMenuActivity.class);
+                Intent intent1 = new Intent(EditGoalsActivity.this, MainMenuActivity.class);
                 startActivity(intent1);
                 return true;
 
@@ -41,7 +67,7 @@ public class RegisterAppsActivity extends AppCompatActivity {
 
             // Edit Account
             case R.id.two:
-                Intent intent2 = new Intent(RegisterAppsActivity.this, EditAccountActivity.class);
+                Intent intent2 = new Intent(EditGoalsActivity.this, EditAccountActivity.class);
                 startActivity(intent2);
                 return true;
 

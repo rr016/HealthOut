@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/home"
+        android:title="Home"
+        android:icon="@mipmap/icon_home"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/hamburger"
+        android:icon="@mipmap/icon_hamburger"
+        android:title=""
+        app:showAsAction="always">
+    <menu>
+    <item
+        android:id="@+id/one"
+        android:icon="@drawable/icon_logout"
+        android:title="Logout"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/two"
+        android:icon="@drawable/icon_edit_account"
+        android:title="Edit Account"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/three"
+        android:icon="@drawable/icon_delete_account"
+        android:title="Delete Account"
+        app:showAsAction="never" />
+    </menu>
+    </item>
+</menu>
