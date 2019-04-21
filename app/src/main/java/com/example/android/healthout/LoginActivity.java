@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
+    DatabaseHelper db;
 
     EditText emailEditText;
     EditText passwordEditText;
@@ -27,6 +28,8 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
 
+        db = new DatabaseHelper(this);
+
         emailEditText = findViewById(R.id.edittext_email);
         passwordEditText = findViewById(R.id.edittext_password);
         loginButton = findViewById(R.id.button_login);
@@ -40,14 +43,20 @@ public class LoginActivity extends AppCompatActivity {
                 sEmail = emailEditText.getText().toString();
                 sPassword = passwordEditText.getText().toString();
 
-                user.setEmail(sEmail);
-                user.setPassword(sPassword);
-                user.setUser_id(0);
-                user.setLogged_in(true);
+                Boolean res = db.checkUser(sEmail, sPassword);
+                if(res == true){
+                    user.setEmail(sEmail);
+                    user.setPassword(sPassword);
+                    user.setUser_id(0);
+                    user.setLogged_in(true);
 
-                Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
-                startActivity(intent);
-
+                    Toast.makeText(LoginActivity.this,"Login Sucessful", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(LoginActivity.this, "Login Error", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
