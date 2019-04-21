@@ -1,6 +1,8 @@
 package com.example.android.healthout;
 
-public class AppLog extends User {
+import java.io.Serializable;
+
+public class AppLog implements Serializable {
     private int steps_walked;
     private int miles_walked;
     private int calories_burned;

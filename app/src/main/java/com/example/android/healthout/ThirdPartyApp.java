@@ -1,6 +1,8 @@
 package com.example.android.healthout;
 
-public class ThirdPartyApp extends User {
+import java.io.Serializable;
+
+public class ThirdPartyApp implements Serializable {
     private int app_id;
     private String app_name;
     private boolean registered;

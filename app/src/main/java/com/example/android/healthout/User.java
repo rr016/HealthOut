@@ -1,9 +1,10 @@
 package com.example.android.healthout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
     private boolean logged_in;
     private int user_id;
     private String email;

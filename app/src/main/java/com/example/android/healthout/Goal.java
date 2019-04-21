@@ -1,6 +1,8 @@
 package com.example.android.healthout;
 
-public class Goal extends User {
+import java.io.Serializable;
+
+public class Goal implements Serializable {
     private String app_pulled_from;
     private int app_id;
     private String goal_type;
