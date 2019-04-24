@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                 sEmail = emailEditText.getText().toString();
                 sPassword = passwordEditText.getText().toString();
 
-                Boolean res = db.checkUser(sEmail, sPassword);
+                Boolean res = db.checkUserInUserTable(sEmail, sPassword);
                 if(res == true){
                     user.setEmail(sEmail);
                     user.setPassword(sPassword);
