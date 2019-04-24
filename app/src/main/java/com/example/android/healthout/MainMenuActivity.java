@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainMenuActivity extends AppCompatActivity {
+    Boolean dataAdded = false; // Used for testing if databases work
     DatabaseHelper db;
 
     Button updateButton;
@@ -32,12 +33,36 @@ public class MainMenuActivity extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Long val = db.addAppToAppTable("FitBit");
-                if(val > 0){
-                    Toast.makeText(MainMenuActivity.this,"App Registered", Toast.LENGTH_SHORT).show();
+                if (dataAdded == false){
+                    // App Table -- add data
+                    db.addAppToAppTable("FitBit");
+                    db.addAppToAppTable("App2");
+                    db.addAppToAppTable("App3");
+
+                    // Type Table -- add data
+                    db.addTypeToTypeTable("Steps Walked");
+                    db.addTypeToTypeTable("Miles Walked");
+                    db.addTypeToTypeTable("Calores Consumed");
+                    db.addTypeToTypeTable("Calories Burned");
+                    db.addTypeToTypeTable("Pulse");
+                    db.addTypeToTypeTable("Blood Pressure");
+
+                    // Period Table -- add data
+                    db.addPeriodToPeriodTable("Daily");
+                    db.addPeriodToPeriodTable("Weekly");
+                    db.addPeriodToPeriodTable("Monthly");
+                    Long val =  db.addPeriodToPeriodTable("Yearly");
+                    if(val > 0){
+                        Toast.makeText(MainMenuActivity.this,"Data Added", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(MainMenuActivity.this,"Error", Toast.LENGTH_SHORT).show();
+                    }
+
+                    dataAdded = true;
                 }
                 else{
-                    Toast.makeText(MainMenuActivity.this,"App Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Data Already Added", Toast.LENGTH_LONG).show();
                 }
                 //Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG).show();
             }
@@ -47,8 +72,17 @@ public class MainMenuActivity extends AppCompatActivity {
         registerAppsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, RegisterAppsActivity.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "App Table:", Toast.LENGTH_LONG).show();
+                for (int i = 1; i <= 3; i++)
+                    Toast.makeText(MainMenuActivity.this,db.getAppFromAppTable(i), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Type Table:", Toast.LENGTH_LONG).show();
+                for (int i = 1; i <= 6; i++)
+                    Toast.makeText(MainMenuActivity.this,db.getTypeFromTypeTable(i), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Period Table:", Toast.LENGTH_LONG).show();
+                for (int i = 1; i <= 4; i++)
+                    Toast.makeText(MainMenuActivity.this,db.getPeriodFromPeriodTable(i), Toast.LENGTH_SHORT).show();
+                //Intent intent = new Intent(MainMenuActivity.this, RegisterAppsActivity.class);
+                //startActivity(intent);
             }
         });
 
