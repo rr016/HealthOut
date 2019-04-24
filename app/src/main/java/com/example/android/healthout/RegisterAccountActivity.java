@@ -42,7 +42,7 @@ public class RegisterAccountActivity extends AppCompatActivity {
                 sConfirmPassword = confirmPasswordEditText.getText().toString();
 
                 if (sPassword.equals(sConfirmPassword)){
-                    Long val = db.addUser(sEmail, sPassword);
+                    Long val = db.addUserToUserTable(sEmail, sPassword);
                     if(val > 0){
                         Toast.makeText(RegisterAccountActivity.this,"Account Registered", Toast.LENGTH_SHORT).show();
                         Intent moveToLogin = new Intent(RegisterAccountActivity.this, LoginActivity.class);
@@ -50,7 +50,7 @@ public class RegisterAccountActivity extends AppCompatActivity {
                         finish(); // Prevent user from returning to this page
                     }
                     else{
-                        Toast.makeText(RegisterAccountActivity.this,"Regestration Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterAccountActivity.this,"Registration Error", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{

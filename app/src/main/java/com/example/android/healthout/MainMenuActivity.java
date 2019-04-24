@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainMenuActivity extends AppCompatActivity {
+    DatabaseHelper db;
 
     Button updateButton;
     Button registerAppsButton;
@@ -21,6 +22,8 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        db = new DatabaseHelper(this);
+
         updateButton = findViewById(R.id.button_update);
         registerAppsButton = findViewById(R.id.button_register_apps);
         editGoalsButton = findViewById(R.id.button_edit_goals);
@@ -29,8 +32,14 @@ public class MainMenuActivity extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG);
-                toast.show();
+                Long val = db.addAppToAppTable("FitBit");
+                if(val > 0){
+                    Toast.makeText(MainMenuActivity.this,"App Registered", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(MainMenuActivity.this,"App Error", Toast.LENGTH_SHORT).show();
+                }
+                //Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG).show();
             }
         });
 
