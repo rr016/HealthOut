@@ -44,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PERIOD_LENGTH = "period_length";
 
     // Goal Table - column names
+    public static final String GOAL_ID = "goal_id";
     public static final String GOAL_TARGET_VALUE = "target_value";
 
     // API Table - column names
@@ -82,8 +83,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " (" + PERIOD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PERIOD_LENGTH + " TEXT)");
         // Goal Table -- created
         database.execSQL("CREATE TABLE " + TABLE_GOAL +
-                " (" + USER_ID + " INTEGER, " + APP_ID + " INTEGER, " + TYPE_ID + " INTEGER, "
-                + PERIOD_ID + " INTEGER, " + GOAL_TARGET_VALUE + " TEXT)");
+                " (" + GOAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, " + APP_ID + " INTEGER, "
+                + TYPE_ID + " INTEGER, " + PERIOD_ID + " INTEGER, " + GOAL_TARGET_VALUE + " TEXT)");
         // API Table -- created
         database.execSQL("CREATE TABLE " + TABLE_API +
                 " (" + USER_ID + " INTEGER, " + APP_ID + " INTEGER, " + API_REGISTERED + " BOOLEAN, "
@@ -112,12 +113,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // User Table -- methods
     public long addUserToUserTable(String email, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(USER_EMAIL, email);
-        cv.put(USER_PASSWORD, password);
-        long res = db.insert(TABLE_USER, null, cv);
+        ContentValues values = new ContentValues();
+        values.put(USER_EMAIL, email);
+        values.put(USER_PASSWORD, password);
+        long res = db.insert(TABLE_USER, null, values);
         db.close();
         return res;
+    }
+
+    public String getEmailFromUserTable(long user_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_USER + " WHERE "
+                + USER_ID + " = " + user_id;
+
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        String email = c.getString(1);
+        return email;
+    }
+
+    public String getPasswordFromUserTable(long user_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_USER + " WHERE "
+                + USER_ID + " = " + user_id;
+
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        String password = c.getString(2);
+        return password;
+    }
+
+    public String getAccountFromUserTable(long user_id){
+        String password = getEmailFromUserTable(user_id) + ", " + getPasswordFromUserTable(user_id);
+        return password;
     }
 
     public boolean checkUserInUserTable(String email, String password) {
@@ -134,90 +170,196 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         else
             return false;
-
     }
 
     // App Table -- methods
     public long addAppToAppTable(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(APP_NAME, name);
-        long res = db.insert(TABLE_APP, null, cv);
+        ContentValues values = new ContentValues();
+        values.put(APP_NAME, name);
+        long res = db.insert(TABLE_APP, null, values);
         db.close();
         return res;
     }
 
     public String getAppFromAppTable(long app_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-
         String selectQuery = "SELECT  * FROM " + TABLE_APP + " WHERE "
                 + APP_ID + " = " + app_id;
 
         Log.e(LOG, selectQuery);
-
         Cursor c = db.rawQuery(selectQuery, null);
 
         if (c != null)
             c.moveToFirst();
 
-        String appName = c.getString(1);
-
-        return appName;
+        String app = c.getString(1);
+        return app;
     }
 
     // Type Table -- methods
     public long addTypeToTypeTable(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(TYPE_NAME, name);
-        long res = db.insert(TABLE_TYPE, null, cv);
+        ContentValues values = new ContentValues();
+        values.put(TYPE_NAME, name);
+        long res = db.insert(TABLE_TYPE, null, values);
         db.close();
         return res;
     }
 
     public String getTypeFromTypeTable(long type_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-
         String selectQuery = "SELECT  * FROM " + TABLE_TYPE + " WHERE "
                 + TYPE_ID + " = " + type_id;
 
         Log.e(LOG, selectQuery);
-
         Cursor c = db.rawQuery(selectQuery, null);
 
         if (c != null)
             c.moveToFirst();
 
-        String typeName = c.getString(1);
-
-        return typeName;
+        String type = c.getString(1);
+        return type;
     }
 
     // Period Table -- methods
     public long addPeriodToPeriodTable(String period_length) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(PERIOD_LENGTH, period_length);
-        long res = db.insert(TABLE_PERIOD, null, cv);
+        ContentValues values = new ContentValues();
+        values.put(PERIOD_LENGTH, period_length);
+        long res = db.insert(TABLE_PERIOD, null, values);
         db.close();
         return res;
     }
 
     public String getPeriodFromPeriodTable(long period_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-
         String selectQuery = "SELECT  * FROM " + TABLE_PERIOD + " WHERE "
                 + PERIOD_ID + " = " + period_id;
 
         Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
 
+       //if (c != null)
+            c.moveToFirst();
+
+        String period = c.getString(1);
+        return period;
+    }
+
+    // Goal Table -- methods
+    public long addGoalToGoalTable(long user_id, long app_id, long type_id, long period_id, String target_value) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(USER_ID, user_id);
+        values.put(APP_ID, app_id);
+        values.put(TYPE_ID, type_id);
+        values.put(PERIOD_ID, period_id);
+        values.put(GOAL_TARGET_VALUE, target_value);
+        long res = db.insert(TABLE_GOAL, null, values);
+        db.close();
+        return res;
+    }
+
+    public Long getUserIdFromGoalTable(long goal_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_GOAL + " WHERE "
+                + GOAL_ID + " = " + goal_id;
+
+        Log.e(LOG, selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
 
         if (c != null)
             c.moveToFirst();
 
-        String periodName = c.getString(1);
+        long id = c.getLong(1);
+        return id;
+    }
 
-        return periodName;
+    public String getUserEmailFromGoalTable(long goal_id) {
+        String email = getEmailFromUserTable(getUserIdFromGoalTable(goal_id));
+        return email;
+    }
+
+    public Long getAppIdFromGoalTable(long goal_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_GOAL + " WHERE "
+                + GOAL_ID + " = " + goal_id;
+
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        long id = c.getLong(2);
+        return id;
+    }
+
+    public String getAppNameFromGoalTable(long goal_id) {
+        String name = getAppFromAppTable(getAppIdFromGoalTable(goal_id));
+        return name;
+    }
+
+    public Long getTypeIdFromGoalTable(long goal_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_GOAL + " WHERE "
+                + GOAL_ID + " = " + goal_id;
+
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        long id = c.getLong(3);
+        return id;
+    }
+
+    public String getTypeNameFromGoalTable(long goal_id) {
+        String name = getTypeFromTypeTable(getTypeIdFromGoalTable(goal_id));
+        return name;
+    }
+
+    public Long getPeriodIdFromGoalTable(long goal_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_GOAL + " WHERE "
+                + GOAL_ID + " = " + goal_id;
+
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        long id = c.getLong(4);
+        return id;
+    }
+
+    public String getPeriodLengthFromGoalTable(long goal_id) {
+        String length = getPeriodFromPeriodTable(getPeriodIdFromGoalTable(goal_id));
+        return length;
+    }
+
+    public String getTargetValueIdFromGoalTable(long goal_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_GOAL + " WHERE "
+                + GOAL_ID + " = " + goal_id;
+
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        String target = c.getString(5);
+        return target;
+    }
+
+    public String getGoalFromGoalTable(long goal_id){
+        String goal = getUserEmailFromGoalTable(goal_id) + ", " + getAppNameFromGoalTable(goal_id)
+                + ", " + getTypeNameFromGoalTable(goal_id) + ", " + getPeriodLengthFromGoalTable(goal_id)
+                + ", " + getTargetValueIdFromGoalTable(goal_id);
+        return goal;
     }
 }
