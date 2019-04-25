@@ -59,8 +59,9 @@ public class EditAccountActivity extends AppCompatActivity {
 
             // Logout
             case R.id.one:
-                Toast toast1 = Toast.makeText(getApplicationContext(), "Logout Clicked!", Toast.LENGTH_LONG);
-                toast1.show();
+                Intent moveToLogin = new Intent(EditAccountActivity.this, LoginActivity.class);
+                startActivity(moveToLogin);
+                finish(); // Prevent user from returning to this page
                 return true;
 
             // Delete Account
