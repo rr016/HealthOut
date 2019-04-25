@@ -48,12 +48,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String GOAL_TARGET_VALUE = "target_value";
 
     // API Table - column names
+    public static final String API_ID = "api_id";
     public static final String API_REGISTERED = "registered";
     public static final String API_USERNAME = "api_username";
     public static final String API_EMAIL = "api_email";
     public static final String API_PASSWORD = "api_password";
 
     // Fitbit Table - column names
+    public static final String FITBIT_ID = "fitbit_id";
     public static final String FITBIT_STEPS_WALKED = "steps_walked";
     public static final String FITBIT_MILES_WALKED = "miles_walked";
     public static final String FITBIT_CALORIES_BURNED = "calories_burned";
@@ -87,11 +89,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + TYPE_ID + " INTEGER, " + PERIOD_ID + " INTEGER, " + GOAL_TARGET_VALUE + " TEXT)");
         // API Table -- created
         database.execSQL("CREATE TABLE " + TABLE_API +
-                " (" + USER_ID + " INTEGER, " + APP_ID + " INTEGER, " + API_REGISTERED + " BOOLEAN, "
-                + API_USERNAME + " TEXT, " + API_EMAIL + " TEXT, " + API_PASSWORD + " TEXT)");
+                " (" + API_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, " + APP_ID + " INTEGER, "
+                + API_REGISTERED + " BOOLEAN, " + API_USERNAME + " TEXT, " + API_EMAIL + " TEXT, " + API_PASSWORD + " TEXT)");
         // Fitbit Table -- created
         database.execSQL("CREATE TABLE " + TABLE_FITBIT +
-                " (" + USER_ID + " INTEGER, " + FITBIT_STEPS_WALKED + " INTEGER, " + FITBIT_MILES_WALKED + " INTEGER, "
+                " (" + FITBIT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, "
+                + FITBIT_STEPS_WALKED + " INTEGER, " + FITBIT_MILES_WALKED + " INTEGER, "
                 + FITBIT_CALORIES_BURNED + " INTEGER, " + FITBIT_CALORIES_CONSUMED + " INTEGER, "
                 + FITBIT_PULSE + " INTEGER, " + FITBIT_BLOOD_PRESSURE + " TEXT, " + FITBIT_EPOCH_TIMESTAMP + " INTEGER)");
 
@@ -356,10 +359,132 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return target;
     }
 
-    public String getGoalFromGoalTable(long goal_id){
-        String goal = getUserEmailFromGoalTable(goal_id) + ", " + getAppNameFromGoalTable(goal_id)
+    public String getGoalInfoFromGoalTable(long goal_id){
+        String goalInfo = getUserEmailFromGoalTable(goal_id) + ", " + getAppNameFromGoalTable(goal_id)
                 + ", " + getTypeNameFromGoalTable(goal_id) + ", " + getPeriodLengthFromGoalTable(goal_id)
                 + ", " + getTargetValueIdFromGoalTable(goal_id);
-        return goal;
+        return goalInfo;
+    }
+
+    // API Table -- methods
+    public long addApiToApiTable(long user_id, long app_id, boolean registered, String app_username, String app_email, String app_password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(USER_ID, user_id);
+        values.put(APP_ID, app_id);
+        values.put(API_REGISTERED, registered);
+        values.put(API_USERNAME, app_username);
+        values.put(API_EMAIL, app_email);
+        values.put(API_PASSWORD, app_email);
+        long res = db.insert(TABLE_API, null, values);
+        db.close();
+        return res;
+    }
+
+    public Long getUserIdFromApiTable(long api_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_API + " WHERE "
+                + API_ID + " = " + api_id;
+
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        long id = c.getLong(1);
+        return id;
+    }
+
+    public String getAppNameFromApiTable(long api_id) {
+        String name = getAppFromAppTable(getUserIdFromApiTable(api_id));
+        return name;
+    }
+
+    public Long getAppIdFromApiTable(long api_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_API + " WHERE "
+                + API_ID + " = " + api_id;
+
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        long id = c.getLong(2);
+        return id;
+    }
+
+    public String getUserEmailFromApiTable(long api_id) {
+        String email = getEmailFromUserTable(getUserIdFromApiTable(api_id));
+        return email;
+    }
+
+    public boolean isRegisteredInApiTable(long api_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_API + " WHERE "
+                + API_ID + " = " + api_id;
+
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        boolean registered = c.getInt(3) > 0;
+        return registered;
+    }
+
+    public String getAppUsernameFromApiTable(long api_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_API + " WHERE "
+                + API_ID + " = " + api_id;
+
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        String username = c.getString(4);
+        return username;
+    }
+
+    public String getAppEmailFromApiTable(long api_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_API + " WHERE "
+                + API_ID + " = " + api_id;
+
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        String email = c.getString(5);
+        return email;
+    }
+
+    public String getAppPasswordFromApiTable(long api_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_API + " WHERE "
+                + API_ID + " = " + api_id;
+
+        Log.e(LOG, selectQuery);
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        String password = c.getString(6);
+        return password;
+    }
+
+    public String getApiInfoFromApiTable(long api_id){
+        String api_info = getUserEmailFromApiTable(api_id) + ", " + getAppNameFromApiTable(api_id)
+                + ", " + isRegisteredInApiTable(api_id) + ", " + getAppUsernameFromApiTable(api_id)
+                + ", " + getAppEmailFromApiTable(api_id) + ", " + getAppPasswordFromApiTable(api_id);
+        return api_info;
     }
 }
