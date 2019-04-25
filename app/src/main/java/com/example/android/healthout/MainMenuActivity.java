@@ -62,7 +62,19 @@ public class MainMenuActivity extends AppCompatActivity {
                     db.addGoalToGoalTable(3,3,2,4,"30000");
                     db.addGoalToGoalTable(2,1,6,1,"120/80");
                     db.addGoalToGoalTable(3,2,1,4,"1000000");
-                    Long val =  db.addGoalToGoalTable(1,2,5,1,"80");
+                    db.addGoalToGoalTable(1,2,5,1,"80");
+
+                    // API Table -- add data
+                    db.addApiToApiTable(1, 1, true, "N/A", "Alex@gmail.com", "AlexIsDaMan2");
+                    db.addApiToApiTable(1, 2, true, "N/A", "Alex@gmail.com", "AlexIsTooFly45");
+                    db.addApiToApiTable(1, 3, true, "KingAlex90", "Alex@gmail.com", "AlexIsKillinIt11");
+                    db.addApiToApiTable(2, 1, true, "N/A", "cdk123@yahoo.com", "PleaseLogin");
+                    db.addApiToApiTable(2, 2, false, null, null, null);
+                    db.addApiToApiTable(2, 3, true, "cdk94", "cdkOther@gmail.com", "OpenSesame");
+                    db.addApiToApiTable(3, 1, true, "N/A", "Blue123@outlook.com", "fmd2m4k$");
+                    db.addApiToApiTable(3, 2, true, "N/A", "Blue123@outlook.com", "fmd2m4k$");
+                    db.addApiToApiTable(3, 3, false, "Blue123", "Blue123@outlook.com", "fmd2m4k$");
+                    Long val = db.addApiToApiTable(3, 3, false, "Blue123", "Blue123@outlook.com", "fmd2m4k$");
                     if(val > 0){
                         Toast.makeText(MainMenuActivity.this,"Data Added", Toast.LENGTH_SHORT).show();
                     }
@@ -107,13 +119,19 @@ public class MainMenuActivity extends AppCompatActivity {
                 key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_PERIOD);
                 for (int i = 1; i <= key; i++)
                     Toast.makeText(MainMenuActivity.this,db.getPeriodFromPeriodTable(i), Toast.LENGTH_SHORT).show();
-                */
 
                 // Goal Table -- Display
                 Toast.makeText(getApplicationContext(), "Goal Table:", Toast.LENGTH_LONG).show();
                 key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_GOAL);
                 for (int i = 1; i <= key; i++)
-                    Toast.makeText(MainMenuActivity.this,db.getGoalFromGoalTable(i), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainMenuActivity.this,db.getGoalInfoFromGoalTable(i), Toast.LENGTH_SHORT).show();
+
+                */
+                // API Table -- Display
+                Toast.makeText(getApplicationContext(), "API Table:", Toast.LENGTH_LONG).show();
+                key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_API);
+                for (int i = 1; i <= key; i++)
+                    Toast.makeText(MainMenuActivity.this,db.getApiInfoFromApiTable(i), Toast.LENGTH_SHORT).show();
 
                 //Intent intent = new Intent(MainMenuActivity.this, RegisterAppsActivity.class);
                 //startActivity(intent);
