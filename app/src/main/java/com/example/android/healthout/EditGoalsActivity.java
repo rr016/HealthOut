@@ -1,7 +1,9 @@
 package com.example.android.healthout;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -61,9 +63,22 @@ public class EditGoalsActivity extends AppCompatActivity {
 
             // Logout
             case R.id.one:
-                Intent moveToLogin = new Intent(EditGoalsActivity.this, LoginActivity.class);
-                startActivity(moveToLogin);
-                finish(); // Prevent user from returning to this page
+                new AlertDialog.Builder(this)
+                        .setTitle("Logout")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent moveToLogin = new Intent(EditGoalsActivity.this, LoginActivity.class);
+                        // Prevent user from returning to this page
+                        moveToLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(moveToLogin);
+                    }
+                }).setIcon(android.R.drawable.ic_dialog_alert).show();
+
                 return true;
 
             // Edit Account
