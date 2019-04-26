@@ -151,6 +151,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c.getString(2);
     }
 
+    public int getUserIdFromUserTable(String email, String password) {
+        String[] columns = {USER_ID};
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selection = USER_EMAIL + "=?" + " and " + USER_PASSWORD + "=?";
+        String[] selectionArgs = {email, password};
+        Cursor cursor = db.query(TABLE_USER, columns, selection, selectionArgs, null, null, null);
+        int id = cursor.getInt(0);
+        cursor.close();
+        db.close();
+
+        return id;
+    }
+
     public String getAccountFromUserTable(long user_id){
         return getEmailFromUserTable(user_id) + ", " + getPasswordFromUserTable(user_id);
     }
