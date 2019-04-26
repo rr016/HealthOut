@@ -151,13 +151,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c.getString(2);
     }
 
-    public int getUserIdFromUserTable(String email, String password) {
+    public long getUserIdFromUserTable(String email, String password) {
         String[] columns = {USER_ID};
         SQLiteDatabase db = this.getReadableDatabase();
         String selection = USER_EMAIL + "=?" + " and " + USER_PASSWORD + "=?";
         String[] selectionArgs = {email, password};
         Cursor cursor = db.query(TABLE_USER, columns, selection, selectionArgs, null, null, null);
-        int id = cursor.getInt(0);
+        long id = cursor.getColumnIndex(USER_ID);
         cursor.close();
         db.close();
 

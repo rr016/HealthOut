@@ -6,7 +6,7 @@ import java.util.List;
 
 public class User implements Serializable {
     private boolean logged_in;
-    private int user_id;
+    private long user_id;
     private String email;
     private String password;
     List<ThirdPartyApp> appList = new ArrayList<ThirdPartyApp>();
@@ -27,11 +27,11 @@ public class User implements Serializable {
         this.logged_in = logged_in;
     }
 
-    public int getUser_id() {
+    public long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(long user_id) {
         this.user_id = user_id;
     }
 
