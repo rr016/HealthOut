@@ -24,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_PERIOD = "Period";
     public static final String TABLE_GOAL = "Goal";
     public static final String TABLE_API = "API";
-    public static final String TABLE_FITBIT = "Fitbit";
+    public static final String TABLE_LOG = "Log";
 
     // User Table - column names
     public static final String USER_ID = "user_id";
@@ -54,15 +54,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String API_EMAIL = "api_email";
     public static final String API_PASSWORD = "api_password";
 
-    // Fitbit Table - column names
-    public static final String FITBIT_ID = "fitbit_id";
-    public static final String FITBIT_STEPS_WALKED = "steps_walked";
-    public static final String FITBIT_MILES_WALKED = "miles_walked";
-    public static final String FITBIT_CALORIES_BURNED = "calories_burned";
-    public static final String FITBIT_CALORIES_CONSUMED = "calories_consumed";
-    public static final String FITBIT_PULSE = "pulse";
-    public static final String FITBIT_BLOOD_PRESSURE = "blood_pressure";
-    public static final String FITBIT_EPOCH_TIMESTAMP = "epoch_timestamp";
+    // Log Table - column names
+    public static final String LOG_ID = "log_id";
+    public static final String LOG_STEPS_WALKED = "steps_walked";
+    public static final String LOG_MILES_WALKED = "miles_walked";
+    public static final String LOG_CALORIES_BURNED = "calories_burned";
+    public static final String LOG_CALORIES_CONSUMED = "calories_consumed";
+    public static final String LOG_PULSE = "pulse";
+    public static final String LOG_BLOOD_PRESSURE = "blood_pressure";
+    public static final String LOG_EPOCH_TIMESTAMP = "epoch_timestamp";
 
 
     public DatabaseHelper(Context context) {
@@ -92,12 +92,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " (" + API_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, " + APP_ID + " INTEGER, "
                 + API_REGISTERED + " BOOLEAN, " + API_USERNAME + " TEXT, " + API_EMAIL + " TEXT, " + API_PASSWORD + " TEXT)");
         // Fitbit Table -- created
-        database.execSQL("CREATE TABLE " + TABLE_FITBIT +
-                " (" + FITBIT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, "
-                + FITBIT_STEPS_WALKED + " INTEGER, " + FITBIT_MILES_WALKED + " INTEGER, "
-                + FITBIT_CALORIES_BURNED + " INTEGER, " + FITBIT_CALORIES_CONSUMED + " INTEGER, "
-                + FITBIT_PULSE + " INTEGER, " + FITBIT_BLOOD_PRESSURE + " TEXT, " + FITBIT_EPOCH_TIMESTAMP + " INTEGER)");
-
+        database.execSQL("CREATE TABLE " + TABLE_LOG +
+                " (" + LOG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, "
+                + APP_ID + " INTEGER, "+ LOG_STEPS_WALKED + " INTEGER, " + LOG_MILES_WALKED + " INTEGER, "
+                + LOG_CALORIES_BURNED + " INTEGER, " + LOG_CALORIES_CONSUMED + " INTEGER, "
+                + LOG_PULSE + " INTEGER, " + LOG_BLOOD_PRESSURE + " TEXT, " + LOG_EPOCH_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
     }
 
     @Override
@@ -108,7 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.execSQL("DROP TABLE IF EXISTS " + TABLE_PERIOD);
         database.execSQL("DROP TABLE IF EXISTS " + TABLE_GOAL);
         database.execSQL("DROP TABLE IF EXISTS " + TABLE_API);
-        database.execSQL("DROP TABLE IF EXISTS " + TABLE_FITBIT);
+        database.execSQL("DROP TABLE IF EXISTS " + TABLE_LOG);
 
         onCreate(database);
     }
@@ -486,5 +485,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ", " + isRegisteredInApiTable(api_id) + ", " + getAppUsernameFromApiTable(api_id)
                 + ", " + getAppEmailFromApiTable(api_id) + ", " + getAppPasswordFromApiTable(api_id);
         return api_info;
+    }
+
+    // API Table -- methods
+    public long addLogToLogTable(long user_id, long app_id, long steps_walked, long miles_walked, long calories_burned, long calories_consumed, long pulse, String blood_pressure) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(USER_ID, user_id);
+        values.put(APP_ID, app_id);
+        values.put(LOG_STEPS_WALKED, steps_walked);
+        values.put(LOG_MILES_WALKED, miles_walked);
+        values.put(LOG_CALORIES_BURNED, calories_burned);
+        values.put(LOG_CALORIES_CONSUMED, calories_consumed);
+        values.put(LOG_PULSE, pulse);
+        values.put(LOG_BLOOD_PRESSURE, blood_pressure);
+        long res = db.insert(TABLE_API, null, values);
+        db.close();
+        return res;
     }
 }
