@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(res == true){
                     user.setEmail(sEmail);
                     user.setPassword(sPassword);
-                    user.setUser_id(0);
+                    user.setUser_id(db.getUserIdFromUserTable(sEmail, sPassword));
                     user.setLogged_in(true);
 
                     Toast.makeText(LoginActivity.this,"Login Sucessful", Toast.LENGTH_SHORT).show();
