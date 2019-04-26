@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                     user.setLogged_in(true);
 
                     Toast.makeText(LoginActivity.this,"Login Sucessful", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class).putExtra("user", user);
                     startActivity(intent);
                     finish(); // Prevent user from returning to this page
                 }

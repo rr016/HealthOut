@@ -21,11 +21,14 @@ public class MainMenuActivity extends AppCompatActivity {
     Button registerAppsButton;
     Button editGoalsButton;
 
+    User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        user = (User)getIntent().getSerializableExtra("user");
         db = new DatabaseHelper(this);
 
         updateButton = findViewById(R.id.button_update);
@@ -209,7 +212,7 @@ public class MainMenuActivity extends AppCompatActivity {
                             }
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
+                        db.deleteAccountFromUserTable(user.getUser_id());
 
                         Intent moveToLogin = new Intent(MainMenuActivity.this, LoginActivity.class);
                         // Prevent user from returning to this page
