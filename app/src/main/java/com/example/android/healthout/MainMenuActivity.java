@@ -149,8 +149,8 @@ public class MainMenuActivity extends AppCompatActivity {
         registerAppsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, RegisterAppsActivity.class);
-                startActivity(intent);
+                Intent moveToRegisterApps = new Intent(MainMenuActivity.this, RegisterAppsActivity.class).putExtra("user", user);
+                startActivity(moveToRegisterApps);
             }
         });
 
@@ -158,8 +158,8 @@ public class MainMenuActivity extends AppCompatActivity {
         editGoalsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, EditGoalsActivity.class);
-                startActivity(intent);
+                Intent moveToEditGoals = new Intent(MainMenuActivity.this, EditGoalsActivity.class).putExtra("user", user);
+                startActivity(moveToEditGoals);
             }
         });
     }
@@ -197,7 +197,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
             // Edit Account
             case R.id.two:
-                Intent moveToEditAccount = new Intent(MainMenuActivity.this, EditAccountActivity.class);
+                Intent moveToEditAccount = new Intent(MainMenuActivity.this, EditAccountActivity.class).putExtra("user", user);
                 startActivity(moveToEditAccount);
                 return true;
 
@@ -212,6 +212,7 @@ public class MainMenuActivity extends AppCompatActivity {
                             }
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "USER_ID = "+user.getUser_id(), Toast.LENGTH_LONG).show();
                         db.deleteAccountFromUserTable(user.getUser_id());
 
                         Intent moveToLogin = new Intent(MainMenuActivity.this, LoginActivity.class);

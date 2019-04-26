@@ -112,7 +112,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(database);
     }
 
-    // User Table -- methods
+    /*****************************************************************************************************************************/
+    /*************************************************** User Table    methods ***************************************************/
+    /*****************************************************************************************************************************/
+
     public long addUserToUserTable(String email, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -157,7 +160,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = USER_EMAIL + "=?" + " and " + USER_PASSWORD + "=?";
         String[] selectionArgs = {email, password};
         Cursor cursor = db.query(TABLE_USER, columns, selection, selectionArgs, null, null, null);
-        long id = cursor.getColumnIndex(USER_ID);
+        long id = -1;
+        if(cursor.getCount() > 0) {
+            Log.d(LOG_CAT, "YOLO SWAG");
+            cursor.moveToFirst();
+            id = cursor.getLong(cursor.getColumnIndex(USER_ID));
+        }
         cursor.close();
         db.close();
 
@@ -168,9 +176,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return getEmailFromUserTable(user_id) + ", " + getPasswordFromUserTable(user_id);
     }
 
-    public Boolean deleteAccountFromUserTable(long user_id){
+    public boolean deleteAccountFromUserTable(long user_id){
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_USER, USER_ID + "=" + user_id, null) > 0;
+        return db.delete(TABLE_USER, USER_ID + "='" + user_id + "'", null) > 0;
     }
 
     public boolean checkUserInUserTable(String email, String password) {
@@ -189,7 +197,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
     }
 
-    // App Table -- methods
+    /*****************************************************************************************************************************/
+    /**************************************************** App Table    methods ***************************************************/
+    /*****************************************************************************************************************************/
+
     public long addAppToAppTable(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -214,7 +225,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return app;
     }
 
-    // Type Table -- methods
+    /*****************************************************************************************************************************/
+    /*************************************************** Type Table    methods ***************************************************/
+    /*****************************************************************************************************************************/
+
     public long addTypeToTypeTable(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -239,7 +253,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return type;
     }
 
-    // Period Table -- methods
+    /*****************************************************************************************************************************/
+    /************************************************* Period Table    methods ***************************************************/
+    /*****************************************************************************************************************************/
+
     public long addPeriodToPeriodTable(String period_length) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -264,7 +281,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return period;
     }
 
-    // Goal Table -- methods
+    /*****************************************************************************************************************************/
+    /*************************************************** Goal Table    methods ***************************************************/
+    /*****************************************************************************************************************************/
+
     public long addGoalToGoalTable(long user_id, long app_id, long type_id, long period_id, String target_value) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -371,7 +391,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return goalInfo;
     }
 
-    // API Table -- methods
+    /*****************************************************************************************************************************/
+    /**************************************************** API Table    methods ***************************************************/
+    /*****************************************************************************************************************************/
+
     public long addApiToApiTable(long user_id, long app_id, boolean registered, String app_username, String app_email, String app_password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -485,7 +508,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return api_info;
     }
 
-    // Log Table -- methods
+    /*****************************************************************************************************************************/
+    /**************************************************** Log Table    methods ***************************************************/
+    /*****************************************************************************************************************************/
+
     public long addLogToLogTable(long user_id, long app_id, long steps_walked, double miles_walked, long calories_burned, long calories_consumed, long pulse, String blood_pressure) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();

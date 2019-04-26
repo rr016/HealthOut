@@ -13,14 +13,20 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class EditGoalsActivity extends AppCompatActivity {
+    DatabaseHelper db;
 
     Button removeButton;
     Button addNewButton;
+
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_goals);
+
+        user = (User)getIntent().getSerializableExtra("user");
+        db = new DatabaseHelper(this);
 
         removeButton = findViewById(R.id.button_remove);
         addNewButton = findViewById(R.id.button_add_new);
@@ -38,8 +44,8 @@ public class EditGoalsActivity extends AppCompatActivity {
         addNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class);
-                startActivity(intent);
+                Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class).putExtra("user", user);
+                startActivity(moveToEditGoalDetail);
             }
         });
     }
@@ -57,8 +63,8 @@ public class EditGoalsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Home - Main Menu
             case R.id.home:
-                Intent intent1 = new Intent(EditGoalsActivity.this, MainMenuActivity.class);
-                startActivity(intent1);
+                Intent moveToMainMenu = new Intent(EditGoalsActivity.this, MainMenuActivity.class).putExtra("user", user);
+                startActivity(moveToMainMenu);
                 return true;
 
             // Logout
@@ -83,14 +89,31 @@ public class EditGoalsActivity extends AppCompatActivity {
 
             // Edit Account
             case R.id.two:
-                Intent moveToEditAccount = new Intent(EditGoalsActivity.this, EditAccountActivity.class);
+                Intent moveToEditAccount = new Intent(EditGoalsActivity.this, EditAccountActivity.class).putExtra("user", user);
                 startActivity(moveToEditAccount);
                 return true;
 
             // Delete Account
             case R.id.three:
-                Toast toast3 = Toast.makeText(getApplicationContext(), "Delete Account Clicked!", Toast.LENGTH_LONG);
-                toast3.show();
+                new AlertDialog.Builder(this)
+                        .setTitle("Confirm Delete")
+                        .setMessage("Are you sure you want to delete this account?")
+                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "USER_ID = "+user.getUser_id(), Toast.LENGTH_LONG).show();
+                        db.deleteAccountFromUserTable(user.getUser_id());
+
+                        Intent moveToLogin = new Intent(EditGoalsActivity.this, LoginActivity.class);
+                        // Prevent user from returning to this page
+                        moveToLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(moveToLogin);
+                    }
+                }).setIcon(android.R.drawable.ic_dialog_alert).show();
+
                 return true;
 
             default:

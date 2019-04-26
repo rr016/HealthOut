@@ -56,9 +56,6 @@ public class RegisterAccountActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(RegisterAccountActivity.this,"Passwords are not matching", Toast.LENGTH_SHORT).show();
                 }
-
-                Intent intent = new Intent(RegisterAccountActivity.this, LoginActivity.class);
-                startActivity(intent);
             }
         });
     }

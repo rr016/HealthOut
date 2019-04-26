@@ -11,11 +11,17 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class RegisterAppsActivity extends AppCompatActivity {
+    DatabaseHelper db;
+
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_apps);
+
+        user = (User)getIntent().getSerializableExtra("user");
+        db = new DatabaseHelper(this);
     }
 
     /************************ MENU BAR ************************/
@@ -31,8 +37,8 @@ public class RegisterAppsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Home - Main Menu
             case R.id.home:
-                Intent intent1 = new Intent(RegisterAppsActivity.this, MainMenuActivity.class);
-                startActivity(intent1);
+                Intent moveToMainMenu = new Intent(RegisterAppsActivity.this, MainMenuActivity.class).putExtra("user", user);
+                startActivity(moveToMainMenu);
                 return true;
 
             // Logout
@@ -57,14 +63,31 @@ public class RegisterAppsActivity extends AppCompatActivity {
 
             // Edit Account
             case R.id.two:
-                Intent moveToEditAccount = new Intent(RegisterAppsActivity.this, EditAccountActivity.class);
+                Intent moveToEditAccount = new Intent(RegisterAppsActivity.this, EditAccountActivity.class).putExtra("user", user);
                 startActivity(moveToEditAccount);
                 return true;
 
             // Delete Account
             case R.id.three:
-                Toast toast3 = Toast.makeText(getApplicationContext(), "Delete Account Clicked!", Toast.LENGTH_LONG);
-                toast3.show();
+                new AlertDialog.Builder(this)
+                        .setTitle("Confirm Delete")
+                        .setMessage("Are you sure you want to delete this account?")
+                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "USER_ID = "+user.getUser_id(), Toast.LENGTH_LONG).show();
+                        db.deleteAccountFromUserTable(user.getUser_id());
+
+                        Intent moveToLogin = new Intent(RegisterAppsActivity.this, LoginActivity.class);
+                        // Prevent user from returning to this page
+                        moveToLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(moveToLogin);
+                    }
+                }).setIcon(android.R.drawable.ic_dialog_alert).show();
+
                 return true;
 
             default:
