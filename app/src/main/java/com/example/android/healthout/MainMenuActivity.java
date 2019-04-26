@@ -85,8 +85,8 @@ public class MainMenuActivity extends AppCompatActivity {
                     db.addLogToLogTable(3, 1, 9786, 6.2, 1003, 2340, 86, "128/93");
                     db.addLogToLogTable(3, 2, 2010, 1.3, 300, 1650, 85, "122/93");
                     db.addLogToLogTable(1,2, 1032, 0.7, 197, 0, 0, null);
-                    Long val = db.addLogToLogTable(1, 3, 2144, 1.6, 321, 535, 90, "131/85");
-                    if(val > 0){
+                    Long test = db.addLogToLogTable(1, 3, 2144, 1.6, 321, 535, 90, "131/85");
+                    if(test > 0){
                         Toast.makeText(MainMenuActivity.this,"Data Added", Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -133,13 +133,21 @@ public class MainMenuActivity extends AppCompatActivity {
                     key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_API);
                     for (int i = 1; i <= key; i++)
                         Toast.makeText(MainMenuActivity.this, db.getApiInfoFromApiTable(i), Toast.LENGTH_SHORT).show();
-                    */
 
                     // Log Table -- Display
                     Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
-                    long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_LOG);
+                    key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_LOG);
                     for (int i = 1; i <= key; i++)
                         Toast.makeText(MainMenuActivity.this, db.getLogInfoFromLogTable(i), Toast.LENGTH_SHORT).show();
+                    */
+
+                    Long test = db.changePasswordInUserTable(1, "NewerPassword");
+                    if(test > 0){
+                        Toast.makeText(MainMenuActivity.this,db.getUserPasswordFromUserTable(1), Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(MainMenuActivity.this,"Error Change Email", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 //Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG).show();
             }
