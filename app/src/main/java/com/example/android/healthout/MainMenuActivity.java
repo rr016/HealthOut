@@ -76,7 +76,13 @@ public class MainMenuActivity extends AppCompatActivity {
                     db.addApiToApiTable(3, 1, true, "N/A", "Blue123@outlook.com", "fmd2m4k$");
                     db.addApiToApiTable(3, 2, true, "N/A", "Blue123@outlook.com", "fmd2m4k$");
                     db.addApiToApiTable(3, 3, false, "Blue123", "Blue123@outlook.com", "fmd2m4k$");
-                    Long val = db.addApiToApiTable(3, 3, false, "Blue123", "Blue123@outlook.com", "fmd2m4k$");
+                    db.addApiToApiTable(3, 3, false, "Blue123", "Blue123@outlook.com", "fmd2m4k$");
+
+                    db.addLogToLogTable(1,1, 1560,0.8, 200, 1000, 93, "135/90");
+                    db.addLogToLogTable(3, 1, 9786, 6.2, 1003, 2340, 86, "128/93");
+                    db.addLogToLogTable(3, 2, 2010, 1.3, 300, 1650, 85, "122/93");
+                    db.addLogToLogTable(1,2, 1032, 0.7, 197, 0, 0, null);
+                    Long val = db.addLogToLogTable(1, 3, 2144, 1.6, 321, 535, 90, "131/85");
                     if(val > 0){
                         Toast.makeText(MainMenuActivity.this,"Data Added", Toast.LENGTH_SHORT).show();
                     }
@@ -87,6 +93,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     dataAdded = true;
                 }
                 else{
+                    /*
                     // User Table -- Display
                     Toast.makeText(getApplicationContext(), "User Table:", Toast.LENGTH_LONG).show();
                     long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_USER);
@@ -123,6 +130,13 @@ public class MainMenuActivity extends AppCompatActivity {
                     key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_API);
                     for (int i = 1; i <= key; i++)
                         Toast.makeText(MainMenuActivity.this, db.getApiInfoFromApiTable(i), Toast.LENGTH_SHORT).show();
+                    */
+
+                    // Log Table -- Display
+                    Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
+                    long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_LOG);
+                    for (int i = 1; i <= key; i++)
+                        Toast.makeText(MainMenuActivity.this, db.getLogInfoFromLogTable(i), Toast.LENGTH_SHORT).show();
                 }
                 //Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG).show();
             }
