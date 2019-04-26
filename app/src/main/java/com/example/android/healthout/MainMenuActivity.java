@@ -180,13 +180,30 @@ public class MainMenuActivity extends AppCompatActivity {
 
             // Edit Account
             case R.id.two:
-                Intent intent2 = new Intent(MainMenuActivity.this, EditAccountActivity.class);
-                startActivity(intent2);
+                Intent moveToEditAccount = new Intent(MainMenuActivity.this, EditAccountActivity.class);
+                startActivity(moveToEditAccount);
                 return true;
 
             // Delete Account
             case R.id.three:
-                Toast.makeText(getApplicationContext(), "Delete Account Clicked!", Toast.LENGTH_LONG).show();
+                new AlertDialog.Builder(this)
+                        .setTitle("Confirm Delete")
+                        .setMessage("Are you sure you want to delete this account?")
+                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        Intent moveToLogin = new Intent(MainMenuActivity.this, LoginActivity.class);
+                        // Prevent user from returning to this page
+                        moveToLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(moveToLogin);
+                    }
+                }).setIcon(android.R.drawable.ic_dialog_alert).show();
+
                 return true;
 
             default:

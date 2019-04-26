@@ -91,8 +91,8 @@ public class EditGoalDetailActivity extends AppCompatActivity {
 
             // Edit Account
             case R.id.two:
-                Intent intent2 = new Intent(EditGoalDetailActivity.this, EditAccountActivity.class);
-                startActivity(intent2);
+                Intent moveToEditAccount = new Intent(EditGoalDetailActivity.this, EditAccountActivity.class);
+                startActivity(moveToEditAccount);
                 return true;
 
             // Delete Account

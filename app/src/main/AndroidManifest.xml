@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme1">
-        <activity android:name=".LoginActivity">
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -18,12 +20,24 @@
         </activity>
 
         <!-- ADD ALL ACTIVITIES -->
-        <activity android:name=".RegisterAccountActivity" />
-        <activity android:name=".MainMenuActivity" />
-        <activity android:name=".RegisterAppsActivity" />
-        <activity android:name=".EditGoalsActivity" />
-        <activity android:name=".EditGoalDetailActivity" />
-        <activity android:name=".EditAccountActivity" />
+        <activity
+            android:name=".RegisterAccountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainMenuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RegisterAppsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditGoalsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditGoalDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditAccountActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
