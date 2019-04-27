@@ -50,5 +50,20 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public boolean isEmailValid(String email){
+        if (email.contains("@") && email.contains("."))
+            return true;
+
+        return false;
+    }
+
+    public boolean isPasswordValid(String password, String confirmPassword){
+        if (password.length() >= 5 && password.length() <= 20)
+            if (password.equals(confirmPassword))
+                return true;
+
+        return false;
+    }
 }
 
