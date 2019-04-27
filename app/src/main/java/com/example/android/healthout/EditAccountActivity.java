@@ -42,8 +42,7 @@ public class EditAccountActivity extends AppCompatActivity {
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Apply Clicked!", Toast.LENGTH_LONG);
-                toast.show();
+                
             }
         });
     }

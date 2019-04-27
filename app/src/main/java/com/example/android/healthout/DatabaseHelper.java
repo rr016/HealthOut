@@ -126,7 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public String getEmailFromUserTable(long user_id) {
+    public String getUserEmailFromUserTable(long user_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_USER + " WHERE "
                 + USER_ID + " = " + user_id;
@@ -140,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c.getString(1);
     }
 
-    public String getPasswordFromUserTable(long user_id) {
+    public String getUserPasswordFromUserTable(long user_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_USER + " WHERE "
                 + USER_ID + " = " + user_id;
@@ -173,7 +173,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getAccountFromUserTable(long user_id){
-        return getEmailFromUserTable(user_id) + ", " + getPasswordFromUserTable(user_id);
+        return getUserEmailFromUserTable(user_id) + ", " + getUserPasswordFromUserTable(user_id);
+    }
+
+    public long changeEmailInUserTable(long user_id, String new_email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(USER_EMAIL, new_email);
+        long res = db.update(TABLE_USER, values, USER_ID + "=" + user_id, null);
+        db.close();
+        return res;
+    }
+
+    public long changePasswordInUserTable(long user_id, String new_password){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(USER_PASSWORD, new_password);
+        long res = db.update(TABLE_USER, values, USER_ID + "=" + user_id, null);
+        db.close();
+        return res;
     }
 
     public boolean deleteAccountFromUserTable(long user_id){
@@ -313,7 +331,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getUserEmailFromGoalTable(long goal_id) {
-        return getEmailFromUserTable(getUserIdFromGoalTable(goal_id));
+        return getUserEmailFromUserTable(getUserIdFromGoalTable(goal_id));
     }
 
     public Long getAppIdFromGoalTable(long goal_id) {
@@ -391,6 +409,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return goalInfo;
     }
 
+    public long changeAppIdInGoalTable(long goal_id, String new_app_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(APP_ID, new_app_id);
+        long res = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
+        db.close();
+        return res;
+    }
+
+    public long changeTypeIdInGoalTable(long goal_id, String new_type_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TYPE_ID, new_type_id);
+        long res = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
+        db.close();
+        return res;
+    }
+
+    public long changePeriodIdInGoalTable(long goal_id, String new_period_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(PERIOD_ID, new_period_id);
+        long res = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
+        db.close();
+        return res;
+    }
+
+    public long changeTargetValueInGoalTable(long goal_id, String new_target_value){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(GOAL_TARGET_VALUE, new_target_value);
+        long res = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
+        db.close();
+        return res;
+    }
+
+    public boolean deleteGoalFromUserTable(long goal_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_GOAL, GOAL_ID + "='" + goal_id + "'", null) > 0;
+    }
+
     /*****************************************************************************************************************************/
     /**************************************************** API Table    methods ***************************************************/
     /*****************************************************************************************************************************/
@@ -442,7 +501,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getUserEmailFromApiTable(long api_id) {
-        return getEmailFromUserTable(getUserIdFromApiTable(api_id));
+        return getUserEmailFromUserTable(getUserIdFromApiTable(api_id));
     }
 
     public boolean isRegisteredInApiTable(long api_id) {
@@ -543,8 +602,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getUserEmailFromLogTable(long log_id) {
-        String email = getEmailFromUserTable(getUserIdFromLogTable(log_id));
-        return email;
+        return getUserEmailFromUserTable(getUserIdFromLogTable(log_id));
     }
 
     public Long getAppIdFromLogTable(long log_id) {
