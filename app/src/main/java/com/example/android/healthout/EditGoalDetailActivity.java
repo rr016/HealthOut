@@ -52,7 +52,7 @@ public class EditGoalDetailActivity extends AppCompatActivity {
                 sTarget = targetEditText.getText().toString();
                 sPeriod = periodSpinner.getSelectedItem().toString();
 
-                Goal addedGoal = new Goal(sApp, 0, sGoalType, 0, sTarget, sPeriod, 0, null);
+                // Goal addedGoal = new Goal(sApp, 0, sGoalType, 0, sTarget, sPeriod, 0, null);
 
             }
         });
