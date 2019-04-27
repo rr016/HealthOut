@@ -9,7 +9,7 @@ public class User implements Serializable {
     private long user_id;
     private String email;
     private String password;
-    List<ThirdPartyApp> appList = new ArrayList<ThirdPartyApp>();
+    List<ThirdPartyAppAndApi> appList = new ArrayList<ThirdPartyAppAndApi>();
     List<Goal> goalList = new ArrayList<Goal>();
 
     public User() {

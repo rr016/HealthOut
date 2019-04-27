@@ -2,7 +2,7 @@ package com.example.android.healthout;
 
 import java.io.Serializable;
 
-public class ThirdPartyApp implements Serializable {
+public class ThirdPartyAppAndApi implements Serializable {
     private int app_id;
     private String app_name;
     private boolean registered;
@@ -11,7 +11,7 @@ public class ThirdPartyApp implements Serializable {
     private String app_password;
     AppLog appLog = new AppLog();
 
-    public ThirdPartyApp() {
+    public ThirdPartyAppAndApi() {
         this.app_id = -1;
         this.app_name = null;
         this.registered = false;

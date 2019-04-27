@@ -3,45 +3,38 @@ package com.example.android.healthout;
 import java.io.Serializable;
 
 public class Goal implements Serializable {
-    private String app_pulled_from;
     private int app_id;
-    private String goal_type;
-    private int goal_id;
-    private String target;
-    private String period;
+    private String app_name;
+    private int type_id;
+    private String type_name;
     private int period_id;
+    private String period_length;
+    private String target_value;
     private String progress;
-    ThirdPartyApp thirdPartyApp = new ThirdPartyApp();
+    ThirdPartyAppAndApi thirdPartyApp = new ThirdPartyAppAndApi();
 
     public Goal(){
-        this.app_pulled_from = null;
         this.app_id = -1;
-        this.goal_type = null;
-        this.goal_id = -1;
-        this.target = null;
-        this.period = null;
+        this.app_name = null;
+        this.type_id = -1;
+        this.type_name = null;
         this.period_id = -1;
+        this.period_length = null;
+        this.target_value = null;
         this.progress = null;
     }
 
-    public Goal(String a, int b, String c, int d, String e, String f, int g, String h){
-        this.app_pulled_from = a;
-        this.app_id = b;
-        this.goal_type = c;
-        this.goal_id = d;
-        this.target = e;
-        this.period = f;
-        this.period_id = g;
-        this.progress = h;
+    public Goal(int app_id, String app_name, int type_id, String type_name, int period_id, String period_length, String target_value, String preogress){
+        this.app_id = app_id;
+        this.app_name = app_name;
+        this.type_id = type_id;
+        this.type_name = type_name;
+        this.period_id = period_id;
+        this.period_length = period_length;
+        this.target_value = target_value;
+        this.progress = preogress;
     }
 
-    public String getApp_pulled_from() {
-        return app_pulled_from;
-    }
-
-    public void setApp_pulled_from(String app_pulled_from) {
-        this.app_pulled_from = app_pulled_from;
-    }
 
     public int getApp_id() {
         return app_id;
@@ -51,36 +44,28 @@ public class Goal implements Serializable {
         this.app_id = app_id;
     }
 
-    public String getGoal_type() {
-        return goal_type;
+    public String getApp_name() {
+        return app_name;
     }
 
-    public void setGoal_type(String goal_type) {
-        this.goal_type = goal_type;
+    public void setApp_name(String app_name) {
+        this.app_name = app_name;
     }
 
-    public int getGoal_id() {
-        return goal_id;
+    public int getType_id() {
+        return type_id;
     }
 
-    public void setGoal_id(int goal_id) {
-        this.goal_id = goal_id;
+    public void setType_id(int type_id) {
+        this.type_id = type_id;
     }
 
-    public String getTarget() {
-        return target;
+    public String getType_name() {
+        return type_name;
     }
 
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public String getPeriod() {
-        return period;
-    }
-
-    public void setPeriod(String period) {
-        this.period = period;
+    public void setType_name(String type_name) {
+        this.type_name = type_name;
     }
 
     public int getPeriod_id() {
@@ -89,6 +74,22 @@ public class Goal implements Serializable {
 
     public void setPeriod_id(int period_id) {
         this.period_id = period_id;
+    }
+
+    public String getPeriod_length() {
+        return period_length;
+    }
+
+    public void setPeriod_length(String period_length) {
+        this.period_length = period_length;
+    }
+
+    public String getTarget_value() {
+        return target_value;
+    }
+
+    public void setTarget_value(String target_value) {
+        this.target_value = target_value;
     }
 
     public String getProgress() {
