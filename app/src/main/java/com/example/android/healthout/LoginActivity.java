@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                     user.setUser_id(db.getUserIdFromUserTable(sEmail, sPassword));
                     user.setLogged_in(true);
 
-                    user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id());
+
 
                     Toast.makeText(LoginActivity.this,"Login Sucessful", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class).putExtra("user", user);
