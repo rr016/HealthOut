@@ -97,6 +97,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + APP_ID + " INTEGER, "+ LOG_STEPS_WALKED + " INTEGER, " + LOG_MILES_WALKED + " DOUBLE, "
                 + LOG_CALORIES_BURNED + " INTEGER, " + LOG_CALORIES_CONSUMED + " INTEGER, "
                 + LOG_PULSE + " INTEGER, " + LOG_BLOOD_PRESSURE + " TEXT, " + LOG_EPOCH_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
+
+        // App Table -- preload data
+        ContentValues values = new ContentValues();
+        values.put(APP_NAME, "FitBit");
+        database.insert(TABLE_APP, null, values);
+        values.put(APP_NAME, "App2");
+        database.insert(TABLE_APP, null, values);
+        values.put(APP_NAME, "App3");
+        database.insert(TABLE_APP, null, values);
+
+        // Type Table -- preload data
+        values.put(TYPE_NAME, "Steps Walked");
+        database.insert(TABLE_TYPE, null, values);
+        values.put(TYPE_NAME, "Miles Walked");
+        database.insert(TABLE_TYPE, null, values);
+        values.put(TYPE_NAME, "Calories Burned");
+        database.insert(TABLE_TYPE, null, values);
+        values.put(TYPE_NAME, "Calories Consumed");
+        database.insert(TABLE_TYPE, null, values);
+        values.put(TYPE_NAME, "Pulse");
+        database.insert(TABLE_TYPE, null, values);
+        values.put(TYPE_NAME, "Blood Pressure");
+        database.insert(TABLE_TYPE, null, values);
+
+        // Period Table -- preload data
+        values.put(PERIOD_LENGTH, "Daily");
+        database.insert(TABLE_PERIOD, null, values);
+        values.put(PERIOD_LENGTH, "Weekly");
+        database.insert(TABLE_PERIOD, null, values);
+        values.put(PERIOD_LENGTH, "Monthly");
+        database.insert(TABLE_PERIOD, null, values);
+        values.put(PERIOD_LENGTH, "Yearly");
+        database.insert(TABLE_PERIOD, null, values);
     }
 
     @Override
@@ -121,9 +154,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(USER_EMAIL, email);
         values.put(USER_PASSWORD, password);
-        long res = db.insert(TABLE_USER, null, values);
+        long result = db.insert(TABLE_USER, null, values);
         db.close();
-        return res;
+        return result;
     }
 
     public String getUserEmailFromUserTable(long user_id) {
@@ -180,18 +213,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(USER_EMAIL, new_email);
-        long res = db.update(TABLE_USER, values, USER_ID + "=" + user_id, null);
+        long result = db.update(TABLE_USER, values, USER_ID + "=" + user_id, null);
         db.close();
-        return res;
+        return result;
     }
 
     public long changePasswordInUserTable(long user_id, String new_password){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(USER_PASSWORD, new_password);
-        long res = db.update(TABLE_USER, values, USER_ID + "=" + user_id, null);
+        long result = db.update(TABLE_USER, values, USER_ID + "=" + user_id, null);
         db.close();
-        return res;
+        return result;
     }
 
     public boolean deleteAccountFromUserTable(long user_id){
@@ -223,9 +256,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(APP_NAME, name);
-        long res = db.insert(TABLE_APP, null, values);
+        long result = db.insert(TABLE_APP, null, values);
         db.close();
-        return res;
+        return result;
     }
 
     public String getAppFromAppTable(long app_id) {
@@ -251,9 +284,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(TYPE_NAME, name);
-        long res = db.insert(TABLE_TYPE, null, values);
+        long result = db.insert(TABLE_TYPE, null, values);
         db.close();
-        return res;
+        return result;
     }
 
     public String getTypeFromTypeTable(long type_id) {
@@ -279,9 +312,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(PERIOD_LENGTH, period_length);
-        long res = db.insert(TABLE_PERIOD, null, values);
+        long result = db.insert(TABLE_PERIOD, null, values);
         db.close();
-        return res;
+        return result;
     }
 
     public String getPeriodFromPeriodTable(long period_id) {
@@ -311,9 +344,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(TYPE_ID, type_id);
         values.put(PERIOD_ID, period_id);
         values.put(GOAL_TARGET_VALUE, target_value);
-        long res = db.insert(TABLE_GOAL, null, values);
+        long result = db.insert(TABLE_GOAL, null, values);
         db.close();
-        return res;
+        return result;
     }
 
     public Long getUserIdFromGoalTable(long goal_id) {
@@ -413,36 +446,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(APP_ID, new_app_id);
-        long res = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
+        long result = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
         db.close();
-        return res;
+        return result;
     }
 
     public long changeTypeIdInGoalTable(long goal_id, String new_type_id){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(TYPE_ID, new_type_id);
-        long res = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
+        long result = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
         db.close();
-        return res;
+        return result;
     }
 
     public long changePeriodIdInGoalTable(long goal_id, String new_period_id){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(PERIOD_ID, new_period_id);
-        long res = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
+        long result = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
         db.close();
-        return res;
+        return result;
     }
 
     public long changeTargetValueInGoalTable(long goal_id, String new_target_value){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(GOAL_TARGET_VALUE, new_target_value);
-        long res = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
+        long result = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
         db.close();
-        return res;
+        return result;
     }
 
     public boolean deleteGoalFromUserTable(long goal_id){
@@ -463,9 +496,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(API_USERNAME, app_username);
         values.put(API_EMAIL, app_email);
         values.put(API_PASSWORD, app_email);
-        long res = db.insert(TABLE_API, null, values);
+        long result = db.insert(TABLE_API, null, values);
         db.close();
-        return res;
+        return result;
     }
 
     public Long getUserIdFromApiTable(long api_id) {
@@ -567,6 +600,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return api_info;
     }
 
+    public long changeRegisteredInApiTable(long api_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        
+        boolean registered = isRegisteredInApiTable(api_id);
+        if (registered == true) // if true then will change to false
+            values.put(API_REGISTERED, false);
+        else                    // if false then will change to true
+            values.put(API_REGISTERED, true);
+        
+        long result = db.update(TABLE_API, values, API_ID + "=" + api_id, null);
+        db.close();
+        return result;
+    }
+
+    public long changeAppUsernameInApiTable(long api_id, String new_api_username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(API_USERNAME, new_api_username);
+        long result = db.update(TABLE_API, values, API_ID + "=" + api_id, null);
+        db.close();
+        return result;
+    }
+
+    public long changeAppEmailInApiTable(long api_id, String new_api_email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(API_EMAIL, new_api_email);
+        long result = db.update(TABLE_API, values, API_ID + "=" + api_id, null);
+        db.close();
+        return result;
+    }
+
+    public long changeAppPasswordInApiTable(long api_id, String new_api_password){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(API_PASSWORD, new_api_password);
+        long result = db.update(TABLE_API, values, API_ID + "=" + api_id, null);
+        db.close();
+        return result;
+    }
+
     /*****************************************************************************************************************************/
     /**************************************************** Log Table    methods ***************************************************/
     /*****************************************************************************************************************************/
@@ -582,9 +657,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(LOG_CALORIES_CONSUMED, calories_consumed);
         values.put(LOG_PULSE, pulse);
         values.put(LOG_BLOOD_PRESSURE, blood_pressure);
-        long res = db.insert(TABLE_LOG, null, values);
+        long result = db.insert(TABLE_LOG, null, values);
         db.close();
-        return res;
+        return result;
     }
 
     public Long getUserIdFromLogTable(long log_id) {

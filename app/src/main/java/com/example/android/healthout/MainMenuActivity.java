@@ -40,6 +40,7 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (dataAdded == false){
+                    /*
                     // App Table -- add data
                     db.addAppToAppTable("FitBit");
                     db.addAppToAppTable("App2");
@@ -48,8 +49,8 @@ public class MainMenuActivity extends AppCompatActivity {
                     // Type Table -- add data
                     db.addTypeToTypeTable("Steps Walked");
                     db.addTypeToTypeTable("Miles Walked");
-                    db.addTypeToTypeTable("Calores Consumed");
                     db.addTypeToTypeTable("Calories Burned");
+                    db.addTypeToTypeTable("Calories Consumed");
                     db.addTypeToTypeTable("Pulse");
                     db.addTypeToTypeTable("Blood Pressure");
 
@@ -58,6 +59,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     db.addPeriodToPeriodTable("Weekly");
                     db.addPeriodToPeriodTable("Monthly");
                     db.addPeriodToPeriodTable("Yearly");
+                    */
 
                     // Goal Table -- add data
                     db.addGoalToGoalTable(1, 1, 1, 1, "5000");
@@ -133,14 +135,16 @@ public class MainMenuActivity extends AppCompatActivity {
                     key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_API);
                     for (int i = 1; i <= key; i++)
                         Toast.makeText(MainMenuActivity.this, db.getApiInfoFromApiTable(i), Toast.LENGTH_SHORT).show();
+                    */
+
 
                     // Log Table -- Display
                     Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
-                    key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_LOG);
+                    long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_LOG);
                     for (int i = 1; i <= key; i++)
                         Toast.makeText(MainMenuActivity.this, db.getLogInfoFromLogTable(i), Toast.LENGTH_SHORT).show();
-                    */
 
+                    /*
                     Long test = db.changePasswordInUserTable(1, "NewerPassword");
                     if(test > 0){
                         Toast.makeText(MainMenuActivity.this,db.getUserPasswordFromUserTable(1), Toast.LENGTH_SHORT).show();
@@ -148,6 +152,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     else{
                         Toast.makeText(MainMenuActivity.this,"Error Change Email", Toast.LENGTH_SHORT).show();
                     }
+                    */
                 }
                 //Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG).show();
             }
