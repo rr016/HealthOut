@@ -1,5 +1,6 @@
 package com.example.android.healthout;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditGoalsActivity extends AppCompatActivity {
@@ -26,6 +28,7 @@ public class EditGoalsActivity extends AppCompatActivity {
     LayoutInflater inflater;
 
     User user;
+    int count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,6 @@ public class EditGoalsActivity extends AppCompatActivity {
         addNewButton = findViewById(R.id.button_add_new);
         linearLayout = findViewById(R.id.linearLayout_goals);
         inflater =  (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
 
         //
         //
@@ -60,6 +62,7 @@ public class EditGoalsActivity extends AppCompatActivity {
 
         // Click Add New Goal
         addNewButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceType")
             @Override
             public void onClick(View v) {
                 /*
@@ -68,6 +71,13 @@ public class EditGoalsActivity extends AppCompatActivity {
                 */
 
                 View view = inflater.inflate(R.layout.goal_item, null);
+                if(count == 1) {
+                    TextView text = view.findViewById(R.id.textview_goaltype_goal_1);
+                    text.setTag("goaltype_goal_1");
+                    text.setText("YOLO SWAG");
+
+                    count++;
+                }
                 linearLayout.addView(view);
             }
         });
