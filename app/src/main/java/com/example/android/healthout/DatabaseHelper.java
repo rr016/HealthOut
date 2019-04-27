@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     //Logcat tag
     private static final String LOG_CAT = "DatabaseHelper";
@@ -31,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USER_EMAIL = "Email";
     public static final String USER_PASSWORD = "Password";
 
-    // User Table - column names
+    // App Table - column names
     public static final String APP_ID = "app_id";
     public static final String APP_NAME = "Name";
 
@@ -483,6 +486,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.delete(TABLE_GOAL, GOAL_ID + "='" + goal_id + "'", null) > 0;
     }
 
+    public List<Goal> getGoalArrayListFromGoalTable(long user_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Goal> goalArrayList = new ArrayList<Goal>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_GOAL + " WHERE "
+                + USER_ID + " = " + user_id;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        while (cursor.moveToNext()){
+            Goal currentGoal = new Goal();
+            currentGoal.setApp_id(cursor.getLong(cursor.getColumnIndex(APP_ID)));
+            currentGoal.setType_id(cursor.getLong(cursor.getColumnIndex(TYPE_ID)));
+            currentGoal.setPeriod_id(cursor.getLong(cursor.getColumnIndex(PERIOD_ID)));
+            currentGoal.setTarget_value(cursor.getString(cursor.getColumnIndex(GOAL_TARGET_VALUE)));
+            goalArrayList.add(currentGoal);
+        }
+        cursor.close();
+        return goalArrayList;
+    }
+
     /*****************************************************************************************************************************/
     /**************************************************** API Table    methods ***************************************************/
     /*****************************************************************************************************************************/
@@ -805,5 +828,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + getTimestampFromFromLogTable(log_id);
         return log_info;
     }
-
 }

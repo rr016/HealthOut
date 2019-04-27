@@ -40,6 +40,7 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (dataAdded == false){
+                    /*
                     // Goal Table -- add data
                     db.addGoalToGoalTable(1, 1, 1, 1, "5000");
                     db.addGoalToGoalTable(2,3,4,2, "10000");
@@ -74,7 +75,9 @@ public class MainMenuActivity extends AppCompatActivity {
                         Toast.makeText(MainMenuActivity.this,"Error", Toast.LENGTH_SHORT).show();
                     }
 
+                    */
                     dataAdded = true;
+
                 }
                 else{
                     /*
@@ -83,7 +86,6 @@ public class MainMenuActivity extends AppCompatActivity {
                     long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_USER);
                     for (int i = 1; i <= key; i++)
                         Toast.makeText(MainMenuActivity.this, db.getAccountFromUserTable(i), Toast.LENGTH_SHORT).show();
-
 
                     // App Table -- Display
                     Toast.makeText(getApplicationContext(), "App Table:", Toast.LENGTH_LONG).show();
@@ -114,8 +116,6 @@ public class MainMenuActivity extends AppCompatActivity {
                     key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_API);
                     for (int i = 1; i <= key; i++)
                         Toast.makeText(MainMenuActivity.this, db.getApiInfoFromApiTable(i), Toast.LENGTH_SHORT).show();
-                    */
-
 
                     // Log Table -- Display
                     Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
@@ -123,7 +123,6 @@ public class MainMenuActivity extends AppCompatActivity {
                     for (int i = 1; i <= key; i++)
                         Toast.makeText(MainMenuActivity.this, db.getLogInfoFromLogTable(i), Toast.LENGTH_SHORT).show();
 
-                    /*
                     Long test = db.changePasswordInUserTable(1, "NewerPassword");
                     if(test > 0){
                         Toast.makeText(MainMenuActivity.this,db.getUserPasswordFromUserTable(1), Toast.LENGTH_SHORT).show();
@@ -132,6 +131,11 @@ public class MainMenuActivity extends AppCompatActivity {
                         Toast.makeText(MainMenuActivity.this,"Error Change Email", Toast.LENGTH_SHORT).show();
                     }
                     */
+
+                    int key = user.goalList.size();
+                    for (int i = 0; i < key; i++){
+                        Toast.makeText(MainMenuActivity.this, user.goalList.get(i).getAllGoalData(), Toast.LENGTH_SHORT).show();
+                    }
                 }
                 //Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG).show();
             }

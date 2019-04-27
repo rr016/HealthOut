@@ -3,11 +3,11 @@ package com.example.android.healthout;
 import java.io.Serializable;
 
 public class Goal implements Serializable {
-    private int app_id;
+    private long app_id;
     private String app_name;
-    private int type_id;
+    private long type_id;
     private String type_name;
-    private int period_id;
+    private long period_id;
     private String period_length;
     private String target_value;
     private String progress;
@@ -24,7 +24,7 @@ public class Goal implements Serializable {
         this.progress = null;
     }
 
-    public Goal(int app_id, String app_name, int type_id, String type_name, int period_id, String period_length, String target_value, String preogress){
+    public Goal(long app_id, String app_name, long type_id, String type_name, long period_id, String period_length, String target_value, String preogress){
         this.app_id = app_id;
         this.app_name = app_name;
         this.type_id = type_id;
@@ -36,11 +36,11 @@ public class Goal implements Serializable {
     }
 
 
-    public int getApp_id() {
+    public long getApp_id() {
         return app_id;
     }
 
-    public void setApp_id(int app_id) {
+    public void setApp_id(long app_id) {
         this.app_id = app_id;
     }
 
@@ -52,11 +52,11 @@ public class Goal implements Serializable {
         this.app_name = app_name;
     }
 
-    public int getType_id() {
+    public long getType_id() {
         return type_id;
     }
 
-    public void setType_id(int type_id) {
+    public void setType_id(long type_id) {
         this.type_id = type_id;
     }
 
@@ -68,11 +68,11 @@ public class Goal implements Serializable {
         this.type_name = type_name;
     }
 
-    public int getPeriod_id() {
+    public long getPeriod_id() {
         return period_id;
     }
 
-    public void setPeriod_id(int period_id) {
+    public void setPeriod_id(long period_id) {
         this.period_id = period_id;
     }
 
@@ -98,5 +98,10 @@ public class Goal implements Serializable {
 
     public void setProgress(String progress) {
         this.progress = progress;
+    }
+
+    public String getAllGoalData(){
+        String result = (app_id + ", " + type_id + ", " + period_id + ", " + target_value);
+        return result;
     }
 }
