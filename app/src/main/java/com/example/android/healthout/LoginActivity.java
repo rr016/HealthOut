@@ -16,8 +16,6 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton;
     Button registerButton;
     Button forgotButton;
-    String sEmail;
-    String sPassword;
 
     User user = new User();
 
@@ -40,8 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sEmail = emailEditText.getText().toString();
-                sPassword = passwordEditText.getText().toString();
+                String  sEmail = emailEditText.getText().toString();
+                String sPassword = passwordEditText.getText().toString();
 
                 Boolean res = db.checkUserInUserTable(sEmail, sPassword);
                 if(res == true){
