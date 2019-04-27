@@ -40,6 +40,7 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (dataAdded == false){
+                    /*
                     // Goal Table -- add data
                     db.addGoalToGoalTable(1, 1, 1, 1, "5000");
                     db.addGoalToGoalTable(2,3,4,2, "10000");
@@ -74,7 +75,9 @@ public class MainMenuActivity extends AppCompatActivity {
                         Toast.makeText(MainMenuActivity.this,"Error", Toast.LENGTH_SHORT).show();
                     }
 
+                    */
                     dataAdded = true;
+
                 }
                 else{
                     /*
@@ -129,7 +132,6 @@ public class MainMenuActivity extends AppCompatActivity {
                     }
                     */
 
-                    user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id());
                     int key = user.goalList.size();
                     for (int i = 0; i < key; i++){
                         Toast.makeText(MainMenuActivity.this, user.goalList.get(i).getAllGoalData(), Toast.LENGTH_SHORT).show();
