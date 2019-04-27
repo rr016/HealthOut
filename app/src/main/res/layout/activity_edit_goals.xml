@@ -21,35 +21,31 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:id="@+id/scrollView3"
+        android:id="@+id/scrollView_goals"
         android:layout_width="0dp"
-        android:layout_height="687dp"
+        android:layout_height="450dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/colorGrey"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <LinearLayout
+            android:id="@+id/linearLayout_goals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add new goal"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <Button
+            <ImageButton
                 android:id="@+id/button_add_new"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:text="Add new" />
+                android:layout_height="90dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/button_add_new" />
+
         </LinearLayout>
     </ScrollView>
 

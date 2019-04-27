@@ -40,27 +40,6 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (dataAdded == false){
-                    /*
-                    // App Table -- add data
-                    db.addAppToAppTable("FitBit");
-                    db.addAppToAppTable("App2");
-                    db.addAppToAppTable("App3");
-
-                    // Type Table -- add data
-                    db.addTypeToTypeTable("Steps Walked");
-                    db.addTypeToTypeTable("Miles Walked");
-                    db.addTypeToTypeTable("Calories Burned");
-                    db.addTypeToTypeTable("Calories Consumed");
-                    db.addTypeToTypeTable("Pulse");
-                    db.addTypeToTypeTable("Blood Pressure");
-
-                    // Period Table -- add data
-                    db.addPeriodToPeriodTable("Daily");
-                    db.addPeriodToPeriodTable("Weekly");
-                    db.addPeriodToPeriodTable("Monthly");
-                    db.addPeriodToPeriodTable("Yearly");
-                    */
-
                     // Goal Table -- add data
                     db.addGoalToGoalTable(1, 1, 1, 1, "5000");
                     db.addGoalToGoalTable(2,3,4,2, "10000");

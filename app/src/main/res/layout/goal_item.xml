@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_margin="5dp"
     android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/button_goal_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +22,7 @@
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/textview_goaltype"
+                android:id="@+id/textview_goaltype_goal_1"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:text="Goal type"
@@ -25,8 +30,8 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/textview_period"
-                android:layout_width="200dp"
+                android:id="@+id/textview_period_goal_1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Period"
                 android:textColor="@color/colorBlack"
@@ -35,10 +40,11 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textview_app"
-            android:layout_width="match_parent"
+            android:id="@+id/textview_appname_goal_1"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="App used"
+            android:layout_marginLeft="10dp"
             android:textColor="@color/colorGrey"
             android:textSize="20sp" />
     </LinearLayout>
