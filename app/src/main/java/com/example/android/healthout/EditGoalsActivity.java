@@ -51,7 +51,7 @@ public class EditGoalsActivity extends AppCompatActivity {
             View view = inflater.inflate(R.layout.goal_item, null);
             // set text -- period
             TextView text = view.findViewById(R.id.textview_appname_goal);
-            text.setTag("appname_goal_" + i);
+            text.setTag(user.goalList.get(i).getApp_name());
             text.setText(user.goalList.get(i).getApp_name());
             // set text -- type
             text = view.findViewById(R.id.textview_goaltype_goal);
@@ -67,7 +67,9 @@ public class EditGoalsActivity extends AppCompatActivity {
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Goal clicked!", Toast.LENGTH_LONG).show();
+                TextView text = v.findViewById(R.id.textview_appname_goal);
+                String sText = text.getTag().toString();
+                Toast.makeText(getApplicationContext(), sText, Toast.LENGTH_LONG).show();
             }
         });
 
