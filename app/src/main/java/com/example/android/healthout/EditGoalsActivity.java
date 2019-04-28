@@ -73,16 +73,8 @@ public class EditGoalsActivity extends AppCompatActivity {
         addNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
                 Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class).putExtra("user", user);
                 startActivity(moveToEditGoalDetail);
-                */
-
-                View view = inflater.inflate(R.layout.goal_item, null);
-                TextView text = view.findViewById(R.id.textview_goaltype_goal);
-                text.setTag("goaltype_goal_1");
-                text.setText(user.goalList.get(0).getType_name());
-                linearLayout.addView(view);
             }
         });
     }
