@@ -283,6 +283,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return app;
     }
 
+    public long getAppIdFromAppTable(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_APP + " WHERE "
+                + APP_NAME + " = '" + name + "'";
+
+        Log.e(LOG_CAT, selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        long id = -1;
+        if(cursor.getCount() > 0) {
+            Log.d(LOG_CAT, "YOLO SWAG");
+            cursor.moveToFirst();
+            id = cursor.getLong(cursor.getColumnIndex(APP_ID));
+        }
+        cursor.close();
+        db.close();
+
+        return id;
+    }
+
     public List<String> getAllAppsFromAppTable(){
         List<String> appList = new ArrayList<String>();
 
@@ -332,6 +352,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return type;
     }
 
+    public long getTypeIdFromTypeTable(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_TYPE + " WHERE "
+                + TYPE_NAME + " = '" + name + "'";
+
+        Log.e(LOG_CAT, selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        long id = -1;
+        if(cursor.getCount() > 0) {
+            Log.d(LOG_CAT, "YOLO SWAG");
+            cursor.moveToFirst();
+            id = cursor.getLong(cursor.getColumnIndex(TYPE_ID));
+        }
+        cursor.close();
+        db.close();
+
+        return id;
+    }
+
     public List<String> getAllTypesFromTypeTable(){
         List<String> typeList = new ArrayList<String>();
 
@@ -379,6 +419,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String period = cursor.getString(cursor.getColumnIndex(PERIOD_LENGTH));
         return period;
+    }
+
+    public long getPeriodIdFromPeriodTable(String length) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_PERIOD + " WHERE "
+                + PERIOD_LENGTH + " = '" + length + "'";
+
+        Log.e(LOG_CAT, selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        long id = -1;
+        if(cursor.getCount() > 0) {
+            Log.d(LOG_CAT, "YOLO SWAG");
+            cursor.moveToFirst();
+            id = cursor.getLong(cursor.getColumnIndex(PERIOD_ID));
+        }
+        cursor.close();
+        db.close();
+
+        return id;
     }
 
     public List<String> getAllPeriodsFromPeriodTable(){

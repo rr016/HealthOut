@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.android.healthout.dataEntities.Goal;
 import com.example.android.healthout.dataEntities.User;
 
 import java.util.List;
@@ -60,6 +61,15 @@ public class EditGoalDetailActivity extends AppCompatActivity {
                 sGoalType = goalTypeSpinner.getSelectedItem().toString();
                 sTarget = targetEditText.getText().toString();
                 sPeriod = periodSpinner.getSelectedItem().toString();
+
+                db.addGoalToGoalTable(user.getUser_id(), db.getAppIdFromAppTable(sApp),
+                        db.getTypeIdFromTypeTable(sGoalType), db.getPeriodIdFromPeriodTable(sPeriod), sTarget);
+
+                user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id());
+
+                Intent moveToEditGoals = new Intent(EditGoalDetailActivity.this, EditGoalsActivity.class).putExtra("user", user);
+                startActivity(moveToEditGoals);
+                finish();
             }
         });
     }
