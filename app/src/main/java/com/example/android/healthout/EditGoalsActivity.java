@@ -11,13 +11,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.healthout.dataEntities.User;
+
+import java.util.List;
 
 public class EditGoalsActivity extends AppCompatActivity {
     DatabaseHelper db;
@@ -42,7 +47,6 @@ public class EditGoalsActivity extends AppCompatActivity {
         linearLayout = findViewById(R.id.linearLayout_goals);
         inflater =  (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        Toast.makeText(getApplicationContext(), ""+user.goalList.size(), Toast.LENGTH_LONG).show();
         for (int i = 0; i < user.goalList.size(); i++){
             View view = inflater.inflate(R.layout.goal_item, null);
             // set text -- period
@@ -60,15 +64,13 @@ public class EditGoalsActivity extends AppCompatActivity {
             linearLayout.addView(view);
         }
 
-
-
-        // Click Remove Button
-        removeButton.setOnClickListener(new View.OnClickListener() {
+        linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Remove Clicked!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Goal clicked!", Toast.LENGTH_LONG).show();
             }
         });
+
 
         // Click Add New Goal
         addNewButton.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +78,14 @@ public class EditGoalsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class).putExtra("user", user);
                 startActivity(moveToEditGoalDetail);
+            }
+        });
+
+        // Click Remove Button
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Remove Clicked!", Toast.LENGTH_LONG).show();
             }
         });
     }

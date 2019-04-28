@@ -135,12 +135,13 @@ public class MainMenuActivity extends AppCompatActivity {
                     else{
                         Toast.makeText(MainMenuActivity.this,"Error Change Email", Toast.LENGTH_SHORT).show();
                     }
-                    */
 
                    int key = user.goalList.size();
                     for (int i = 0; i < key; i++){
                         Toast.makeText(MainMenuActivity.this, user.goalList.get(i).getAllGoalData(), Toast.LENGTH_SHORT).show();
                     }
+
+                    */
                 }
                 //Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG).show();
             }
