@@ -1,15 +1,14 @@
 package com.example.android.healthout;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.android.healthout.dataEntities.User;
 
 public class LoginActivity extends AppCompatActivity {
     DatabaseHelper db;
@@ -50,6 +49,10 @@ public class LoginActivity extends AppCompatActivity {
                     user.setPassword(sPassword);
                     user.setUser_id(db.getUserIdFromUserTable(sEmail, sPassword));
                     user.setLogged_in(true);
+
+                    user.allAppsList = db.getAllAppsFromAppTable();
+                    user.allTypesList = db.getAllTypesFromTypeTable();
+                    user.allPeriodList = db.getAllPeriodsFromPeriodTable();
 
                     user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id());
 

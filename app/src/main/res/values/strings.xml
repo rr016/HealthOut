@@ -2,23 +2,14 @@
     <string name="app_name">HealthOut</string>
 
     <string-array name="Apps">
-        <item name="Fitbit">"Fitbit"</item>
-        <item name="App2">"App2"</item>
+
     </string-array>
 
     <string-array name="GoalTypes">
-        <item name="Steps_walked">"Steps walked"</item>
-        <item name="Miles_walked">"Miles walked"</item>
-        <item name="Calories_burned">"Calories burned"</item>
-        <item name="Calories_consumed">"Calories consumed"</item>
-        <item name="Blood_pressure">"Blood pressure"</item>
-        <item name="Pulse">"Pulse"</item>
+
     </string-array>
 
     <string-array name="Period">
-        <item name="Daily">"Daily"</item>
-        <item name="Weekly">"Weekly"</item>
-        <item name="Monthly">"Monthly"</item>
-        <item name="Yearly">"Yearly"</item>
+
     </string-array>
 </resources>

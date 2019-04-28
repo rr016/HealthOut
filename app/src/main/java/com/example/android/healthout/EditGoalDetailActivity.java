@@ -9,10 +9,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.android.healthout.dataEntities.User;
+
+import java.util.List;
 
 public class EditGoalDetailActivity extends AppCompatActivity {
     DatabaseHelper db;
@@ -42,6 +47,10 @@ public class EditGoalDetailActivity extends AppCompatActivity {
         targetEditText = findViewById(R.id.editText_target);
         periodSpinner = findViewById(R.id.spinner_period);
         applyButton = findViewById(R.id.button_apply_goal);
+
+        loadAppSpinnerData();
+        loadGoalTypeSpinnerData();
+        loadPeriodSpinnerData();
 
         // Click Apply Button
         applyButton.setOnClickListener(new View.OnClickListener() {
@@ -124,5 +133,23 @@ public class EditGoalDetailActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void loadAppSpinnerData(){
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_dropdown_item, user.allAppsList);
+        appSpinner.setAdapter(dataAdapter);
+    }
+
+    private void loadGoalTypeSpinnerData(){
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_dropdown_item, user.allTypesList);
+        goalTypeSpinner.setAdapter(dataAdapter);
+    }
+
+    private void loadPeriodSpinnerData(){
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_dropdown_item, user.allPeriodList);
+        periodSpinner.setAdapter(dataAdapter);
     }
 }

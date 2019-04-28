@@ -10,6 +10,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.android.healthout.dataEntities.User;
+
 public class RegisterAppsActivity extends AppCompatActivity {
     DatabaseHelper db;
 

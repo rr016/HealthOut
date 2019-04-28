@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.android.healthout.dataEntities.Goal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -284,7 +286,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<String> getAllAppsFromAppTable(){
         List<String> appList = new ArrayList<String>();
 
-        // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_APP;
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -297,11 +298,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        // closing connection
         cursor.close();
         db.close();
 
-        // returning lables
         return appList;
     }
 
@@ -333,6 +332,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return type;
     }
 
+    public List<String> getAllTypesFromTypeTable(){
+        List<String> typeList = new ArrayList<String>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_TYPE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                typeList.add(cursor.getString(cursor.getColumnIndex(TYPE_NAME)));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return typeList;
+    }
+
     /*****************************************************************************************************************************/
     /************************************************* Period Table    methods ***************************************************/
     /*****************************************************************************************************************************/
@@ -359,6 +379,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String period = cursor.getString(cursor.getColumnIndex(PERIOD_LENGTH));
         return period;
+    }
+
+    public List<String> getAllPeriodsFromPeriodTable(){
+        List<String> periodList = new ArrayList<String>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_PERIOD;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                periodList.add(cursor.getString(cursor.getColumnIndex(PERIOD_LENGTH)));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return periodList;
     }
 
     /*****************************************************************************************************************************/
