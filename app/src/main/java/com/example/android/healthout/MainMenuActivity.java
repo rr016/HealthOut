@@ -41,7 +41,7 @@ public class MainMenuActivity extends AppCompatActivity {
         updateButton = findViewById(R.id.button_update);
         registerAppsButton = findViewById(R.id.button_register_apps);
         editGoalsButton = findViewById(R.id.button_edit_goals);
-        listView = findViewById(R.id.ListView_goals);
+        listView = findViewById(R.id.ListView_display_goals);
 
         goals = new String[user.goalList.size()];
         // Clickable ListView Goals
@@ -173,7 +173,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
                     */
                 }
-                //Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG).show();
             }
         });
 

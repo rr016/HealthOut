@@ -32,29 +32,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
-    <ScrollView
+    <ListView
+        android:id="@+id/ListView_register_apps"
         android:layout_width="match_parent"
         android:layout_height="417dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@color/colorGrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Example App"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </ScrollView>
+    </ListView>
 
 </android.support.constraint.ConstraintLayout>

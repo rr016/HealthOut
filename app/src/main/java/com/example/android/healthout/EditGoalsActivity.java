@@ -14,10 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +44,7 @@ public class EditGoalsActivity extends AppCompatActivity {
 
         removeButton = findViewById(R.id.button_remove);
         addNewButton = findViewById(R.id.button_add_new);
-        listView = findViewById(R.id.ListView_goals);
+        listView = findViewById(R.id.ListView_edit_goals);
         inflater =  (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // Clickable ListView Goals
