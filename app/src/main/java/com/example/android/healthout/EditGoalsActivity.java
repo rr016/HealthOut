@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -28,11 +29,12 @@ public class EditGoalsActivity extends AppCompatActivity {
     DatabaseHelper db;
 
     Button removeButton;
-    ImageButton addNewButton;
-    LinearLayout linearLayout;
+    Button addNewButton;
+    ListView listView;
     LayoutInflater inflater;
 
     User user;
+    String goals[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,52 +46,25 @@ public class EditGoalsActivity extends AppCompatActivity {
 
         removeButton = findViewById(R.id.button_remove);
         addNewButton = findViewById(R.id.button_add_new);
-        linearLayout = findViewById(R.id.linearLayout_goals);
+        listView = findViewById(R.id.ListView_goals);
         inflater =  (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        /*
-        Button[] buttons = new Button[user.goalList.size()];
-        for (int i = 0; i < user.goalList.size(); i++){
-            View view = inflater.inflate(R.layout.goal_item, null);
-            // set text -- period
-            TextView text = view.findViewById(R.id.textview_appname_goal);
-            text.setTag("appname_goal_" + i);
-            text.setText(user.goalList.get(i).getApp_name());
-
-            // set text -- type
-            text = view.findViewById(R.id.textview_goaltype_goal);
-            text.setTag("goaltype_goal_" + i);
-            text.setText(user.goalList.get(i).getType_name());
-
-            // set text -- period
-            text = view.findViewById(R.id.textview_period_goal);
-            text.setTag("period_goal_" + i);
-            text.setText(user.goalList.get(i).getPeriod_length());
-
-            // set button
-            buttons[i] = view.findViewById(R.id.button_goal);
-            buttons[i].setTag("button_goal_" + i);
-
-            buttons[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), getTag("button_goal_" + i), Toast.LENGTH_LONG).show();
-                }
-            });
-
-            linearLayout.addView(view);
+        // Clickable ListView Goals
+        goals = new String[user.goalList.size()];
+        for(int i=0; i<goals.length; i++){
+            goals[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   " + user.goalList.get(i).getApp_name()
+                    + "   " + user.goalList.get(i).getTarget_value();
         }
-        */
-        /*
-        linearLayout.setOnClickListener(new View.OnClickListener() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goals);
+        listView.setAdapter(adapter);
+
+        // Click a Goal
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                TextView text = v.findViewById(R.id.textview_appname_goal);
-                String sText = text.getTag().toString();
-                Toast.makeText(getApplicationContext(), sText, Toast.LENGTH_LONG).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), goals[position], Toast.LENGTH_LONG).show();
             }
         });
-        */
 
         // Click Add New Goal
         addNewButton.setOnClickListener(new View.OnClickListener() {

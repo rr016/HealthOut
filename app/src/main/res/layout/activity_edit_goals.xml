@@ -20,8 +20,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/scrollView_goals"
+    <ListView
+        android:id="@+id/ListView_goals"
         android:layout_width="0dp"
         android:layout_height="450dp"
         android:layout_marginTop="8dp"
@@ -31,23 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3">
-
-        <LinearLayout
-            android:id="@+id/linearLayout_goals"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/button_add_new"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/button_add_new" />
-
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -60,20 +44,31 @@
 
     <Button
         android:id="@+id/button_remove"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginEnd="148dp"
+        android:layout_marginStart="32dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/colorRed"
+        android:background="@color/colorBlack"
         android:fontFamily="Arial"
         android:text="Remove"
         android:textColor="@color/colorWhite"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/ListView_goals" />
+
+    <Button
+        android:id="@+id/button_add_new"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorWhite"
+        android:text="Add new"
+        android:textColor="@color/colorBlack"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/ListView_goals" />
 
 </android.support.constraint.ConstraintLayout>

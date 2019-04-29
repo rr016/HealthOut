@@ -38,6 +38,9 @@
         <activity
             android:name=".EditAccountActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".GraphActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
