@@ -36,7 +36,6 @@
                 android:text="Period"
                 android:textColor="@color/colorBlack"
                 android:textSize="24sp" />
-
         </LinearLayout>
 
         <TextView

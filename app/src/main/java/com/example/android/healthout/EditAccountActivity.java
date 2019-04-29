@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.android.healthout.dataEntities.User;
+
 public class EditAccountActivity extends AppCompatActivity {
     DatabaseHelper db;
 

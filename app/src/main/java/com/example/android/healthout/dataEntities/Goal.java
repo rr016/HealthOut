@@ -1,4 +1,6 @@
-package com.example.android.healthout;
+package com.example.android.healthout.dataEntities;
+
+import com.example.android.healthout.dataEntities.ThirdPartyAppAndApi;
 
 import java.io.Serializable;
 

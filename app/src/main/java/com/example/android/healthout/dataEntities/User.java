@@ -1,4 +1,4 @@
-package com.example.android.healthout;
+package com.example.android.healthout.dataEntities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,8 +9,13 @@ public class User implements Serializable {
     private long user_id;
     private String email;
     private String password;
-    List<ThirdPartyAppAndApi> appList = new ArrayList<ThirdPartyAppAndApi>();
-    List<Goal> goalList = new ArrayList<Goal>();
+
+    public List<String> allAppsList = new ArrayList<String>();
+    public List<String> allTypesList = new ArrayList<String>();
+    public List<String> allPeriodList = new ArrayList<String>();
+
+    public List<ThirdPartyAppAndApi> appAndApiList = new ArrayList<ThirdPartyAppAndApi>();
+    public List<Goal> goalList = new ArrayList<Goal>();
 
     public User() {
         this.logged_in = false;

@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.android.healthout.dataEntities.Goal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,12 +172,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + USER_ID + " = " + user_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getString(1);
+        return cursor.getString(cursor.getColumnIndex(USER_EMAIL));
     }
 
     public String getUserPasswordFromUserTable(long user_id) {
@@ -184,12 +186,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + USER_ID + " = " + user_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getString(2);
+        return cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
     }
 
     public long getUserIdFromUserTable(String email, String password) {
@@ -272,13 +274,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + APP_ID + " = " + app_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        String app = c.getString(1);
+        String app = cursor.getString(cursor.getColumnIndex(APP_NAME));
         return app;
+    }
+
+    public long getAppIdFromAppTable(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_APP + " WHERE "
+                + APP_NAME + " = '" + name + "'";
+
+        Log.e(LOG_CAT, selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        long id = -1;
+        if(cursor.getCount() > 0) {
+            Log.d(LOG_CAT, "YOLO SWAG");
+            cursor.moveToFirst();
+            id = cursor.getLong(cursor.getColumnIndex(APP_ID));
+        }
+        cursor.close();
+        db.close();
+
+        return id;
+    }
+
+    public List<String> getAllAppsFromAppTable(){
+        List<String> appList = new ArrayList<String>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_APP;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                appList.add(cursor.getString(cursor.getColumnIndex(APP_NAME)));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return appList;
     }
 
     /*****************************************************************************************************************************/
@@ -300,13 +343,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + TYPE_ID + " = " + type_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        String type = c.getString(1);
+        String type = cursor.getString(cursor.getColumnIndex(TYPE_NAME));
         return type;
+    }
+
+    public long getTypeIdFromTypeTable(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_TYPE + " WHERE "
+                + TYPE_NAME + " = '" + name + "'";
+
+        Log.e(LOG_CAT, selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        long id = -1;
+        if(cursor.getCount() > 0) {
+            Log.d(LOG_CAT, "YOLO SWAG");
+            cursor.moveToFirst();
+            id = cursor.getLong(cursor.getColumnIndex(TYPE_ID));
+        }
+        cursor.close();
+        db.close();
+
+        return id;
+    }
+
+    public List<String> getAllTypesFromTypeTable(){
+        List<String> typeList = new ArrayList<String>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_TYPE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                typeList.add(cursor.getString(cursor.getColumnIndex(TYPE_NAME)));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return typeList;
     }
 
     /*****************************************************************************************************************************/
@@ -328,13 +412,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + PERIOD_ID + " = " + period_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-       //if (c != null)
-            c.moveToFirst();
+       if (cursor != null)
+            cursor.moveToFirst();
 
-        String period = c.getString(1);
+        String period = cursor.getString(cursor.getColumnIndex(PERIOD_LENGTH));
         return period;
+    }
+
+    public long getPeriodIdFromPeriodTable(String length) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_PERIOD + " WHERE "
+                + PERIOD_LENGTH + " = '" + length + "'";
+
+        Log.e(LOG_CAT, selectQuery);
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        long id = -1;
+        if(cursor.getCount() > 0) {
+            Log.d(LOG_CAT, "YOLO SWAG");
+            cursor.moveToFirst();
+            id = cursor.getLong(cursor.getColumnIndex(PERIOD_ID));
+        }
+        cursor.close();
+        db.close();
+
+        return id;
+    }
+
+    public List<String> getAllPeriodsFromPeriodTable(){
+        List<String> periodList = new ArrayList<String>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_PERIOD;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                periodList.add(cursor.getString(cursor.getColumnIndex(PERIOD_LENGTH)));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return periodList;
     }
 
     /*****************************************************************************************************************************/
@@ -360,12 +485,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + GOAL_ID + " = " + goal_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(1);
+        return cursor.getLong(cursor.getColumnIndex(USER_ID));
     }
 
     public String getUserEmailFromGoalTable(long goal_id) {
@@ -378,12 +503,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + GOAL_ID + " = " + goal_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(2);
+        return cursor.getLong(cursor.getColumnIndex(APP_ID));
     }
 
     public String getAppNameFromGoalTable(long goal_id) {
@@ -396,12 +521,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + GOAL_ID + " = " + goal_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(3);
+        return cursor.getLong(cursor.getColumnIndex(TYPE_ID));
     }
 
     public String getTypeNameFromGoalTable(long goal_id) {
@@ -414,12 +539,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + GOAL_ID + " = " + goal_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(4);
+        return cursor.getLong(cursor.getColumnIndex(PERIOD_ID));
     }
 
     public String getPeriodLengthFromGoalTable(long goal_id) {
@@ -432,12 +557,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + GOAL_ID + " = " + goal_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getString(5);
+        return cursor.getString(cursor.getColumnIndex(GOAL_TARGET_VALUE));
     }
 
     public String getGoalInfoFromGoalTable(long goal_id){
@@ -535,12 +660,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + API_ID + " = " + api_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(1);
+        return cursor.getLong(cursor.getColumnIndex(USER_ID));
     }
 
     public String getAppNameFromApiTable(long api_id) {
@@ -553,12 +678,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + API_ID + " = " + api_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(2);
+        return cursor.getLong(cursor.getColumnIndex(APP_ID));
     }
 
     public String getUserEmailFromApiTable(long api_id) {
@@ -571,12 +696,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + API_ID + " = " + api_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getInt(3) > 0;
+        return cursor.getInt(cursor.getColumnIndex(API_REGISTERED)) > 0;
     }
 
     public String getAppUsernameFromApiTable(long api_id) {
@@ -585,12 +710,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + API_ID + " = " + api_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getString(4);
+        return cursor.getString(cursor.getColumnIndex(API_USERNAME));
     }
 
     public String getAppEmailFromApiTable(long api_id) {
@@ -599,12 +724,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + API_ID + " = " + api_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getString(5);
+        return cursor.getString(cursor.getColumnIndex(API_EMAIL));
     }
 
     public String getAppPasswordFromApiTable(long api_id) {
@@ -613,12 +738,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + API_ID + " = " + api_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getString(6);
+        return cursor.getString(cursor.getColumnIndex(API_PASSWORD));
     }
 
     public String getApiInfoFromApiTable(long api_id){
@@ -696,12 +821,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + LOG_ID + " = " + log_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(1);
+        return cursor.getLong(cursor.getColumnIndex(USER_ID));
     }
 
     public String getUserEmailFromLogTable(long log_id) {
@@ -714,12 +839,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + LOG_ID + " = " + log_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(2);
+        return cursor.getLong(cursor.getColumnIndex(APP_ID));
     }
 
     public String getAppNameFromLogTable(long log_id) {
@@ -733,12 +858,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + LOG_ID + " = " + log_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(3);
+        return cursor.getLong(cursor.getColumnIndex(LOG_STEPS_WALKED));
     }
 
     public double getMilesWalkedFromFromLogTable(long log_id) {
@@ -747,12 +872,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + LOG_ID + " = " + log_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getDouble(4);
+        return cursor.getDouble(cursor.getColumnIndex(LOG_MILES_WALKED));
     }
 
     public long getCaloriesBurnedFromFromLogTable(long log_id) {
@@ -761,12 +886,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + LOG_ID + " = " + log_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(5);
+        return cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_BURNED));
     }
 
     public long getCaloriesConsumedFromFromLogTable(long log_id) {
@@ -775,12 +900,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + LOG_ID + " = " + log_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(6);
+        return cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_CONSUMED));
     }
 
     public long getPulseFromFromLogTable(long log_id) {
@@ -789,12 +914,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + LOG_ID + " = " + log_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(7);
+        return cursor.getLong(cursor.getColumnIndex(LOG_PULSE));
     }
 
     public String getBloodPressureFromFromLogTable(long log_id) {
@@ -803,12 +928,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + LOG_ID + " = " + log_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getString(8);
+        return cursor.getString(cursor.getColumnIndex(LOG_BLOOD_PRESSURE));
     }
 
     public long getTimestampFromFromLogTable(long log_id) {
@@ -817,12 +942,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + LOG_ID + " = " + log_id;
 
         Log.e(LOG_CAT, selectQuery);
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (c != null)
-            c.moveToFirst();
+        if (cursor != null)
+            cursor.moveToFirst();
 
-        return c.getLong(9);
+        return cursor.getLong(cursor.getColumnIndex(LOG_EPOCH_TIMESTAMP));
     }
 
     public String getLogInfoFromLogTable(long log_id){

@@ -2,7 +2,6 @@ package com.example.android.healthout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.android.healthout.dataEntities.User;
 
 public class MainMenuActivity extends AppCompatActivity {
     Boolean dataAdded = false; // Used for testing if databases work
@@ -74,6 +75,8 @@ public class MainMenuActivity extends AppCompatActivity {
                         Toast.makeText(MainMenuActivity.this,"Error", Toast.LENGTH_SHORT).show();
                     }
 
+                    user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id());
+
                     dataAdded = true;
 
                 }
@@ -132,14 +135,13 @@ public class MainMenuActivity extends AppCompatActivity {
                     else{
                         Toast.makeText(MainMenuActivity.this,"Error Change Email", Toast.LENGTH_SHORT).show();
                     }
-                    */
-
-                    user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id());
 
                    int key = user.goalList.size();
                     for (int i = 0; i < key; i++){
                         Toast.makeText(MainMenuActivity.this, user.goalList.get(i).getAllGoalData(), Toast.LENGTH_SHORT).show();
                     }
+
+                    */
                 }
                 //Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG).show();
             }
