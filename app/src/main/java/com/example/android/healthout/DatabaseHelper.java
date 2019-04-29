@@ -623,6 +623,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         while (cursor.moveToNext()){
             Goal currentGoal = new Goal();
+            currentGoal.setGoal_id(cursor.getLong(cursor.getColumnIndex(GOAL_ID)));
             currentGoal.setApp_id(cursor.getLong(cursor.getColumnIndex(APP_ID)));
             currentGoal.setApp_name(getAppNameFromAppTable(currentGoal.getApp_id()));
             currentGoal.setType_id(cursor.getLong(cursor.getColumnIndex(TYPE_ID)));

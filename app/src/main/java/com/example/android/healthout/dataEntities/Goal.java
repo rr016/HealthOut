@@ -5,6 +5,7 @@ import com.example.android.healthout.dataEntities.ThirdPartyAppAndApi;
 import java.io.Serializable;
 
 public class Goal implements Serializable {
+    private long goal_id;
     private long app_id;
     private String app_name;
     private long type_id;
@@ -16,6 +17,7 @@ public class Goal implements Serializable {
     ThirdPartyAppAndApi thirdPartyApp = new ThirdPartyAppAndApi();
 
     public Goal(){
+        this.goal_id = -1;
         this.app_id = -1;
         this.app_name = null;
         this.type_id = -1;
@@ -26,7 +28,8 @@ public class Goal implements Serializable {
         this.progress = null;
     }
 
-    public Goal(long app_id, String app_name, long type_id, String type_name, long period_id, String period_length, String target_value, String preogress){
+    public Goal(long goal_id, long app_id, String app_name, long type_id, String type_name, long period_id, String period_length, String target_value, String preogress){
+        this.goal_id = goal_id;
         this.app_id = app_id;
         this.app_name = app_name;
         this.type_id = type_id;
@@ -37,6 +40,9 @@ public class Goal implements Serializable {
         this.progress = preogress;
     }
 
+    public long getGoal_id() { return goal_id; }
+
+    public void setGoal_id(long goal_id) { this.goal_id = goal_id; }
 
     public long getApp_id() {
         return app_id;

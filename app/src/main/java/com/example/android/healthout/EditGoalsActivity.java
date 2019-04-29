@@ -34,7 +34,8 @@ public class EditGoalsActivity extends AppCompatActivity {
     LayoutInflater inflater;
 
     User user;
-    String goals[];
+    String goalInfoArray[];
+    Long goalIdArray[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +51,22 @@ public class EditGoalsActivity extends AppCompatActivity {
         inflater =  (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // Clickable ListView Goals
-        goals = new String[user.goalList.size()];
-        for(int i=0; i<goals.length; i++){
-            goals[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   " + user.goalList.get(i).getApp_name()
-                    + "   " + user.goalList.get(i).getTarget_value();
+        goalInfoArray = new String[user.goalList.size()];
+        goalIdArray = new Long[user.goalList.size()];
+
+        for(int i=0; i<goalInfoArray.length; i++){
+            goalInfoArray[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   "
+                    + user.goalList.get(i).getApp_name() + "   " + user.goalList.get(i).getTarget_value();
+            goalIdArray[i] = user.goalList.get(i).getGoal_id();
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goals);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalInfoArray);
         listView.setAdapter(adapter);
 
         // Click a Goal
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), goals[position], Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "" + goalIdArray[position], Toast.LENGTH_LONG).show();
             }
         });
 

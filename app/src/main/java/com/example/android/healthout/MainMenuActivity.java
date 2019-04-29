@@ -50,8 +50,8 @@ public class MainMenuActivity extends AppCompatActivity {
         }
         else{
             for(int i=0; i<goals.length; i++){
-                goals[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   " + user.goalList.get(i).getApp_name()
-                        + "   " + user.goalList.get(i).getTarget_value();
+                goals[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   "
+                        + user.goalList.get(i).getApp_name() + "   " + user.goalList.get(i).getTarget_value();
             }
         }
 
