@@ -9,20 +9,26 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.android.healthout.dataEntities.User;
 
 public class MainMenuActivity extends AppCompatActivity {
     Boolean dataAdded = false; // Used for testing if databases work
+
     DatabaseHelper db;
 
     Button updateButton;
     Button registerAppsButton;
     Button editGoalsButton;
+    ListView listView;
 
     User user;
+    String goals[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,30 @@ public class MainMenuActivity extends AppCompatActivity {
         updateButton = findViewById(R.id.button_update);
         registerAppsButton = findViewById(R.id.button_register_apps);
         editGoalsButton = findViewById(R.id.button_edit_goals);
+        listView = findViewById(R.id.ListView_goals);
+
+        goals = new String[user.goalList.size()];
+        // Clickable ListView Goals
+        if (goals.length < 1){
+            goals = new String[] {"You have no goals"};
+        }
+        else{
+            for(int i=0; i<goals.length; i++){
+                goals[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   " + user.goalList.get(i).getApp_name()
+                        + "   " + user.goalList.get(i).getTarget_value();
+            }
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goals);
+        listView.setAdapter(adapter);
+
+        // Click a Goal
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), goals[position], Toast.LENGTH_LONG).show();
+            }
+        });
 
         // Click Update Button
         updateButton.setOnClickListener(new View.OnClickListener() {
