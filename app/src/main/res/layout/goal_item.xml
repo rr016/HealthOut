@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <Button
-        android:id="@+id/button_goal_1"
+        android:id="@+id/button_goal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible" />

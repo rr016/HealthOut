@@ -47,23 +47,40 @@ public class EditGoalsActivity extends AppCompatActivity {
         linearLayout = findViewById(R.id.linearLayout_goals);
         inflater =  (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        /*
+        Button[] buttons = new Button[user.goalList.size()];
         for (int i = 0; i < user.goalList.size(); i++){
             View view = inflater.inflate(R.layout.goal_item, null);
             // set text -- period
             TextView text = view.findViewById(R.id.textview_appname_goal);
-            text.setTag(user.goalList.get(i).getApp_name());
+            text.setTag("appname_goal_" + i);
             text.setText(user.goalList.get(i).getApp_name());
+
             // set text -- type
             text = view.findViewById(R.id.textview_goaltype_goal);
             text.setTag("goaltype_goal_" + i);
             text.setText(user.goalList.get(i).getType_name());
+
             // set text -- period
             text = view.findViewById(R.id.textview_period_goal);
             text.setTag("period_goal_" + i);
             text.setText(user.goalList.get(i).getPeriod_length());
+
+            // set button
+            buttons[i] = view.findViewById(R.id.button_goal);
+            buttons[i].setTag("button_goal_" + i);
+
+            buttons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), getTag("button_goal_" + i), Toast.LENGTH_LONG).show();
+                }
+            });
+
             linearLayout.addView(view);
         }
-
+        */
+        /*
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +89,7 @@ public class EditGoalsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), sText, Toast.LENGTH_LONG).show();
             }
         });
-
+        */
 
         // Click Add New Goal
         addNewButton.setOnClickListener(new View.OnClickListener() {
