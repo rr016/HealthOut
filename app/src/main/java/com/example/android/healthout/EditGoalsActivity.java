@@ -1,6 +1,5 @@
 package com.example.android.healthout;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,7 +27,6 @@ public class EditGoalsActivity extends AppCompatActivity {
     LayoutInflater inflater;
 
     User user;
-    int count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,26 +41,36 @@ public class EditGoalsActivity extends AppCompatActivity {
         linearLayout = findViewById(R.id.linearLayout_goals);
         inflater =  (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        //
-        //
-        // Display all goals to screen
-        // (allow them to be clickable)
-        //
-        //
+        Toast.makeText(getApplicationContext(), ""+user.goalList.size(), Toast.LENGTH_LONG).show();
+        for (int i = 0; i < user.goalList.size(); i++){
+            View view = inflater.inflate(R.layout.goal_item, null);
+            // set text -- period
+            TextView text = view.findViewById(R.id.textview_appname_goal);
+            text.setTag("appname_goal_" + i);
+            text.setText(user.goalList.get(i).getApp_name());
+            // set text -- type
+            text = view.findViewById(R.id.textview_goaltype_goal);
+            text.setTag("goaltype_goal_" + i);
+            text.setText(user.goalList.get(i).getType_name());
+            // set text -- period
+            text = view.findViewById(R.id.textview_period_goal);
+            text.setTag("period_goal_" + i);
+            text.setText(user.goalList.get(i).getPeriod_length());
+            linearLayout.addView(view);
+        }
+
 
 
         // Click Remove Button
         removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Remove Clicked!", Toast.LENGTH_LONG);
-                toast.show();
+                Toast.makeText(getApplicationContext(), "Remove Clicked!", Toast.LENGTH_LONG).show();
             }
         });
 
         // Click Add New Goal
         addNewButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceType")
             @Override
             public void onClick(View v) {
                 /*
@@ -71,13 +79,9 @@ public class EditGoalsActivity extends AppCompatActivity {
                 */
 
                 View view = inflater.inflate(R.layout.goal_item, null);
-                if(count == 1) {
-                    TextView text = view.findViewById(R.id.textview_goaltype_goal_1);
-                    text.setTag("goaltype_goal_1");
-                    text.setText("YOLO SWAG");
-
-                    count++;
-                }
+                TextView text = view.findViewById(R.id.textview_goaltype_goal);
+                text.setTag("goaltype_goal_1");
+                text.setText(user.goalList.get(0).getType_name());
                 linearLayout.addView(view);
             }
         });

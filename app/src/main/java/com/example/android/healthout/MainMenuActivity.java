@@ -40,7 +40,6 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (dataAdded == false){
-
                     // Goal Table -- add data
                     db.addGoalToGoalTable(1, 1, 1, 1, "5000");
                     db.addGoalToGoalTable(2,3,4,2, "10000");
@@ -75,7 +74,6 @@ public class MainMenuActivity extends AppCompatActivity {
                         Toast.makeText(MainMenuActivity.this,"Error", Toast.LENGTH_SHORT).show();
                     }
 
-
                     dataAdded = true;
 
                 }
@@ -87,23 +85,27 @@ public class MainMenuActivity extends AppCompatActivity {
                     for (int i = 1; i <= key; i++)
                         Toast.makeText(MainMenuActivity.this, db.getAccountFromUserTable(i), Toast.LENGTH_SHORT).show();
 
+
+
                     // App Table -- Display
                     Toast.makeText(getApplicationContext(), "App Table:", Toast.LENGTH_LONG).show();
-                    key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_APP);
+                    long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_APP);
                     for (int i = 1; i <= key; i++)
-                        Toast.makeText(MainMenuActivity.this, db.getAppFromAppTable(i), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainMenuActivity.this, db.getAppNameFromAppTable(i), Toast.LENGTH_SHORT).show();
 
                     // Type Table -- Display
-                    Toast.makeText(getApplicationContext(), "Type Table:", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Type Table: ", Toast.LENGTH_LONG).show();
                     key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_TYPE);
                     for (int i = 1; i <= key; i++)
-                        Toast.makeText(MainMenuActivity.this, db.getTypeFromTypeTable(i), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainMenuActivity.this, db.getTypeNameFromTypeTable(i), Toast.LENGTH_SHORT).show();
 
                     // Period Table -- Display
                     Toast.makeText(getApplicationContext(), "Period Table:", Toast.LENGTH_LONG).show();
                     key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_PERIOD);
                     for (int i = 1; i <= key; i++)
-                        Toast.makeText(MainMenuActivity.this, db.getPeriodFromPeriodTable(i), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainMenuActivity.this, db.getPeriodLengthFromPeriodTable(i), Toast.LENGTH_SHORT).show();
+
+
 
                     // Goal Table -- Display
                     Toast.makeText(getApplicationContext(), "Goal Table:", Toast.LENGTH_LONG).show();
@@ -132,7 +134,9 @@ public class MainMenuActivity extends AppCompatActivity {
                     }
                     */
 
-                    int key = user.goalList.size();
+                    user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id());
+
+                   int key = user.goalList.size();
                     for (int i = 0; i < key; i++){
                         Toast.makeText(MainMenuActivity.this, user.goalList.get(i).getAllGoalData(), Toast.LENGTH_SHORT).show();
                     }

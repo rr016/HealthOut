@@ -102,37 +102,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + LOG_PULSE + " INTEGER, " + LOG_BLOOD_PRESSURE + " TEXT, " + LOG_EPOCH_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
 
         // App Table -- preload data
-        ContentValues values = new ContentValues();
-        values.put(APP_NAME, "FitBit");
-        database.insert(TABLE_APP, null, values);
-        values.put(APP_NAME, "App2");
-        database.insert(TABLE_APP, null, values);
-        values.put(APP_NAME, "App3");
-        database.insert(TABLE_APP, null, values);
+        ContentValues cvApp = new ContentValues();
+        cvApp.put(APP_NAME, "FitBit");
+        database.insert(TABLE_APP, null, cvApp);
+        cvApp.put(APP_NAME, "App2");
+        database.insert(TABLE_APP, null, cvApp);
+        cvApp.put(APP_NAME, "App3");
+        database.insert(TABLE_APP, null, cvApp);
 
         // Type Table -- preload data
-        values.put(TYPE_NAME, "Steps Walked");
-        database.insert(TABLE_TYPE, null, values);
-        values.put(TYPE_NAME, "Miles Walked");
-        database.insert(TABLE_TYPE, null, values);
-        values.put(TYPE_NAME, "Calories Burned");
-        database.insert(TABLE_TYPE, null, values);
-        values.put(TYPE_NAME, "Calories Consumed");
-        database.insert(TABLE_TYPE, null, values);
-        values.put(TYPE_NAME, "Pulse");
-        database.insert(TABLE_TYPE, null, values);
-        values.put(TYPE_NAME, "Blood Pressure");
-        database.insert(TABLE_TYPE, null, values);
+        ContentValues cvType = new ContentValues();
+        cvType.put(TYPE_NAME, "Steps Walked");
+        database.insert(TABLE_TYPE, null, cvType);
+        cvType.put(TYPE_NAME, "Miles Walked");
+        database.insert(TABLE_TYPE, null, cvType);
+        cvType.put(TYPE_NAME, "Calories Burned");
+        database.insert(TABLE_TYPE, null, cvType);
+        cvType.put(TYPE_NAME, "Calories Consumed");
+        database.insert(TABLE_TYPE, null, cvType);
+        cvType.put(TYPE_NAME, "Pulse");
+        database.insert(TABLE_TYPE, null, cvType);
+        cvType.put(TYPE_NAME, "Blood Pressure");
+        database.insert(TABLE_TYPE, null, cvType);
 
         // Period Table -- preload data
-        values.put(PERIOD_LENGTH, "Daily");
-        database.insert(TABLE_PERIOD, null, values);
-        values.put(PERIOD_LENGTH, "Weekly");
-        database.insert(TABLE_PERIOD, null, values);
-        values.put(PERIOD_LENGTH, "Monthly");
-        database.insert(TABLE_PERIOD, null, values);
-        values.put(PERIOD_LENGTH, "Yearly");
-        database.insert(TABLE_PERIOD, null, values);
+        ContentValues cvPeriod = new ContentValues();
+        cvPeriod.put(PERIOD_LENGTH, "Daily");
+        database.insert(TABLE_PERIOD, null, cvPeriod);
+        cvPeriod.put(PERIOD_LENGTH, "Weekly");
+        database.insert(TABLE_PERIOD, null, cvPeriod);
+        cvPeriod.put(PERIOD_LENGTH, "Monthly");
+        database.insert(TABLE_PERIOD, null, cvPeriod);
+        cvPeriod.put(PERIOD_LENGTH, "Yearly");
+        database.insert(TABLE_PERIOD, null, cvPeriod);
     }
 
     @Override
@@ -264,7 +266,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public String getAppFromAppTable(long app_id) {
+    public String getAppNameFromAppTable(long app_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_APP + " WHERE "
                 + APP_ID + " = " + app_id;
@@ -292,7 +294,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public String getTypeFromTypeTable(long type_id) {
+    public String getTypeNameFromTypeTable(long type_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_TYPE + " WHERE "
                 + TYPE_ID + " = " + type_id;
@@ -320,7 +322,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public String getPeriodFromPeriodTable(long period_id) {
+    public String getPeriodLengthFromPeriodTable(long period_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_PERIOD + " WHERE "
                 + PERIOD_ID + " = " + period_id;
@@ -385,7 +387,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getAppNameFromGoalTable(long goal_id) {
-        return getAppFromAppTable(getAppIdFromGoalTable(goal_id));
+        return getAppNameFromAppTable(getAppIdFromGoalTable(goal_id));
     }
 
     public Long getTypeIdFromGoalTable(long goal_id) {
@@ -403,7 +405,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getTypeNameFromGoalTable(long goal_id) {
-        return getTypeFromTypeTable(getTypeIdFromGoalTable(goal_id));
+        return getTypeNameFromTypeTable(getTypeIdFromGoalTable(goal_id));
     }
 
     public Long getPeriodIdFromGoalTable(long goal_id) {
@@ -421,7 +423,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getPeriodLengthFromGoalTable(long goal_id) {
-        return getPeriodFromPeriodTable(getPeriodIdFromGoalTable(goal_id));
+        return getPeriodLengthFromPeriodTable(getPeriodIdFromGoalTable(goal_id));
     }
 
     public String getTargetValueIdFromGoalTable(long goal_id) {
@@ -497,8 +499,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while (cursor.moveToNext()){
             Goal currentGoal = new Goal();
             currentGoal.setApp_id(cursor.getLong(cursor.getColumnIndex(APP_ID)));
+            currentGoal.setApp_name(getAppNameFromAppTable(currentGoal.getApp_id()));
             currentGoal.setType_id(cursor.getLong(cursor.getColumnIndex(TYPE_ID)));
+            currentGoal.setType_name(getTypeNameFromTypeTable(currentGoal.getType_id()));
             currentGoal.setPeriod_id(cursor.getLong(cursor.getColumnIndex(PERIOD_ID)));
+            currentGoal.setPeriod_length(getPeriodLengthFromPeriodTable(currentGoal.getPeriod_id()));
             currentGoal.setTarget_value(cursor.getString(cursor.getColumnIndex(GOAL_TARGET_VALUE)));
             goalArrayList.add(currentGoal);
         }
@@ -539,7 +544,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getAppNameFromApiTable(long api_id) {
-        return getAppFromAppTable(getUserIdFromApiTable(api_id));
+        return getAppNameFromAppTable(getUserIdFromApiTable(api_id));
     }
 
     public Long getAppIdFromApiTable(long api_id) {
@@ -718,7 +723,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getAppNameFromLogTable(long log_id) {
-        String name = getAppFromAppTable(getAppIdFromLogTable(log_id));
+        String name = getAppNameFromAppTable(getAppIdFromLogTable(log_id));
         return name;
     }
 
