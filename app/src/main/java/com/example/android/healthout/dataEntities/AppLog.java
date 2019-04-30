@@ -3,15 +3,17 @@ package com.example.android.healthout.dataEntities;
 import java.io.Serializable;
 
 public class AppLog implements Serializable {
-    private int steps_walked;
-    private int miles_walked;
-    private int calories_burned;
-    private int calories_consumed;
-    private int pulse;
+    private  long log_id;
+    private long steps_walked;
+    private double miles_walked;
+    private long calories_burned;
+    private long calories_consumed;
+    private long pulse;
     private String blood_pressure;
-    private int timestamp;
+    private long timestamp;
 
     public AppLog(){
+        this.log_id = -1;
         this.steps_walked = -1;
         this.miles_walked = -1;
         this.calories_burned = -1;
@@ -21,43 +23,49 @@ public class AppLog implements Serializable {
         this.timestamp = -1;
     }
 
-    public int getSteps_walked() {
+    public long getLog_id() {
+        return log_id;
+    }
+
+    public void setLog_id(long log_id) {
+        this.log_id = log_id;
+    }
+
+    public long getSteps_walked() {
         return steps_walked;
     }
 
-    public void setSteps_walked(int steps_walked) {
+    public void setSteps_walked(long steps_walked) {
         this.steps_walked = steps_walked;
     }
 
-    public int getMiles_walked() {
+    public double getMiles_walked() {
         return miles_walked;
     }
 
-    public void setMiles_walked(int miles_walked) {
+    public void setMiles_walked(double miles_walked) {
         this.miles_walked = miles_walked;
     }
 
-    public int getCalories_burned() {
+    public long getCalories_burned() {
         return calories_burned;
     }
 
-    public void setCalories_burned(int calories_burned) {
+    public void setCalories_burned(long calories_burned) {
         this.calories_burned = calories_burned;
     }
 
-    public int getCalories_consumed() {
+    public long getCalories_consumed() {
         return calories_consumed;
     }
 
-    public void setCalories_consumed(int calories_consumed) {
-        this.calories_consumed = calories_consumed;
-    }
+    public void setCalories_consumed(long calories_consumed) { this.calories_consumed = calories_consumed; }
 
-    public int getPulse() {
+    public long getPulse() {
         return pulse;
     }
 
-    public void setPulse(int pulse) {
+    public void setPulse(long pulse) {
         this.pulse = pulse;
     }
 
@@ -69,11 +77,11 @@ public class AppLog implements Serializable {
         this.blood_pressure = blood_pressure;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 }

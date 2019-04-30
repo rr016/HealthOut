@@ -23,6 +23,9 @@ import java.util.List;
 public class EditGoalDetailActivity extends AppCompatActivity {
     DatabaseHelper db;
 
+    User user;
+    long goal_id;
+
     Spinner appSpinner;
     Spinner goalTypeSpinner;
     EditText targetEditText;
@@ -34,19 +37,17 @@ public class EditGoalDetailActivity extends AppCompatActivity {
     Button applyButton;
     Button removeButton;
 
-    User user;
-    long goal_id;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_detail);
 
+        db = new DatabaseHelper(this);
+
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         user = (User)extras.getSerializable("user");
         goal_id = extras.getLong("goal_id");
-        db = new DatabaseHelper(this);
 
         appSpinner = findViewById(R.id.spinner_app);
         goalTypeSpinner = findViewById(R.id.spinner_goal_type);
@@ -62,6 +63,8 @@ public class EditGoalDetailActivity extends AppCompatActivity {
         loadAppSpinnerData();
         loadGoalTypeSpinnerData();
         loadPeriodSpinnerData();
+
+        Toast.makeText(getApplicationContext(), "" + goal_id, Toast.LENGTH_LONG).show();
 
         // Click Apply Button
         applyButton.setOnClickListener(new View.OnClickListener() {

@@ -28,7 +28,7 @@ public class MainMenuActivity extends AppCompatActivity {
     ListView listView;
 
     User user;
-    String goals[];
+    String goalInfoArray[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,26 +43,28 @@ public class MainMenuActivity extends AppCompatActivity {
         editGoalsButton = findViewById(R.id.button_edit_goals);
         listView = findViewById(R.id.ListView_display_goals);
 
-        goals = new String[user.goalList.size()];
         // Clickable ListView Goals
-        if (goals.length < 1){
-            goals = new String[] {"You have no goals"};
-        }
-        else{
-            for(int i=0; i<goals.length; i++){
-                goals[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   "
-                        + user.goalList.get(i).getApp_name() + "   " + user.goalList.get(i).getTarget_value();
-            }
-        }
+        goalInfoArray = new String[user.goalList.size()];
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goals);
+        for(int i=0; i<goalInfoArray.length; i++){
+            goalInfoArray[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   "
+                    + user.goalList.get(i).getApp_name() + "   " + user.goalList.get(i).getTarget_value();
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalInfoArray);
         listView.setAdapter(adapter);
 
         // Click a Goal
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), goals[position], Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), goalInfoArray[position], Toast.LENGTH_LONG).show();
+                Intent moveToGraph = new Intent(MainMenuActivity.this, GraphActivity.class);
+                Bundle extras = new Bundle();
+                extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
+                extras.putLong("app_id", user.goalList.get(position).getApp_id());
+                extras.putLong("type_id", user.goalList.get(position).getType_id());
+                moveToGraph.putExtras(extras);
+                startActivity(moveToGraph);
             }
         });
 
@@ -71,6 +73,7 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (dataAdded == false){
+                    /*
                     // Goal Table -- add data
                     db.addGoalToGoalTable(1, 1, 1, 1, "5000");
                     db.addGoalToGoalTable(2,2,4,2, "10000");
@@ -100,8 +103,29 @@ public class MainMenuActivity extends AppCompatActivity {
                     else{
                         Toast.makeText(MainMenuActivity.this,"Error", Toast.LENGTH_SHORT).show();
                     }
+                    */
+
+                    db.addLogToLogTable(1,1, 143,0.1, 20, 0, 86, "135/90");
+                    db.addLogToLogTable(1, 1, 375, 0.2, 43, 0, 86, "128/93");
+                    db.addLogToLogTable(1, 1, 791, 0.4, 77, 350, 85, "122/93");
+                    db.addLogToLogTable(1,1, 1033, 0.6, 95, 350, 87, "127/90");
+                    db.addLogToLogTable(1, 1, 1598, 0.9, 122, 350, 89, "131/85");
+                    db.addLogToLogTable(1, 1, 1954, 1.3, 146, 790, 85, "130/97");
+                    db.addLogToLogTable(1, 1, 2201, 1.6, 172, 790, 90, "125/87");
+                    db.addLogToLogTable(1, 1, 2504, 1.8, 190, 790, 87, "124/84");
+                    db.addLogToLogTable(1, 1, 3079, 2.3, 238, 1601, 92, "132/85");
+                    db.addLogToLogTable(1, 1, 3734, 2.8, 276, 1601, 85, "124/83");
+                    db.addLogToLogTable(1, 1, 4300, 3.1, 301, 1601, 86, "125/84");
+                    Long test =  db.addLogToLogTable(1, 1, 4441, 3.2, 311, 2234, 86, "127/89");
+                    if(test > 0){
+                        Toast.makeText(MainMenuActivity.this,"Data Added", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(MainMenuActivity.this,"Error", Toast.LENGTH_SHORT).show();
+                    }
 
                     user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id());
+                    user.appAndApiList = db.getAppAndApiArrayListFromLogTable(user.getUser_id());
 
                     dataAdded = true;
 

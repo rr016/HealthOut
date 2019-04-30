@@ -1,17 +1,21 @@
 package com.example.android.healthout.dataEntities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ThirdPartyAppAndApi implements Serializable {
-    private int app_id;
+    private long api_id;
+    private long app_id;
     private String app_name;
     private boolean registered;
     private String app_username;
     private String app_email;
     private String app_password;
-    AppLog appLog = new AppLog();
+    public List<AppLog> appLog = new ArrayList<AppLog>();
 
     public ThirdPartyAppAndApi() {
+        this.api_id = -1;
         this.app_id = -1;
         this.app_name = null;
         this.registered = false;
@@ -19,12 +23,19 @@ public class ThirdPartyAppAndApi implements Serializable {
         this.app_email = null;
         this.app_password = null;
     }
+    public long getApi_id() {
+        return api_id;
+    }
 
-    public int getApp_id() {
+    public void setApi_id(long api_id) {
+        this.api_id = api_id;
+    }
+
+    public long getApp_id() {
         return app_id;
     }
 
-    public void setApp_id(int app_id) {
+    public void setApp_id(long app_id) {
         this.app_id = app_id;
     }
 
@@ -67,5 +78,6 @@ public class ThirdPartyAppAndApi implements Serializable {
     public void setApp_password(String app_password) {
         this.app_password = app_password;
     }
+
 }
 
