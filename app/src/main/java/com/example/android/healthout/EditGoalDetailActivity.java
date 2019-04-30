@@ -23,7 +23,6 @@ import java.util.List;
 public class EditGoalDetailActivity extends AppCompatActivity {
     DatabaseHelper db;
 
-    Button applyButton;
     Spinner appSpinner;
     Spinner goalTypeSpinner;
     EditText targetEditText;
@@ -32,6 +31,8 @@ public class EditGoalDetailActivity extends AppCompatActivity {
     String sGoalType;
     String sTarget;
     String sPeriod;
+    Button applyButton;
+    Button removeButton;
 
     User user;
     long goal_id;
@@ -52,6 +53,11 @@ public class EditGoalDetailActivity extends AppCompatActivity {
         targetEditText = findViewById(R.id.editText_target);
         periodSpinner = findViewById(R.id.spinner_period);
         applyButton = findViewById(R.id.button_apply_goal);
+        removeButton = findViewById(R.id.button_remove_goal);
+
+        if (goal_id > 0){
+            removeButton.setVisibility(View.VISIBLE);
+        }
 
         loadAppSpinnerData();
         loadGoalTypeSpinnerData();
@@ -74,6 +80,21 @@ public class EditGoalDetailActivity extends AppCompatActivity {
                     db.changeGoalInGoalTable(goal_id, db.getAppIdFromAppTable(sApp),
                             db.getTypeIdFromTypeTable(sGoalType), db.getPeriodIdFromPeriodTable(sPeriod), sTarget);
                 }
+
+                user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id()); // update goalList
+
+                Intent moveToEditGoals = new Intent(EditGoalDetailActivity.this, EditGoalsActivity.class).putExtra("user", user);
+                // Prevent user from returning to this page
+                moveToEditGoals.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(moveToEditGoals);
+            }
+        });
+
+        // Click Apply Button
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.deleteGoalFromUserTable(goal_id);
 
                 user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id()); // update goalList
 

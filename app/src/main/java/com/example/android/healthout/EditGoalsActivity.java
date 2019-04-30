@@ -63,7 +63,6 @@ public class EditGoalsActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "" + goalIdArray[position], Toast.LENGTH_LONG).show();
                 Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class);
                 Bundle extras = new Bundle();
                 extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
