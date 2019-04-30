@@ -73,31 +73,27 @@ public class MainMenuActivity extends AppCompatActivity {
                 if (dataAdded == false){
                     // Goal Table -- add data
                     db.addGoalToGoalTable(1, 1, 1, 1, "5000");
-                    db.addGoalToGoalTable(2,3,4,2, "10000");
+                    db.addGoalToGoalTable(2,2,4,2, "10000");
                     db.addGoalToGoalTable(1,1,2,3,"30");
                     db.addGoalToGoalTable(3,2,3,2,"1200");
-                    db.addGoalToGoalTable(3,3,2,4,"30000");
+                    db.addGoalToGoalTable(3,1,2,4,"30000");
                     db.addGoalToGoalTable(2,1,6,1,"120/80");
                     db.addGoalToGoalTable(3,2,1,4,"1000000");
                     db.addGoalToGoalTable(1,2,5,1,"80");
 
                     // API Table -- add data
                     db.addApiToApiTable(1, 1, true, "N/A", "Alex@gmail.com", "AlexIsDaMan2");
-                    db.addApiToApiTable(1, 2, true, "N/A", "Alex@gmail.com", "AlexIsTooFly45");
-                    db.addApiToApiTable(1, 3, true, "KingAlex90", "Alex@gmail.com", "AlexIsKillinIt11");
+                    db.addApiToApiTable(1, 2, true, "KingAlex90", "Alex@gmail.com", "AlexIsTooFly45");
                     db.addApiToApiTable(2, 1, true, "N/A", "cdk123@yahoo.com", "PleaseLogin");
                     db.addApiToApiTable(2, 2, false, null, null, null);
-                    db.addApiToApiTable(2, 3, true, "cdk94", "cdkOther@gmail.com", "OpenSesame");
                     db.addApiToApiTable(3, 1, true, "N/A", "Blue123@outlook.com", "fmd2m4k$");
-                    db.addApiToApiTable(3, 2, true, "N/A", "Blue123@outlook.com", "fmd2m4k$");
-                    db.addApiToApiTable(3, 3, false, "Blue123", "Blue123@outlook.com", "fmd2m4k$");
-                    db.addApiToApiTable(3, 3, false, "Blue123", "Blue123@outlook.com", "fmd2m4k$");
+                    db.addApiToApiTable(3, 2, true, "Blue123", "Blue123@outlook.com", "fmd2m4k$");
 
                     db.addLogToLogTable(1,1, 1560,0.8, 200, 1000, 93, "135/90");
                     db.addLogToLogTable(3, 1, 9786, 6.2, 1003, 2340, 86, "128/93");
                     db.addLogToLogTable(3, 2, 2010, 1.3, 300, 1650, 85, "122/93");
                     db.addLogToLogTable(1,2, 1032, 0.7, 197, 0, 0, null);
-                    Long test = db.addLogToLogTable(1, 3, 2144, 1.6, 321, 535, 90, "131/85");
+                    Long test = db.addLogToLogTable(1, 2, 2144, 1.6, 321, 535, 90, "131/85");
                     if(test > 0){
                         Toast.makeText(MainMenuActivity.this,"Data Added", Toast.LENGTH_SHORT).show();
                     }
@@ -117,28 +113,6 @@ public class MainMenuActivity extends AppCompatActivity {
                     long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_USER);
                     for (int i = 1; i <= key; i++)
                         Toast.makeText(MainMenuActivity.this, db.getAccountFromUserTable(i), Toast.LENGTH_SHORT).show();
-
-
-
-                    // App Table -- Display
-                    Toast.makeText(getApplicationContext(), "App Table:", Toast.LENGTH_LONG).show();
-                    long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_APP);
-                    for (int i = 1; i <= key; i++)
-                        Toast.makeText(MainMenuActivity.this, db.getAppNameFromAppTable(i), Toast.LENGTH_SHORT).show();
-
-                    // Type Table -- Display
-                    Toast.makeText(getApplicationContext(), "Type Table: ", Toast.LENGTH_LONG).show();
-                    key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_TYPE);
-                    for (int i = 1; i <= key; i++)
-                        Toast.makeText(MainMenuActivity.this, db.getTypeNameFromTypeTable(i), Toast.LENGTH_SHORT).show();
-
-                    // Period Table -- Display
-                    Toast.makeText(getApplicationContext(), "Period Table:", Toast.LENGTH_LONG).show();
-                    key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_PERIOD);
-                    for (int i = 1; i <= key; i++)
-                        Toast.makeText(MainMenuActivity.this, db.getPeriodLengthFromPeriodTable(i), Toast.LENGTH_SHORT).show();
-
-
 
                     // Goal Table -- Display
                     Toast.makeText(getApplicationContext(), "Goal Table:", Toast.LENGTH_LONG).show();

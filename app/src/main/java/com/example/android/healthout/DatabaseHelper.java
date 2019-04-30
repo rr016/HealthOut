@@ -107,9 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues cvApp = new ContentValues();
         cvApp.put(APP_NAME, "FitBit");
         database.insert(TABLE_APP, null, cvApp);
-        cvApp.put(APP_NAME, "App2");
-        database.insert(TABLE_APP, null, cvApp);
-        cvApp.put(APP_NAME, "App3");
+        cvApp.put(APP_NAME, "Google Fit");
         database.insert(TABLE_APP, null, cvApp);
 
         // Type Table -- preload data
@@ -572,7 +570,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return goalInfo;
     }
 
-    public long changeAppIdInGoalTable(long goal_id, String new_app_id){
+    public long changeAppIdInGoalTable(long goal_id, long new_app_id){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(APP_ID, new_app_id);
@@ -581,7 +579,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public long changeTypeIdInGoalTable(long goal_id, String new_type_id){
+    public long changeTypeIdInGoalTable(long goal_id, long new_type_id){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(TYPE_ID, new_type_id);
@@ -590,7 +588,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public long changePeriodIdInGoalTable(long goal_id, String new_period_id){
+    public long changePeriodIdInGoalTable(long goal_id, long new_period_id){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(PERIOD_ID, new_period_id);
@@ -602,6 +600,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public long changeTargetValueInGoalTable(long goal_id, String new_target_value){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
+        values.put(GOAL_TARGET_VALUE, new_target_value);
+        long result = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
+        db.close();
+        return result;
+    }
+
+    public long changeGoalInGoalTable(long goal_id, long new_app_id, long new_type_id, long new_period_id, String new_target_value){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(APP_ID, new_app_id);
+        values.put(TYPE_ID, new_type_id);
+        values.put(PERIOD_ID, new_period_id);
         values.put(GOAL_TARGET_VALUE, new_target_value);
         long result = db.update(TABLE_GOAL, values, GOAL_ID + "=" + goal_id, null);
         db.close();

@@ -64,6 +64,12 @@ public class EditGoalsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), "" + goalIdArray[position], Toast.LENGTH_LONG).show();
+                Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class);
+                Bundle extras = new Bundle();
+                extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
+                extras.putLong("goal_id", goalIdArray[position]);
+                moveToEditGoalDetail.putExtras(extras);
+                startActivity(moveToEditGoalDetail);
             }
         });
 
@@ -71,7 +77,11 @@ public class EditGoalsActivity extends AppCompatActivity {
         addNewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class).putExtra("user", user);
+                Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class);
+                Bundle extras = new Bundle();
+                extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
+                extras.putLong("goal_id", -1);
+                moveToEditGoalDetail.putExtras(extras);
                 startActivity(moveToEditGoalDetail);
             }
         });

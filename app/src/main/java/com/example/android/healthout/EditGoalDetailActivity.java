@@ -34,13 +34,17 @@ public class EditGoalDetailActivity extends AppCompatActivity {
     String sPeriod;
 
     User user;
+    long goal_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_detail);
 
-        user = (User)getIntent().getSerializableExtra("user");
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        user = (User)extras.getSerializable("user");
+        goal_id = extras.getLong("goal_id");
         db = new DatabaseHelper(this);
 
         appSpinner = findViewById(R.id.spinner_app);
@@ -62,14 +66,21 @@ public class EditGoalDetailActivity extends AppCompatActivity {
                 sTarget = targetEditText.getText().toString();
                 sPeriod = periodSpinner.getSelectedItem().toString();
 
-                db.addGoalToGoalTable(user.getUser_id(), db.getAppIdFromAppTable(sApp),
-                        db.getTypeIdFromTypeTable(sGoalType), db.getPeriodIdFromPeriodTable(sPeriod), sTarget);
+                if(goal_id < 0){ // new goal
+                    db.addGoalToGoalTable(user.getUser_id(), db.getAppIdFromAppTable(sApp),
+                            db.getTypeIdFromTypeTable(sGoalType), db.getPeriodIdFromPeriodTable(sPeriod), sTarget);
+                }
+                else{ // changing goal
+                    db.changeGoalInGoalTable(goal_id, db.getAppIdFromAppTable(sApp),
+                            db.getTypeIdFromTypeTable(sGoalType), db.getPeriodIdFromPeriodTable(sPeriod), sTarget);
+                }
 
-                user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id());
+                user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id()); // update goalList
 
                 Intent moveToEditGoals = new Intent(EditGoalDetailActivity.this, EditGoalsActivity.class).putExtra("user", user);
+                // Prevent user from returning to this page
+                moveToEditGoals.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(moveToEditGoals);
-                finish();
             }
         });
     }
