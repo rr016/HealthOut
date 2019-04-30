@@ -90,7 +90,7 @@ public class EditGoalDetailActivity extends AppCompatActivity {
             }
         });
 
-        // Click Apply Button
+        // Click Remove Button
         removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
