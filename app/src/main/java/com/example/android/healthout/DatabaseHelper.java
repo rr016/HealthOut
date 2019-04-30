@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.android.healthout.dataEntities.AppLog;
 import com.example.android.healthout.dataEntities.Goal;
+import com.example.android.healthout.dataEntities.ThirdPartyAppAndApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,8 +195,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public long getUserIdFromUserTable(String email, String password) {
-        String[] columns = {USER_ID};
         SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {USER_ID};
         String selection = USER_EMAIL + "=?" + " and " + USER_PASSWORD + "=?";
         String[] selectionArgs = {email, password};
         Cursor cursor = db.query(TABLE_USER, columns, selection, selectionArgs, null, null, null);
@@ -238,8 +240,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkUserInUserTable(String email, String password) {
-        String[] columns = {USER_ID};
         SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {USER_ID};
         String selection = USER_EMAIL + "=?" + " and " + USER_PASSWORD + "=?";
         String[] selectionArgs = {email, password};
         Cursor cursor = db.query(TABLE_USER, columns, selection, selectionArgs, null, null, null);
@@ -806,6 +808,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public List<ThirdPartyAppAndApi> getAppAndApiArrayListFromLogTable(long user_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<ThirdPartyAppAndApi> appAndApiArrayList = new ArrayList<ThirdPartyAppAndApi>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_API + " WHERE "
+                + USER_ID + " = " + user_id;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        while (cursor.moveToNext()){
+            ThirdPartyAppAndApi currentAppAndApi = new ThirdPartyAppAndApi();
+            currentAppAndApi.setApi_id(cursor.getLong(cursor.getColumnIndex(API_ID)));
+            currentAppAndApi.setApp_id(cursor.getLong(cursor.getColumnIndex(APP_ID)));
+            currentAppAndApi.setApp_name(cursor.getString(cursor.getColumnIndex(APP_NAME)));
+            currentAppAndApi.setRegistered(cursor.getInt(cursor.getColumnIndex(API_REGISTERED)) > 0);
+            currentAppAndApi.setApp_username(cursor.getString(cursor.getColumnIndex(API_USERNAME)));
+            currentAppAndApi.setApp_email(cursor.getString(cursor.getColumnIndex(API_EMAIL)));
+            currentAppAndApi.setApp_password(cursor.getString(cursor.getColumnIndex(API_PASSWORD)));
+            appAndApiArrayList.add(currentAppAndApi);
+        }
+
+        cursor.close();
+        return appAndApiArrayList;
+    }
+
     /*****************************************************************************************************************************/
     /**************************************************** Log Table    methods ***************************************************/
     /*****************************************************************************************************************************/
@@ -968,5 +994,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + getPulseFromFromLogTable(log_id) + ", " + getBloodPressureFromFromLogTable(log_id) + ", "
                 + getTimestampFromFromLogTable(log_id);
         return log_info;
+    }
+
+    public List<AppLog> getAppLogArrayListFromLogTable(long user_id, long app_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<AppLog> appLogArrayList = new ArrayList<AppLog>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + app_id;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        while (cursor.moveToNext()){
+            AppLog currentAppLog = new AppLog();
+            currentAppLog.setLog_id(cursor.getLong(cursor.getColumnIndex(LOG_ID)));
+            currentAppLog.setSteps_walked(cursor.getLong(cursor.getColumnIndex(LOG_STEPS_WALKED)));
+            currentAppLog.setMiles_walked(cursor.getDouble(cursor.getColumnIndex(LOG_MILES_WALKED)));
+            currentAppLog.setCalories_burned(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_BURNED)));
+            currentAppLog.setCalories_consumed(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_CONSUMED)));
+            currentAppLog.setPulse(cursor.getLong(cursor.getColumnIndex(LOG_PULSE)));
+            currentAppLog.setBlood_pressure(cursor.getString(cursor.getColumnIndex(LOG_BLOOD_PRESSURE)));
+            currentAppLog.setTimestamp(cursor.getLong(cursor.getColumnIndex(LOG_EPOCH_TIMESTAMP)));
+            appLogArrayList.add(currentAppLog);
+        }
+        cursor.close();
+        return appLogArrayList;
     }
 }

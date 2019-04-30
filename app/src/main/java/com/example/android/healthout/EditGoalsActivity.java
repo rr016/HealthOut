@@ -32,7 +32,6 @@ public class EditGoalsActivity extends AppCompatActivity {
 
     User user;
     String goalInfoArray[];
-    Long goalIdArray[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +48,10 @@ public class EditGoalsActivity extends AppCompatActivity {
 
         // Clickable ListView Goals
         goalInfoArray = new String[user.goalList.size()];
-        goalIdArray = new Long[user.goalList.size()];
 
         for(int i=0; i<goalInfoArray.length; i++){
             goalInfoArray[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   "
                     + user.goalList.get(i).getApp_name() + "   " + user.goalList.get(i).getTarget_value();
-            goalIdArray[i] = user.goalList.get(i).getGoal_id();
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalInfoArray);
         listView.setAdapter(adapter);
@@ -66,7 +63,7 @@ public class EditGoalsActivity extends AppCompatActivity {
                 Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class);
                 Bundle extras = new Bundle();
                 extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
-                extras.putLong("goal_id", goalIdArray[position]);
+                extras.putLong("goal_id", user.goalList.get(position).getGoal_id());
                 moveToEditGoalDetail.putExtras(extras);
                 startActivity(moveToEditGoalDetail);
             }
