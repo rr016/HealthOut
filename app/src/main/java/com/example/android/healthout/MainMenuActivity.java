@@ -28,7 +28,10 @@ public class MainMenuActivity extends AppCompatActivity {
     ListView listView;
 
     User user;
-    String goalInfoArray[];
+    String goalItem[];
+    String item_progress[];
+    String item_type[];
+    Integer imageID[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +46,51 @@ public class MainMenuActivity extends AppCompatActivity {
         editGoalsButton = findViewById(R.id.button_edit_goals);
         listView = findViewById(R.id.ListView_display_goals);
 
-        // Clickable ListView Goals
-        goalInfoArray = new String[user.goalList.size()];
+        // For Clickable ListView Goals
+        goalItem = new String[user.goalList.size()];
+        item_progress = new String[user.goalList.size()];
+        item_type = new String[user.goalList.size()];
+        imageID = new Integer[user.goalList.size()];
 
         if (user.goalList.size() < 1){
-            goalInfoArray = new String[] {"No goals created"};
+            goalItem = new String[] {"No goals created"};
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalInfoArray);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalItem);
             listView.setAdapter(adapter);
         }
         else{
-            for(int i=0; i<goalInfoArray.length; i++){
-                goalInfoArray[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   "
-                        + user.goalList.get(i).getApp_name() + "   " + user.goalList.get(i).getTarget_value();
-            }
+            for (int i = 0; i < goalItem.length; i++) {
+                if(user.goalList.get(i).getProgress() == null)
+                    item_progress[i] = "[progress]";
+                else
+                    item_progress[i] = user.goalList.get(i).getProgress();
+                item_type[i] = user.goalList.get(i).getType_name();
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalInfoArray);
+                switch(user.goalList.get(i).getType_name()) {
+                    case "Steps Walked":
+                        imageID[i] = R.drawable.icon_goaltype_steps;
+                        break;
+                    case "Miles Walked":
+                        imageID[i] = R.drawable.icon_goaltype_steps;
+                        break;
+                    case "Calories Burned":
+                        imageID[i] = R.drawable.icon_goaltype_calories_burned;
+                        break;
+                    case "Calories Consumed":
+                        imageID[i] = R.drawable.icon_goaltype_calories_consumed;
+                        break;
+                    case "Pulse":
+                        imageID[i] = R.drawable.icon_goaltype_pulse;
+                        break;
+                    case "Blood Pressure":
+                        imageID[i] = R.drawable.icon_goaltype_blood_pressure;
+                        break;
+                    default:
+                        imageID[i] = R.drawable.icon_delete_account;
+                        break;
+                }
+            }
+            CustomListMainMenu adapter = new CustomListMainMenu(MainMenuActivity.this, item_progress, item_type, imageID);
             listView.setAdapter(adapter);
 
             // Click a Goal

@@ -49,7 +49,7 @@ public class EditGoalDetailActivity extends AppCompatActivity {
         Bundle extras = intent.getExtras();
         user = (User)extras.getSerializable("user");
         goal_id = extras.getLong("goal_id");
-        position_index = extras.getInt("position_indec");
+        position_index = extras.getInt("position_index");
 
         appSpinner = findViewById(R.id.spinner_app);
         goalTypeSpinner = findViewById(R.id.spinner_goal_type);
@@ -74,7 +74,7 @@ public class EditGoalDetailActivity extends AppCompatActivity {
             periodSpinner.setSelection(temp);
         }
 
-        Toast.makeText(getApplicationContext(), "" + goal_id, Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "" + position_index, Toast.LENGTH_LONG).show();
 
         // Click Apply Button
         applyButton.setOnClickListener(new View.OnClickListener() {
@@ -85,21 +85,28 @@ public class EditGoalDetailActivity extends AppCompatActivity {
                 sTarget = targetEditText.getText().toString();
                 sPeriod = periodSpinner.getSelectedItem().toString();
 
-                if(goal_id < 0){ // new goal
-                    db.addGoalToGoalTable(user.getUser_id(), db.getAppIdFromAppTable(sApp),
-                            db.getTypeIdFromTypeTable(sGoalType), db.getPeriodIdFromPeriodTable(sPeriod), sTarget);
+                if(sTarget.isEmpty() || sTarget.equals("") || sTarget.matches(".*[a-z].*")){
+                    Toast.makeText(getApplicationContext(), "Target field error!", Toast.LENGTH_LONG).show();
                 }
-                else{ // changing goal
-                    db.changeGoalInGoalTable(goal_id, db.getAppIdFromAppTable(sApp),
-                            db.getTypeIdFromTypeTable(sGoalType), db.getPeriodIdFromPeriodTable(sPeriod), sTarget);
+                else {
+                    if(goal_id < 0){
+                        // new goal
+                        db.addGoalToGoalTable(user.getUser_id(), db.getAppIdFromAppTable(sApp),
+                                db.getTypeIdFromTypeTable(sGoalType), db.getPeriodIdFromPeriodTable(sPeriod), sTarget);
+                    }
+                    else{
+                        // changing goal
+                        db.changeGoalInGoalTable(goal_id, db.getAppIdFromAppTable(sApp),
+                                db.getTypeIdFromTypeTable(sGoalType), db.getPeriodIdFromPeriodTable(sPeriod), sTarget);
+                    }
+
+                    user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id()); // update goalList
+
+                    Intent moveToEditGoals = new Intent(EditGoalDetailActivity.this, EditGoalsActivity.class).putExtra("user", user);
+                    // Prevent user from returning to this page
+                    moveToEditGoals.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(moveToEditGoals);
                 }
-
-                user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id()); // update goalList
-
-                Intent moveToEditGoals = new Intent(EditGoalDetailActivity.this, EditGoalsActivity.class).putExtra("user", user);
-                // Prevent user from returning to this page
-                moveToEditGoals.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(moveToEditGoals);
             }
         });
 
@@ -107,14 +114,25 @@ public class EditGoalDetailActivity extends AppCompatActivity {
         removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.deleteGoalFromUserTable(goal_id);
+                new AlertDialog.Builder(removeButton.getContext())
+                        .setTitle("Confirm Remove")
+                        .setMessage("Are you sure you want to remove this goal?")
+                        .setPositiveButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
 
-                user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id()); // update goalList
+                            }
+                        }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
 
-                Intent moveToEditGoals = new Intent(EditGoalDetailActivity.this, EditGoalsActivity.class).putExtra("user", user);
-                // Prevent user from returning to this page
-                moveToEditGoals.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(moveToEditGoals);
+                        db.deleteGoalFromUserTable(goal_id);
+                        user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id()); // update goalList
+
+                        Intent moveToEditGoals = new Intent(EditGoalDetailActivity.this, EditGoalsActivity.class).putExtra("user", user);
+                        // Prevent user from returning to this page
+                        moveToEditGoals.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(moveToEditGoals);
+                    }
+                }).setIcon(android.R.drawable.ic_dialog_alert).show();
             }
         });
     }

@@ -15,13 +15,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.healthout.dataEntities.User;
-
-import java.util.List;
 
 public class EditGoalsActivity extends AppCompatActivity {
     DatabaseHelper db;
@@ -31,8 +27,11 @@ public class EditGoalsActivity extends AppCompatActivity {
     LayoutInflater inflater;
 
     User user;
-    String goalItem1[];
-    String goalItem2[];
+    String goalItem[];
+    String item_type[];
+    String item_period[];
+    String item_app[];
+    Integer imageID[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,44 +45,67 @@ public class EditGoalsActivity extends AppCompatActivity {
         listView = findViewById(R.id.ListView_edit_goals);
         inflater =  (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        // Clickable ListView Goals
-        goalItem1 = new String[user.goalList.size()];
-        goalItem2 = new String[user.goalList.size()];
+        // For Clickable ListView Goals
+        goalItem = new String[user.goalList.size()];
+        item_type = new String[user.goalList.size()];
+        item_period = new String[user.goalList.size()];
+        item_app = new String[user.goalList.size()];
+        imageID = new Integer[user.goalList.size()];
 
 
         if (user.goalList.size() < 1){
-            goalItem1 = new String[] {"No goals created"};
-         //   goalItem2 = new String[] {"Click Add New"};
+            goalItem = new String[] {"No goals created"};
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalItem1);
-            //   ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, goalItem2);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalItem);
             listView.setAdapter(adapter);
         }
         else {
-            for (int i = 0; i < goalItem1.length; i++) {
-                goalItem1[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length()
-                        + "   " + user.goalList.get(i).getTarget_value();
+            for (int i = 0; i < goalItem.length; i++) {
+                item_type[i] = user.goalList.get(i).getType_name();
+                item_period[i] = user.goalList.get(i).getPeriod_length();
+                item_app[i] = user.goalList.get(i).getApp_name();
 
-            //    goalItem2[i] = user.goalList.get(i).getApp_name();
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalItem1);
-                //   ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, goalItem2);
-                listView.setAdapter(adapter);
-
-                // Click a Goal
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class);
-                        Bundle extras = new Bundle();
-                        extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
-                        extras.putLong("goal_id", user.goalList.get(position).getGoal_id());
-                        extras.putLong("position_index", position);
-                        moveToEditGoalDetail.putExtras(extras);
-                        startActivity(moveToEditGoalDetail);
-                    }
-                });
+                switch(user.goalList.get(i).getType_name()) {
+                    case "Steps Walked":
+                        imageID[i] = R.drawable.icon_goaltype_steps;
+                        break;
+                    case "Miles Walked":
+                        imageID[i] = R.drawable.icon_goaltype_steps;
+                        break;
+                    case "Calories Burned":
+                        imageID[i] = R.drawable.icon_goaltype_calories_burned;
+                        break;
+                    case "Calories Consumed":
+                        imageID[i] = R.drawable.icon_goaltype_calories_consumed;
+                        break;
+                    case "Pulse":
+                        imageID[i] = R.drawable.icon_goaltype_pulse;
+                        break;
+                    case "Blood Pressure":
+                        imageID[i] = R.drawable.icon_goaltype_blood_pressure;
+                        break;
+                    default:
+                        imageID[i] = R.drawable.icon_delete_account;
+                        break;
+                }
             }
+
+            CustomListEditGoals adapter = new CustomListEditGoals(EditGoalsActivity.this, item_type, item_period, item_app, imageID);
+            listView.setAdapter(adapter);
+
+            // Click a Goal
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class);
+                    Bundle extras = new Bundle();
+                    extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
+                    extras.putLong("goal_id", user.goalList.get(position).getGoal_id());
+                    extras.putInt("position_index", position);
+                    moveToEditGoalDetail.putExtras(extras);
+                    startActivity(moveToEditGoalDetail);
+                }
+            });
         }
 
         // Click Add New Goal

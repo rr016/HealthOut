@@ -12,7 +12,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/image_goal_icon"
+            android:id="@+id/image_main_menu_icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:srcCompat="@mipmap/icon_healthout" />
@@ -24,42 +24,36 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textview_goaltype_goal"
+                    android:id="@+id/textview_progress_main_menu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
                     android:layout_marginLeft="10dp"
-                    android:text="Goal type"
-                    android:textColor="@color/colorBlack"
+                    android:text="Progress"
+                    android:textColor="@color/colorRed"
                     android:textSize="24sp" />
 
                 <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="0" />
 
                 <TextView
-                    android:id="@+id/textview_period_goal"
+                    android:id="@+id/textview_goaltype_main_menu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:text="Period"
+                    android:text="Goaltype"
                     android:textColor="@color/colorBlack"
-                    android:textSize="20sp" />
+                    android:textSize="24sp"
+                    android:layout_marginVertical="10dp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textview_appname_goal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="App used"
-                android:textColor="@color/colorGrey"
-                android:textSize="20sp" />
         </LinearLayout>
 
     </LinearLayout>
