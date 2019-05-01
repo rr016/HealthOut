@@ -43,32 +43,17 @@
         app:srcCompat="?attr/colorAccent" />
 
     <Button
-        android:id="@+id/button_remove"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/colorBlack"
-        android:fontFamily="Arial"
-        android:text="Remove"
-        android:textColor="@color/colorWhite"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView" />
-
-    <Button
         android:id="@+id/button_add_new"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/colorWhite"
+        android:background="@color/colorRed"
         android:text="Add new"
-        android:textColor="@color/colorBlack"
-        android:textSize="15dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView" />
 
 </android.support.constraint.ConstraintLayout>

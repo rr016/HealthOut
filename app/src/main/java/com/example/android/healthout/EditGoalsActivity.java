@@ -25,7 +25,6 @@ import java.util.List;
 public class EditGoalsActivity extends AppCompatActivity {
     DatabaseHelper db;
 
-    Button removeButton;
     Button addNewButton;
     ListView listView;
     LayoutInflater inflater;
@@ -41,7 +40,6 @@ public class EditGoalsActivity extends AppCompatActivity {
         user = (User)getIntent().getSerializableExtra("user");
         db = new DatabaseHelper(this);
 
-        removeButton = findViewById(R.id.button_remove);
         addNewButton = findViewById(R.id.button_add_new);
         listView = findViewById(R.id.ListView_edit_goals);
         inflater =  (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -79,14 +77,6 @@ public class EditGoalsActivity extends AppCompatActivity {
                 extras.putLong("goal_id", -1);
                 moveToEditGoalDetail.putExtras(extras);
                 startActivity(moveToEditGoalDetail);
-            }
-        });
-
-        // Click Remove Button
-        removeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Remove Clicked!", Toast.LENGTH_LONG).show();
             }
         });
     }

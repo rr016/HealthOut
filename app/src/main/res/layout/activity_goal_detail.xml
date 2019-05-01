@@ -10,33 +10,34 @@
         android:id="@+id/button_apply_goal"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="32dp"
         android:background="@color/colorRed"
         android:fontFamily="Arial"
         android:text="Apply"
         android:textColor="@color/colorWhite"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
     <Button
         android:id="@+id/button_remove_goal"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="84dp"
-        android:background="@color/colorRed"
+        android:layout_marginTop="32dp"
+        android:background="@color/colorBlack"
         android:fontFamily="Arial"
         android:text="Remove"
         android:textColor="@color/colorWhite"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        android:visibility="invisible"/>
+        app:layout_constraintTop_toBottomOf="@+id/button_apply_goal" />
 
     <TextView
         android:id="@+id/textView4"
@@ -131,6 +132,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -151,7 +153,7 @@
             android:id="@+id/spinner_period"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:entries="@array/Period"/>
+            android:entries="@array/Period" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
