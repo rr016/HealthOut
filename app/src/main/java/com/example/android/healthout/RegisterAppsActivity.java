@@ -2,6 +2,7 @@ package com.example.android.healthout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,12 @@ public class RegisterAppsActivity extends AppCompatActivity {
 
         user = (User)getIntent().getSerializableExtra("user");
         db = new DatabaseHelper(this);
+
+        // Log Table -- Display
+        Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
+        long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_LOG);
+        for (long i = 1; i <= key; i++)
+            Toast.makeText(RegisterAppsActivity.this, "" + db.getDateFromLogTable(i), Toast.LENGTH_SHORT).show();
     }
 
     /************************ MENU BAR ************************/

@@ -148,18 +148,18 @@ public class MainMenuActivity extends AppCompatActivity {
                     }
                     */
 
-                    db.addLogToLogTable(1,1, 143,0.1, 20, 0, 86, "135/90");
-                    db.addLogToLogTable(1, 1, 375, 0.2, 43, 0, 86, "128/93");
-                    db.addLogToLogTable(1, 1, 791, 0.4, 77, 350, 85, "122/93");
-                    db.addLogToLogTable(1,1, 1033, 0.6, 95, 350, 87, "127/90");
-                    db.addLogToLogTable(1, 1, 1598, 0.9, 122, 350, 89, "131/85");
-                    db.addLogToLogTable(1, 1, 1954, 1.3, 146, 790, 85, "130/97");
-                    db.addLogToLogTable(1, 1, 2201, 1.6, 172, 790, 90, "125/87");
-                    db.addLogToLogTable(1, 1, 2504, 1.8, 190, 790, 87, "124/84");
-                    db.addLogToLogTable(1, 1, 3079, 2.3, 238, 1601, 92, "132/85");
-                    db.addLogToLogTable(1, 1, 3734, 2.8, 276, 1601, 85, "124/83");
-                    db.addLogToLogTable(1, 1, 4300, 3.1, 301, 1601, 86, "125/84");
-                    Long test =  db.addLogToLogTable(1, 1, 4441, 3.2, 311, 2234, 86, "127/89");
+                    db.addLogToLogTable(1,1, 143,0.1, 20, 0, 86, "135/90", "2019-04-30");
+                    db.addLogToLogTable(1, 1, 375, 0.2, 43, 0, 86, "128/93", "2019-04-30");
+                    db.addLogToLogTable(1, 1, 791, 0.4, 77, 350, 85, "122/93", "2019-04-30");
+                    db.addLogToLogTable(1,1, 1033, 0.6, 95, 350, 87, "127/90", "2019-04-30");
+                    db.addLogToLogTable(1, 1, 1598, 0.9, 122, 350, 89, "131/85", "2019-04-30");
+                    db.addLogToLogTable(1, 1, 1954, 1.3, 146, 790, 85, "130/97", "2019-04-30");
+                    db.addLogToLogTable(1, 1, 2201, 1.6, 172, 790, 90, "125/87", "2019-04-30");
+                    db.addLogToLogTable(1, 1, 2504, 1.8, 190, 790, 87, "124/84", "2019-04-30");
+                    db.addLogToLogTable(1, 1, 3079, 2.3, 238, 1601, 92, "132/85", "2019-04-30");
+                    db.addLogToLogTable(1, 1, 3734, 2.8, 276, 1601, 85, "124/83", "2019-04-30");
+                    db.addLogToLogTable(1, 1, 4300, 3.1, 301, 1601, 86, "125/84", "2019-04-30");
+                    Long test =  db.addLogToLogTable(1, 1, 4441, 3.2, 311, 2234, 86, "127/89", "2019-04-30");
                     if(test > 0){
                         Toast.makeText(MainMenuActivity.this,"Data Added", Toast.LENGTH_SHORT).show();
                     }
@@ -214,7 +214,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
                     */
                 }
-                Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG).show();
             }
         });
 
