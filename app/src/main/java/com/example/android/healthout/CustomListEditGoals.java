@@ -18,14 +18,16 @@ public class CustomListEditGoals extends ArrayAdapter<String> {
     private final String[] web;
     private final String[] web2;
     private final String[] web3;
+    private final String[] web4;
     private final Integer[] imageId;
 
-    public CustomListEditGoals(Activity context, String[] web, String[] web2, String[] web3, Integer[] imageId) {
+    public CustomListEditGoals(Activity context, String[] web, String[] web2, String[] web3, String[] web4, Integer[] imageId) {
         super(context, R.layout.goal_item, web);
         this.context = context;
         this.web = web;
         this.web2 = web2;
         this.web3 = web3;
+        this.web4 = web4;
         this.imageId = imageId;
     }
 
@@ -37,11 +39,13 @@ public class CustomListEditGoals extends ArrayAdapter<String> {
         TextView textViewType = rowView.findViewById(R.id.textview_goaltype_goal);
         TextView textViewPeriod = rowView.findViewById(R.id.textview_period_goal);
         TextView textViewApp = rowView.findViewById(R.id.textview_appname_goal);
+        TextView textViewTarget = rowView.findViewById(R.id.textView_target_goal);
         ImageView imageView = rowView.findViewById(R.id.image_goal_icon);
 
         textViewType.setText(web[position]);
         textViewPeriod.setText(web2[position]);
         textViewApp.setText(web3[position]);
+        textViewTarget.setText(web4[position]);
         imageView.setImageResource(imageId[position]);
 
         return rowView;

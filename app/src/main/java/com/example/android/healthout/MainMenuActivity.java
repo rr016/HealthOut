@@ -29,8 +29,11 @@ public class MainMenuActivity extends AppCompatActivity {
 
     User user;
     String goalItem[];
-    String item_progress[];
     String item_type[];
+    String item_app[];
+    String item_period[];
+    String item_target[];
+    String item_progress[];
     Integer imageID[];
 
     @Override
@@ -48,8 +51,11 @@ public class MainMenuActivity extends AppCompatActivity {
 
         // For Clickable ListView Goals
         goalItem = new String[user.goalList.size()];
-        item_progress = new String[user.goalList.size()];
         item_type = new String[user.goalList.size()];
+        item_app = new String[user.goalList.size()];
+        item_period = new String[user.goalList.size()];
+        item_target = new String[user.goalList.size()];
+        item_progress = new String[user.goalList.size()];
         imageID = new Integer[user.goalList.size()];
 
         if (user.goalList.size() < 1){
@@ -60,11 +66,14 @@ public class MainMenuActivity extends AppCompatActivity {
         }
         else{
             for (int i = 0; i < goalItem.length; i++) {
+                item_type[i] = user.goalList.get(i).getType_name();
+                item_app[i] = user.goalList.get(i).getApp_name();
+                item_period[i] = user.goalList.get(i).getPeriod_length();
+                item_target[i] = user.goalList.get(i).getTarget_value();
                 if(user.goalList.get(i).getProgress() == null)
-                    item_progress[i] = "[progress]";
+                    item_progress[i] = "[prog]";
                 else
                     item_progress[i] = user.goalList.get(i).getProgress();
-                item_type[i] = user.goalList.get(i).getType_name();
 
                 switch(user.goalList.get(i).getType_name()) {
                     case "Steps Walked":
@@ -90,7 +99,8 @@ public class MainMenuActivity extends AppCompatActivity {
                         break;
                 }
             }
-            CustomListMainMenu adapter = new CustomListMainMenu(MainMenuActivity.this, item_progress, item_type, imageID);
+            CustomListMainMenu adapter = new CustomListMainMenu(MainMenuActivity.this,
+                    item_type, item_app, item_period, item_target, item_progress, imageID);
             listView.setAdapter(adapter);
 
             // Click a Goal
@@ -117,16 +127,6 @@ public class MainMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (dataAdded == false){
                     /*
-                    // Goal Table -- add data
-                    db.addGoalToGoalTable(1, 1, 1, 1, "5000");
-                    db.addGoalToGoalTable(2,2,4,2, "10000");
-                    db.addGoalToGoalTable(1,1,2,3,"30");
-                    db.addGoalToGoalTable(3,2,3,2,"1200");
-                    db.addGoalToGoalTable(3,1,2,4,"30000");
-                    db.addGoalToGoalTable(2,1,6,1,"120/80");
-                    db.addGoalToGoalTable(3,2,1,4,"1000000");
-                    db.addGoalToGoalTable(1,2,5,1,"80");
-
                     // API Table -- add data
                     db.addApiToApiTable(1, 1, true, "N/A", "Alex@gmail.com", "AlexIsDaMan2");
                     db.addApiToApiTable(1, 2, true, "KingAlex90", "Alex@gmail.com", "AlexIsTooFly45");
@@ -139,13 +139,6 @@ public class MainMenuActivity extends AppCompatActivity {
                     db.addLogToLogTable(3, 1, 9786, 6.2, 1003, 2340, 86, "128/93");
                     db.addLogToLogTable(3, 2, 2010, 1.3, 300, 1650, 85, "122/93");
                     db.addLogToLogTable(1,2, 1032, 0.7, 197, 0, 0, null);
-                    Long test = db.addLogToLogTable(1, 2, 2144, 1.6, 321, 535, 90, "131/85");
-                    if(test > 0){
-                        Toast.makeText(MainMenuActivity.this,"Data Added", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(MainMenuActivity.this,"Error", Toast.LENGTH_SHORT).show();
-                    }
                     */
 
                     db.addLogToLogTable(1,1, 143,0.1, 20, 0, 86, "135/90");

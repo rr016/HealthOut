@@ -18,43 +18,70 @@
             app:srcCompat="@mipmap/icon_healthout" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/textView_goaltype_main_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Goaltype"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView_appname_main_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="App used"
+                android:textColor="@color/colorGrey"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_period_main_menu"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:text="Period"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/textview_progress_main_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="Progress"
-                    android:textColor="@color/colorRed"
-                    android:textSize="24sp" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0" />
-
-                <TextView
-                    android:id="@+id/textview_goaltype_main_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="Goaltype"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="24sp"
-                    android:layout_marginVertical="10dp" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/textView_target_main_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Target"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
         </LinearLayout>
+
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/textView_progress_main_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="right"
+            android:text="Progress"
+            android:textColor="@color/colorRed"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
