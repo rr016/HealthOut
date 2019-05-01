@@ -1001,7 +1001,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<AppLog> appLogArrayList = new ArrayList<AppLog>();
 
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
-                + USER_ID + " = " + user_id + " and " + APP_ID + app_id;
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
 
         Cursor cursor = db.rawQuery(selectQuery, null);
         while (cursor.moveToNext()){

@@ -46,10 +46,16 @@ public class MainMenuActivity extends AppCompatActivity {
         // Clickable ListView Goals
         goalInfoArray = new String[user.goalList.size()];
 
-        for(int i=0; i<goalInfoArray.length; i++){
-            goalInfoArray[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   "
-                    + user.goalList.get(i).getApp_name() + "   " + user.goalList.get(i).getTarget_value();
+        if (user.goalList.size() < 1){
+            goalInfoArray[0] = "No goals created";
         }
+        else{
+            for(int i=0; i<goalInfoArray.length; i++){
+                goalInfoArray[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   "
+                        + user.goalList.get(i).getApp_name() + "   " + user.goalList.get(i).getTarget_value();
+            }
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalInfoArray);
         listView.setAdapter(adapter);
 
@@ -63,6 +69,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
                 extras.putLong("app_id", user.goalList.get(position).getApp_id());
                 extras.putLong("type_id", user.goalList.get(position).getType_id());
+                extras.putLong("period_id", user.goalList.get(position).getPeriod_id());
+                extras.putString("target_value", user.goalList.get(position).getTarget_value());
                 moveToGraph.putExtras(extras);
                 startActivity(moveToGraph);
             }
