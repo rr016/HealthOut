@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,8 @@ public class EditGoalsActivity extends AppCompatActivity {
     LayoutInflater inflater;
 
     User user;
-    String goalInfoArray[];
+    String goalItem1[];
+    String goalItem2[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,27 +47,44 @@ public class EditGoalsActivity extends AppCompatActivity {
         inflater =  (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // Clickable ListView Goals
-        goalInfoArray = new String[user.goalList.size()];
+        goalItem1 = new String[user.goalList.size()];
+        goalItem2 = new String[user.goalList.size()];
 
-        for(int i=0; i<goalInfoArray.length; i++){
-            goalInfoArray[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   "
-                    + user.goalList.get(i).getApp_name() + "   " + user.goalList.get(i).getTarget_value();
+
+        if (user.goalList.size() < 1){
+            goalItem1 = new String[] {"No goals created"};
+         //   goalItem2 = new String[] {"Click Add New"};
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalItem1);
+            //   ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, goalItem2);
+            listView.setAdapter(adapter);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalInfoArray);
-        listView.setAdapter(adapter);
+        else {
+            for (int i = 0; i < goalItem1.length; i++) {
+                goalItem1[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length()
+                        + "   " + user.goalList.get(i).getTarget_value();
 
-        // Click a Goal
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class);
-                Bundle extras = new Bundle();
-                extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
-                extras.putLong("goal_id", user.goalList.get(position).getGoal_id());
-                moveToEditGoalDetail.putExtras(extras);
-                startActivity(moveToEditGoalDetail);
+            //    goalItem2[i] = user.goalList.get(i).getApp_name();
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalItem1);
+                //   ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, goalItem2);
+                listView.setAdapter(adapter);
+
+                // Click a Goal
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class);
+                        Bundle extras = new Bundle();
+                        extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
+                        extras.putLong("goal_id", user.goalList.get(position).getGoal_id());
+                        extras.putLong("position_index", position);
+                        moveToEditGoalDetail.putExtras(extras);
+                        startActivity(moveToEditGoalDetail);
+                    }
+                });
             }
-        });
+        }
 
         // Click Add New Goal
         addNewButton.setOnClickListener(new View.OnClickListener() {

@@ -2,6 +2,7 @@ package com.example.android.healthout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AlertDialog;
@@ -11,10 +12,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.android.healthout.dataEntities.AppLog;
 import com.example.android.healthout.dataEntities.User;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GraphActivity extends AppCompatActivity {
     DatabaseHelper db;
@@ -22,8 +28,13 @@ public class GraphActivity extends AppCompatActivity {
     User user;
     long app_id;
     long type_id;
+    long period_id;
+    String target_value;
 
-    LineGraphSeries<DataPoint> series;
+    public List<AppLog> appLog = new ArrayList<AppLog>();
+
+    LineGraphSeries<DataPoint> logDataLine;
+    LineGraphSeries<DataPoint> targetValueLine;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,20 +48,67 @@ public class GraphActivity extends AppCompatActivity {
         user = (User)extras.getSerializable("user");
         app_id = extras.getLong("app_id");
         type_id = extras.getLong("type_id");
+        period_id = extras.getLong("period_id");
+        target_value = extras.getString("target_value");
 
-        double y, x;
-        x = -5.0;
+        appLog = db.getAppLogArrayListFromLogTable(user.getUser_id(), app_id);
+
+        int entries = appLog.size();
+
+        long dataLong = -1;
+        double dataDouble = -1.0;
+        String dataString = null;
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
-        series = new LineGraphSeries<DataPoint>();
-        for(int i = 0; i < 500; i++){
-            x = x + 0.1;
-            y = Math.sin(x);
-            series.appendData(new DataPoint(x, y), true, 500);
-        }
-        graph.addSeries(series);
+        logDataLine = new LineGraphSeries<DataPoint>();
+        targetValueLine = new LineGraphSeries<DataPoint>();
+        for(int i = 0; i < entries; i++){
+            switch ((int)type_id){
+                case 1:
+                    dataLong = appLog.get(i).getSteps_walked();
+                    break;
+                case 2:
+                    dataDouble = appLog.get(i).getMiles_walked();
+                    break;
+                case 3:
+                    dataLong = appLog.get(i).getCalories_burned();
+                    break;
+                case 4:
+                    dataLong = appLog.get(i).getCalories_consumed();
+                    break;
+                case 5:
+                    dataLong = appLog.get(i).getPulse();
+                    break;
+                case 6:
+                    dataString = appLog.get(i).getBlood_pressure();
+                    break;
+            }
 
-        Toast.makeText(getApplicationContext(), "" + app_id + "; " + type_id, Toast.LENGTH_LONG).show();
+            if (type_id == 1 || (type_id >=3 && type_id <=5))
+                logDataLine.appendData(new DataPoint(i, dataLong), true, entries);
+            else if (type_id == 2)
+                logDataLine.appendData(new DataPoint(i, dataDouble), true, entries);
+            else if (type_id == 6)
+                logDataLine.appendData(new DataPoint(i, Long.valueOf(dataString)), true, entries);
+
+            targetValueLine.appendData(new DataPoint(i, Integer.valueOf(target_value)), true, entries); // striaght line at target value
+        }
+
+        GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
+        if (type_id == 1){
+            gridLabel.setHorizontalAxisTitle("Days");
+            gridLabel.setVerticalAxisTitle("Steps Walked");
+        }
+        if (type_id == 1){
+            gridLabel.setHorizontalAxisTitle("Days");
+            gridLabel.setVerticalAxisTitle("Steps Walked");
+        }
+
+        targetValueLine.setColor(Color.rgb(255, 0, 0));
+        graph.addSeries(logDataLine);
+        graph.addSeries(targetValueLine);
+
+        Toast.makeText(getApplicationContext(), "" + Integer.valueOf(target_value), Toast.LENGTH_LONG).show();
     }
 
     /************************ MENU BAR ************************/

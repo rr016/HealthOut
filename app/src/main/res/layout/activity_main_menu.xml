@@ -66,7 +66,7 @@
         android:layout_marginStart="1dp"
         android:background="@color/colorRed"
         android:fontFamily="Arial"
-        android:text="Edit Goals"
+        android:text="Manage Goals"
         android:textColor="@color/colorWhite"
         android:textSize="20dp"
         android:textStyle="bold"

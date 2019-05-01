@@ -46,27 +46,38 @@ public class MainMenuActivity extends AppCompatActivity {
         // Clickable ListView Goals
         goalInfoArray = new String[user.goalList.size()];
 
-        for(int i=0; i<goalInfoArray.length; i++){
-            goalInfoArray[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   "
-                    + user.goalList.get(i).getApp_name() + "   " + user.goalList.get(i).getTarget_value();
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalInfoArray);
-        listView.setAdapter(adapter);
+        if (user.goalList.size() < 1){
+            goalInfoArray = new String[] {"No goals created"};
 
-        // Click a Goal
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getApplicationContext(), goalInfoArray[position], Toast.LENGTH_LONG).show();
-                Intent moveToGraph = new Intent(MainMenuActivity.this, GraphActivity.class);
-                Bundle extras = new Bundle();
-                extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
-                extras.putLong("app_id", user.goalList.get(position).getApp_id());
-                extras.putLong("type_id", user.goalList.get(position).getType_id());
-                moveToGraph.putExtras(extras);
-                startActivity(moveToGraph);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalInfoArray);
+            listView.setAdapter(adapter);
+        }
+        else{
+            for(int i=0; i<goalInfoArray.length; i++){
+                goalInfoArray[i] = user.goalList.get(i).getType_name() + "   " + user.goalList.get(i).getPeriod_length() + "   "
+                        + user.goalList.get(i).getApp_name() + "   " + user.goalList.get(i).getTarget_value();
             }
-        });
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goalInfoArray);
+            listView.setAdapter(adapter);
+
+            // Click a Goal
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //Toast.makeText(getApplicationContext(), goalInfoArray[position], Toast.LENGTH_LONG).show();
+                    Intent moveToGraph = new Intent(MainMenuActivity.this, GraphActivity.class);
+                    Bundle extras = new Bundle();
+                    extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
+                    extras.putLong("app_id", user.goalList.get(position).getApp_id());
+                    extras.putLong("type_id", user.goalList.get(position).getType_id());
+                    extras.putLong("period_id", user.goalList.get(position).getPeriod_id());
+                    extras.putString("target_value", user.goalList.get(position).getTarget_value());
+                    moveToGraph.putExtras(extras);
+                    startActivity(moveToGraph);
+                }
+            });
+        }
 
         // Click Update Button
         updateButton.setOnClickListener(new View.OnClickListener() {

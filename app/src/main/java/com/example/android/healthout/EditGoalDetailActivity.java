@@ -25,6 +25,7 @@ public class EditGoalDetailActivity extends AppCompatActivity {
 
     User user;
     long goal_id;
+    int position_index;
 
     Spinner appSpinner;
     Spinner goalTypeSpinner;
@@ -48,6 +49,7 @@ public class EditGoalDetailActivity extends AppCompatActivity {
         Bundle extras = intent.getExtras();
         user = (User)extras.getSerializable("user");
         goal_id = extras.getLong("goal_id");
+        position_index = extras.getInt("position_indec");
 
         appSpinner = findViewById(R.id.spinner_app);
         goalTypeSpinner = findViewById(R.id.spinner_goal_type);
@@ -56,13 +58,21 @@ public class EditGoalDetailActivity extends AppCompatActivity {
         applyButton = findViewById(R.id.button_apply_goal);
         removeButton = findViewById(R.id.button_remove_goal);
 
-        if (goal_id > 0){
-            removeButton.setVisibility(View.VISIBLE);
-        }
-
         loadAppSpinnerData();
         loadGoalTypeSpinnerData();
         loadPeriodSpinnerData();
+
+        if (goal_id > 0){
+            removeButton.setVisibility(View.VISIBLE);
+
+            int temp = (int) user.goalList.get(position_index).getApp_id()-1;
+            appSpinner.setSelection(temp);
+            temp = (int) user.goalList.get(position_index).getType_id()-1;
+            goalTypeSpinner.setSelection(temp);
+            targetEditText.setText(user.goalList.get(position_index).getTarget_value());
+            temp = (int) user.goalList.get(position_index).getPeriod_id()-1;
+            periodSpinner.setSelection(temp);
+        }
 
         Toast.makeText(getApplicationContext(), "" + goal_id, Toast.LENGTH_LONG).show();
 
