@@ -100,7 +100,7 @@ public class EditGoalDetailActivity extends AppCompatActivity {
                                 db.getTypeIdFromTypeTable(sGoalType), db.getPeriodIdFromPeriodTable(sPeriod), sTarget);
                     }
 
-                    user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id()); // update goalList
+                    user.goalList = db.getGoalListFromGoalTable(user.getUser_id()); // update goalList
 
                     Intent moveToEditGoals = new Intent(EditGoalDetailActivity.this, EditGoalsActivity.class).putExtra("user", user);
                     // Prevent user from returning to this page
@@ -125,7 +125,7 @@ public class EditGoalDetailActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         db.deleteGoalFromUserTable(goal_id);
-                        user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id()); // update goalList
+                        user.goalList = db.getGoalListFromGoalTable(user.getUser_id()); // update goalList
 
                         Intent moveToEditGoals = new Intent(EditGoalDetailActivity.this, EditGoalsActivity.class).putExtra("user", user);
                         // Prevent user from returning to this page

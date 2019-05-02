@@ -15,19 +15,28 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.android.healthout.dataEntities.AppLog;
 import com.example.android.healthout.dataEntities.User;
 
-public class MainMenuActivity extends AppCompatActivity {
-    Boolean dataAdded = false; // Used for testing if databases work
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
+public class MainMenuActivity extends AppCompatActivity {
     DatabaseHelper db;
+
+    User user;
+    AppLog fitbitAppLog = new AppLog();
+    AppLog googleFitAppLog = new AppLog();
 
     Button updateButton;
     Button registerAppsButton;
     Button editGoalsButton;
     ListView listView;
 
-    User user;
     String goalItem[];
     String item_type[];
     String item_app[];
@@ -41,8 +50,14 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        user = (User)getIntent().getSerializableExtra("user");
         db = new DatabaseHelper(this);
+
+        user = (User)getIntent().getSerializableExtra("user");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(new Date());
+        fitbitAppLog = db.getAppLogFromLogTable(user.getUser_id(), 1, date);
+        googleFitAppLog = db.getAppLogFromLogTable(user.getUser_id(), 2, date);
 
         updateButton = findViewById(R.id.button_update);
         registerAppsButton = findViewById(R.id.button_register_apps);
@@ -70,10 +85,68 @@ public class MainMenuActivity extends AppCompatActivity {
                 item_app[i] = user.goalList.get(i).getApp_name();
                 item_period[i] = user.goalList.get(i).getPeriod_length();
                 item_target[i] = user.goalList.get(i).getTarget_value();
-                if(user.goalList.get(i).getProgress() == null)
-                    item_progress[i] = "[prog]";
-                else
-                    item_progress[i] = user.goalList.get(i).getProgress();
+                //if(user.goalList.get(i).getProgress() == null)
+                   // item_progress[i] = "[prog]";
+               // else
+                    //item_progress[i] = user.goalList.get(i).getProgress();
+
+                if (user.goalList.get(i).getApp_id() == 1){
+                    switch(user.goalList.get(i).getType_name()) {
+                        case "Steps Walked":
+                            item_progress[i] = Long.toString(fitbitAppLog.getSteps_walked());
+                            break;
+                        case "Miles Walked":
+                            item_progress[i] = String.format("%.1f", fitbitAppLog.getMiles_walked());
+                            break;
+                        case "Calories Burned":
+                            item_progress[i] = Long.toString(fitbitAppLog.getCalories_burned());
+                            break;
+                        case "Calories Consumed":
+                            item_progress[i] = Long.toString(fitbitAppLog.getCalories_consumed());
+                            break;
+                        case "Pulse":
+                            item_progress[i] = Long.toString(fitbitAppLog.getPulse());
+                            break;
+                        case "Blood Pressure":
+                            item_progress[i] = fitbitAppLog.getBlood_pressure();
+                            break;
+                        default:
+                            item_progress[i] = "[prog]";
+                            break;
+                    }
+                    if (item_progress[i].equals("-1") || item_progress[i].equals("-1.0")){
+                        item_progress[i] = "0";
+                    }
+                }
+                else if (user.goalList.get(i).getApp_id() == 2){
+                    switch(user.goalList.get(i).getType_name()) {
+                        case "Steps Walked":
+                            item_progress[i] = Long.toString(googleFitAppLog.getSteps_walked());
+                            break;
+                        case "Miles Walked":
+                            item_progress[i] = String.format("%.1f", fitbitAppLog.getMiles_walked());
+                            break;
+                        case "Calories Burned":
+                            item_progress[i] = Long.toString(googleFitAppLog.getCalories_burned());
+                            break;
+                        case "Calories Consumed":
+                            item_progress[i] = Long.toString(googleFitAppLog.getCalories_consumed());
+                            break;
+                        case "Pulse":
+                            item_progress[i] = Long.toString(googleFitAppLog.getPulse());
+                            break;
+                        case "Blood Pressure":
+                            item_progress[i] = googleFitAppLog.getBlood_pressure();
+                            break;
+                        default:
+                            item_progress[i] = "[prog]";
+                            break;
+                    }
+                    if (item_progress[i].equals("-1") || item_progress[i].equals("-1.0")){
+                        item_progress[i] = "0";
+                    }
+                }
+
 
                 switch(user.goalList.get(i).getType_name()) {
                     case "Steps Walked":
@@ -125,7 +198,6 @@ public class MainMenuActivity extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dataAdded == false){
                     /*
                     // API Table -- add data
                     db.addApiToApiTable(1, 1, true, "N/A", "Alex@gmail.com", "AlexIsDaMan2");
@@ -141,32 +213,41 @@ public class MainMenuActivity extends AppCompatActivity {
                     db.addLogToLogTable(1,2, 1032, 0.7, 197, 0, 0, null);
                     */
 
-                    db.addLogToLogTable(1,1, 143,0.1, 20, 0, 86, "135/90");
-                    db.addLogToLogTable(1, 1, 375, 0.2, 43, 0, 86, "128/93");
-                    db.addLogToLogTable(1, 1, 791, 0.4, 77, 350, 85, "122/93");
-                    db.addLogToLogTable(1,1, 1033, 0.6, 95, 350, 87, "127/90");
-                    db.addLogToLogTable(1, 1, 1598, 0.9, 122, 350, 89, "131/85");
-                    db.addLogToLogTable(1, 1, 1954, 1.3, 146, 790, 85, "130/97");
-                    db.addLogToLogTable(1, 1, 2201, 1.6, 172, 790, 90, "125/87");
-                    db.addLogToLogTable(1, 1, 2504, 1.8, 190, 790, 87, "124/84");
-                    db.addLogToLogTable(1, 1, 3079, 2.3, 238, 1601, 92, "132/85");
-                    db.addLogToLogTable(1, 1, 3734, 2.8, 276, 1601, 85, "124/83");
-                    db.addLogToLogTable(1, 1, 4300, 3.1, 301, 1601, 86, "125/84");
-                    Long test =  db.addLogToLogTable(1, 1, 4441, 3.2, 311, 2234, 86, "127/89");
-                    if(test > 0){
-                        Toast.makeText(MainMenuActivity.this,"Data Added", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(MainMenuActivity.this,"Error", Toast.LENGTH_SHORT).show();
-                    }
-
-                    user.goalList = db.getGoalArrayListFromGoalTable(user.getUser_id());
-                    user.appAndApiList = db.getAppAndApiArrayListFromLogTable(user.getUser_id());
-
-                    dataAdded = true;
-
+                if (user.goalList.size() == 0){
+                    db.addGoalToGoalTable(1,1,1,1, "3000");
+                    db.addGoalToGoalTable(1,1,2,1, "3");
+                    db.addGoalToGoalTable(1,1,3,1, "2500");
+                    db.addGoalToGoalTable(1,1,4,1, "2200");
+                    db.addGoalToGoalTable(1,1,5,1, "80");
                 }
-                else{
+
+                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "135/90", "2019-04-19");
+                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "128/93", "2019-04-20");
+                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "122/93", "2019-04-21");
+                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "127/90", "2019-04-22");
+                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "131/85", "2019-04-23");
+                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "130/97", "2019-04-24");
+                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "125/87", "2019-04-25");
+                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "124/84", "2019-04-26");
+                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "132/85", "2019-04-27");
+                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "124/83", "2019-04-28");
+                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "125/84", "2019-04-29");
+                db.addLogToLogTable(1, 1, new Random().nextInt(9000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "127/89", "2019-04-30");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String date = sdf.format(new Date());
+                Long test = db.addLogToLogTable(1, 1, new Random().nextInt(9000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "127/89", date);
+                if (test > 0) {
+                    Toast.makeText(MainMenuActivity.this, "Random Log Data", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainMenuActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+
+                user.goalList = db.getGoalListFromGoalTable(user.getUser_id());
+                user.appAndApiList = db.getAppAndApiListFromLogTable(user.getUser_id());
+
+                // Refreshes page
+                finish();
+                startActivity(getIntent());
                     /*
                     // User Table -- Display
                     Toast.makeText(getApplicationContext(), "User Table:", Toast.LENGTH_LONG).show();
@@ -204,10 +285,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     for (int i = 0; i < key; i++){
                         Toast.makeText(MainMenuActivity.this, user.goalList.get(i).getAllGoalData(), Toast.LENGTH_SHORT).show();
                     }
-
                     */
-                }
-                Toast.makeText(getApplicationContext(), "Update Clicked!", Toast.LENGTH_LONG).show();
             }
         });
 

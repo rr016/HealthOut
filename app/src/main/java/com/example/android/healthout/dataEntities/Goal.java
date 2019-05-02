@@ -28,7 +28,7 @@ public class Goal implements Serializable {
         this.progress = null;
     }
 
-    public Goal(long goal_id, long app_id, String app_name, long type_id, String type_name, long period_id, String period_length, String target_value, String preogress){
+    public Goal(long goal_id, long app_id, String app_name, long type_id, String type_name, long period_id, String period_length, String target_value, String progress){
         this.goal_id = goal_id;
         this.app_id = app_id;
         this.app_name = app_name;
@@ -37,7 +37,7 @@ public class Goal implements Serializable {
         this.period_id = period_id;
         this.period_length = period_length;
         this.target_value = target_value;
-        this.progress = preogress;
+        this.progress = progress;
     }
 
     public long getGoal_id() { return goal_id; }

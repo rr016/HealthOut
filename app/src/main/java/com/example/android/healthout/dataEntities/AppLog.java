@@ -10,7 +10,7 @@ public class AppLog implements Serializable {
     private long calories_consumed;
     private long pulse;
     private String blood_pressure;
-    private long timestamp;
+    private long date;
 
     public AppLog(){
         this.log_id = -1;
@@ -20,7 +20,7 @@ public class AppLog implements Serializable {
         this.calories_consumed = -1;
         this.pulse = -1;
         this.blood_pressure = null;
-        this.timestamp = -1;
+        this.date = -1;
     }
 
     public long getLog_id() {
@@ -77,11 +77,9 @@ public class AppLog implements Serializable {
         this.blood_pressure = blood_pressure;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public long getDate() {
+        return date;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
+    public void setDate (long date) { this.date = date; }
 }
