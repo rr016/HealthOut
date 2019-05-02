@@ -100,7 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.execSQL("CREATE TABLE " + TABLE_API +
                 " (" + API_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, " + APP_ID + " INTEGER, "
                 + API_REGISTERED + " BOOLEAN, " + API_USERNAME + " TEXT, " + API_EMAIL + " TEXT, " + API_PASSWORD + " TEXT)");
-        // Fitbit Table -- created
+        // Log Table -- created
         database.execSQL("CREATE TABLE " + TABLE_LOG +
                 " (" + LOG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, "
                 + APP_ID + " INTEGER, "+ LOG_STEPS_WALKED + " INTEGER, " + LOG_MILES_WALKED + " DOUBLE, "
@@ -1037,7 +1037,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             appLog.setCalories_consumed(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_CONSUMED)));
             appLog.setPulse(cursor.getLong(cursor.getColumnIndex(LOG_PULSE)));
             appLog.setBlood_pressure(cursor.getString(cursor.getColumnIndex(LOG_BLOOD_PRESSURE)));
-            appLog.setDate(cursor.getLong(cursor.getColumnIndex(LOG_DATE)));
+            appLog.setDate(cursor.getString(cursor.getColumnIndex(LOG_DATE)));
         }
         else{
             Log.e(LOG_CAT, "appLog not found for: " + date);
@@ -1064,7 +1064,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             currentAppLog.setCalories_consumed(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_CONSUMED)));
             currentAppLog.setPulse(cursor.getLong(cursor.getColumnIndex(LOG_PULSE)));
             currentAppLog.setBlood_pressure(cursor.getString(cursor.getColumnIndex(LOG_BLOOD_PRESSURE)));
-            currentAppLog.setDate(cursor.getLong(cursor.getColumnIndex(LOG_DATE)));
+            currentAppLog.setDate(cursor.getString(cursor.getColumnIndex(LOG_DATE)));
             appLogList.add(currentAppLog);
         }
         cursor.close();

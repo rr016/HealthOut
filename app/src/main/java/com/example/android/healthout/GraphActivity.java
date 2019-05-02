@@ -2,6 +2,8 @@ package com.example.android.healthout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -19,8 +21,13 @@ import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class GraphActivity extends AppCompatActivity {
     DatabaseHelper db;
@@ -32,6 +39,7 @@ public class GraphActivity extends AppCompatActivity {
     String target_value;
 
     public List<AppLog> appLogList = new ArrayList<AppLog>();
+    public List<AppLog> appLogListToBeGraphed = new ArrayList<AppLog>();
 
     LineGraphSeries<DataPoint> logDataLine;
     LineGraphSeries<DataPoint> targetValueLine;
@@ -53,7 +61,24 @@ public class GraphActivity extends AppCompatActivity {
 
         appLogList = db.getAppLogListFromLogTable(user.getUser_id(), app_id);
 
-        int entries = appLogList.size();
+        switch ((int)type_id){
+            case 1:
+                try {
+                    appLogListToBeGraphed = createDailyAppLogList(appLogList);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 2:
+                //dataDouble = appLogList.get(i).getMiles_walked();
+                break;
+            case 3:
+                //dataLong = appLogList.get(i).getCalories_burned();
+                break;
+            case 4:
+                //dataLong = appLogList.get(i).getCalories_consumed();
+                break;
+        }
 
         long dataLong = -1;
         double dataDouble = -1.0;
@@ -62,6 +87,8 @@ public class GraphActivity extends AppCompatActivity {
         GraphView graph = (GraphView) findViewById(R.id.graph);
         logDataLine = new LineGraphSeries<DataPoint>();
         targetValueLine = new LineGraphSeries<DataPoint>();
+
+        int entries = appLogListToBeGraphed.size();
         for(int i = 0; i < entries; i++){
             switch ((int)type_id){
                 case 1:
@@ -119,8 +146,6 @@ public class GraphActivity extends AppCompatActivity {
         targetValueLine.setColor(Color.rgb(255, 0, 0));
         graph.addSeries(logDataLine);
         graph.addSeries(targetValueLine);
-
-        Toast.makeText(getApplicationContext(), "" + Integer.valueOf(target_value), Toast.LENGTH_LONG).show();
     }
 
     /************************ MENU BAR ************************/
@@ -192,5 +217,41 @@ public class GraphActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public List<AppLog> createDailyAppLogList(List<AppLog> appLogList) throws ParseException {
+        List<AppLog> dailyAppLogList = new ArrayList<AppLog>();
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date testDate = sdf.parse(user.getCalculatedDate("yyyy-MM-dd", 0));
+
+        int startingPoint = -1;
+
+        // Find starting appLog
+        for (int i = 0; i < appLogList.size(); i++){
+            Date logDate = sdf.parse(appLogList.get(i).getDate());
+            Toast.makeText(getApplicationContext(), testDate + " vs " + logDate, Toast.LENGTH_LONG).show();
+            if (testDate.before(logDate)){
+                startingPoint = i;
+                break;
+            }
+        }
+
+        if (startingPoint > -1){
+            for (int i = 0; i < 7; i++){
+                //calender2.add(Calendar.DAY_OF_YEAR, (-1 * i));
+                //Date dayOfWeek = new Date(calender2.getTimeInMillis());
+                Date logDate = sdf.parse(appLogList.get(startingPoint + i).getDate());
+                //if(dayOfWeek.equals(logDate)){
+               //        dailyAppLogList.add(appLogList.get(i));
+               // }
+               // else{
+                //    dailyAppLogList.add(null);
+               // }
+            }
+        }
+
+        return dailyAppLogList;
     }
 }
