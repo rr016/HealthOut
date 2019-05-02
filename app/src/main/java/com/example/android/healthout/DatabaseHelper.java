@@ -627,9 +627,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.delete(TABLE_GOAL, GOAL_ID + "='" + goal_id + "'", null) > 0;
     }
 
-    public List<Goal> getGoalArrayListFromGoalTable(long user_id){
+    public List<Goal> getGoalListFromGoalTable(long user_id){
         SQLiteDatabase db = this.getReadableDatabase();
-        List<Goal> goalArrayList = new ArrayList<Goal>();
+        List<Goal> goalList = new ArrayList<Goal>();
 
         String selectQuery = "SELECT  * FROM " + TABLE_GOAL + " WHERE "
                 + USER_ID + " = " + user_id;
@@ -645,10 +645,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             currentGoal.setPeriod_id(cursor.getLong(cursor.getColumnIndex(PERIOD_ID)));
             currentGoal.setPeriod_length(getPeriodLengthFromPeriodTable(currentGoal.getPeriod_id()));
             currentGoal.setTarget_value(cursor.getString(cursor.getColumnIndex(GOAL_TARGET_VALUE)));
-            goalArrayList.add(currentGoal);
+            goalList.add(currentGoal);
         }
         cursor.close();
-        return goalArrayList;
+        return goalList;
     }
 
     /*****************************************************************************************************************************/
@@ -810,9 +810,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public List<ThirdPartyAppAndApi> getAppAndApiArrayListFromLogTable(long user_id){
+    public List<ThirdPartyAppAndApi> getAppAndApiListFromLogTable(long user_id){
         SQLiteDatabase db = this.getReadableDatabase();
-        List<ThirdPartyAppAndApi> appAndApiArrayList = new ArrayList<ThirdPartyAppAndApi>();
+        List<ThirdPartyAppAndApi> appAndApiList = new ArrayList<ThirdPartyAppAndApi>();
 
         String selectQuery = "SELECT  * FROM " + TABLE_API + " WHERE "
                 + USER_ID + " = " + user_id;
@@ -827,11 +827,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             currentAppAndApi.setApp_username(cursor.getString(cursor.getColumnIndex(API_USERNAME)));
             currentAppAndApi.setApp_email(cursor.getString(cursor.getColumnIndex(API_EMAIL)));
             currentAppAndApi.setApp_password(cursor.getString(cursor.getColumnIndex(API_PASSWORD)));
-            appAndApiArrayList.add(currentAppAndApi);
+            appAndApiList.add(currentAppAndApi);
         }
 
         cursor.close();
-        return appAndApiArrayList;
+        return appAndApiList;
     }
 
     /*****************************************************************************************************************************/
@@ -1018,9 +1018,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return log_info;
     }
 
-    public List<AppLog> getAppLogArrayListFromLogTable(long user_id, long app_id){
+    public AppLog getAppLogFromLogTable(long user_id, long app_id, String date){
         SQLiteDatabase db = this.getReadableDatabase();
-        List<AppLog> appLogArrayList = new ArrayList<AppLog>();
+        AppLog appLog = new AppLog();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'";
+
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        int count = cursor.getCount();
+        cursor.moveToFirst();
+        if (count > 0){
+            appLog.setLog_id(cursor.getLong(cursor.getColumnIndex(LOG_ID)));
+            appLog.setSteps_walked(cursor.getLong(cursor.getColumnIndex(LOG_STEPS_WALKED)));
+            appLog.setMiles_walked(cursor.getDouble(cursor.getColumnIndex(LOG_MILES_WALKED)));
+            appLog.setCalories_burned(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_BURNED)));
+            appLog.setCalories_consumed(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_CONSUMED)));
+            appLog.setPulse(cursor.getLong(cursor.getColumnIndex(LOG_PULSE)));
+            appLog.setBlood_pressure(cursor.getString(cursor.getColumnIndex(LOG_BLOOD_PRESSURE)));
+            appLog.setDate(cursor.getLong(cursor.getColumnIndex(LOG_DATE)));
+        }
+        else{
+            Log.e(LOG_CAT, "appLog not found for: " + date);
+        }
+
+        cursor.close();
+        return appLog;
+    }
+
+    public List<AppLog> getAppLogListFromLogTable(long user_id, long app_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<AppLog> appLogList = new ArrayList<AppLog>();
 
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
                 + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
@@ -1035,10 +1064,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             currentAppLog.setCalories_consumed(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_CONSUMED)));
             currentAppLog.setPulse(cursor.getLong(cursor.getColumnIndex(LOG_PULSE)));
             currentAppLog.setBlood_pressure(cursor.getString(cursor.getColumnIndex(LOG_BLOOD_PRESSURE)));
-            currentAppLog.setTimestamp(cursor.getLong(cursor.getColumnIndex(LOG_DATE)));
-            appLogArrayList.add(currentAppLog);
+            currentAppLog.setDate(cursor.getLong(cursor.getColumnIndex(LOG_DATE)));
+            appLogList.add(currentAppLog);
         }
         cursor.close();
-        return appLogArrayList;
+        return appLogList;
     }
 }

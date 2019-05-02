@@ -31,7 +31,7 @@ public class GraphActivity extends AppCompatActivity {
     long period_id;
     String target_value;
 
-    public List<AppLog> appLog = new ArrayList<AppLog>();
+    public List<AppLog> appLogList = new ArrayList<AppLog>();
 
     LineGraphSeries<DataPoint> logDataLine;
     LineGraphSeries<DataPoint> targetValueLine;
@@ -51,9 +51,9 @@ public class GraphActivity extends AppCompatActivity {
         period_id = extras.getLong("period_id");
         target_value = extras.getString("target_value");
 
-        appLog = db.getAppLogArrayListFromLogTable(user.getUser_id(), app_id);
+        appLogList = db.getAppLogListFromLogTable(user.getUser_id(), app_id);
 
-        int entries = appLog.size();
+        int entries = appLogList.size();
 
         long dataLong = -1;
         double dataDouble = -1.0;
@@ -65,22 +65,22 @@ public class GraphActivity extends AppCompatActivity {
         for(int i = 0; i < entries; i++){
             switch ((int)type_id){
                 case 1:
-                    dataLong = appLog.get(i).getSteps_walked();
+                    dataLong = appLogList.get(i).getSteps_walked();
                     break;
                 case 2:
-                    dataDouble = appLog.get(i).getMiles_walked();
+                    dataDouble = appLogList.get(i).getMiles_walked();
                     break;
                 case 3:
-                    dataLong = appLog.get(i).getCalories_burned();
+                    dataLong = appLogList.get(i).getCalories_burned();
                     break;
                 case 4:
-                    dataLong = appLog.get(i).getCalories_consumed();
+                    dataLong = appLogList.get(i).getCalories_consumed();
                     break;
                 case 5:
-                    dataLong = appLog.get(i).getPulse();
+                    dataLong = appLogList.get(i).getPulse();
                     break;
                 case 6:
-                    dataString = appLog.get(i).getBlood_pressure();
+                    dataString = appLogList.get(i).getBlood_pressure();
                     break;
             }
 
@@ -99,9 +99,21 @@ public class GraphActivity extends AppCompatActivity {
             gridLabel.setHorizontalAxisTitle("Days");
             gridLabel.setVerticalAxisTitle("Steps Walked");
         }
-        if (type_id == 1){
+        if (type_id == 2){
             gridLabel.setHorizontalAxisTitle("Days");
-            gridLabel.setVerticalAxisTitle("Steps Walked");
+            gridLabel.setVerticalAxisTitle("Miles Walked");
+        }
+        if (type_id == 3){
+            gridLabel.setHorizontalAxisTitle("Days");
+            gridLabel.setVerticalAxisTitle("Calories Burned");
+        }
+        if (type_id == 4){
+            gridLabel.setHorizontalAxisTitle("Days");
+            gridLabel.setVerticalAxisTitle("Calories Consumed");
+        }
+        if (type_id == 5){
+            gridLabel.setHorizontalAxisTitle("Days");
+            gridLabel.setVerticalAxisTitle("Pulse");
         }
 
         targetValueLine.setColor(Color.rgb(255, 0, 0));

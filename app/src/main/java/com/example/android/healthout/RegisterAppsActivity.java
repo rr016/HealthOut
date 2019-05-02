@@ -30,7 +30,7 @@ public class RegisterAppsActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
         long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_LOG);
         for (long i = 1; i <= key; i++)
-            Toast.makeText(RegisterAppsActivity.this, "" + db.getDateFromLogTable(i), Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterAppsActivity.this, db.getLogInfoFromLogTable(i), Toast.LENGTH_SHORT).show();
     }
 
     /************************ MENU BAR ************************/

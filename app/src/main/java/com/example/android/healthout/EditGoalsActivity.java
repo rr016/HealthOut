@@ -31,6 +31,7 @@ public class EditGoalsActivity extends AppCompatActivity {
     String item_type[];
     String item_period[];
     String item_app[];
+    String item_target[];
     Integer imageID[];
 
     @Override
@@ -50,6 +51,7 @@ public class EditGoalsActivity extends AppCompatActivity {
         item_type = new String[user.goalList.size()];
         item_period = new String[user.goalList.size()];
         item_app = new String[user.goalList.size()];
+        item_target = new String[user.goalList.size()];
         imageID = new Integer[user.goalList.size()];
 
 
@@ -64,6 +66,7 @@ public class EditGoalsActivity extends AppCompatActivity {
                 item_type[i] = user.goalList.get(i).getType_name();
                 item_period[i] = user.goalList.get(i).getPeriod_length();
                 item_app[i] = user.goalList.get(i).getApp_name();
+                item_target[i] = user.goalList.get(i).getTarget_value();
 
                 switch(user.goalList.get(i).getType_name()) {
                     case "Steps Walked":
@@ -90,7 +93,8 @@ public class EditGoalsActivity extends AppCompatActivity {
                 }
             }
 
-            CustomListEditGoals adapter = new CustomListEditGoals(EditGoalsActivity.this, item_type, item_period, item_app, imageID);
+            CustomListEditGoals adapter = new CustomListEditGoals(EditGoalsActivity.this,
+                    item_type, item_period, item_app, item_target, imageID);
             listView.setAdapter(adapter);
 
             // Click a Goal
