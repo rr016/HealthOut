@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.android.healthout.database.DatabaseHelper;
+
 public class RegisterAccountActivity extends AppCompatActivity {
     DatabaseHelper db;
 

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.android.healthout.dataEntities.User;
+import com.example.android.healthout.database.DatabaseHelper;
 
 public class EditAccountActivity extends AppCompatActivity {
     DatabaseHelper db;
@@ -32,7 +33,7 @@ public class EditAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_account);
 
         user = (User)getIntent().getSerializableExtra("user");
-        db = new DatabaseHelper(this);
+        db = new com.example.android.healthout.database.DatabaseHelper(this);
 
         currentPasswordEditText = findViewById(R.id.editText_current_password);
         newEmailEditText = findViewById(R.id.editText_new_email);

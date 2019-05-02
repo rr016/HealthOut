@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.android.healthout.dataEntities.Goal;
 import com.example.android.healthout.dataEntities.User;
+import com.example.android.healthout.database.DatabaseHelper;
 
 import java.util.List;
 

@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.android.healthout.dataEntities.User;
+import com.example.android.healthout.database.DatabaseHelper;
 
 public class EditGoalsActivity extends AppCompatActivity {
     DatabaseHelper db;

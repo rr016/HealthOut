@@ -1,4 +1,4 @@
-package com.example.android.healthout;
+package com.example.android.healthout.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,8 +11,10 @@ import com.example.android.healthout.dataEntities.AppLog;
 import com.example.android.healthout.dataEntities.Goal;
 import com.example.android.healthout.dataEntities.ThirdPartyAppAndApi;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -416,7 +418,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.e(LOG_CAT, selectQuery);
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-       if (cursor != null)
+        if (cursor != null)
             cursor.moveToFirst();
 
         String period = cursor.getString(cursor.getColumnIndex(PERIOD_LENGTH));
@@ -771,13 +773,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public long changeRegisteredInApiTable(long api_id){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
-        
+
         boolean registered = isRegisteredInApiTable(api_id);
         if (registered == true) // if true then will change to false
             values.put(API_REGISTERED, false);
         else                    // if false then will change to true
             values.put(API_REGISTERED, true);
-        
+
         long result = db.update(TABLE_API, values, API_ID + "=" + api_id, null);
         db.close();
         return result;
@@ -839,14 +841,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*****************************************************************************************************************************/
 
     public long addLogToLogTable(long user_id, long app_id, long steps_walked, double miles_walked, long calories_burned,
-                                 long calories_consumed, long pulse, String blood_pressure, String date) {
+                                 long calories_consumed, long pulse, String blood_pressure, String date) throws ParseException {
         SQLiteDatabase db = this.getWritableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
-                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'";
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
+        cursor.moveToLast();
+
         ContentValues values = new ContentValues();
+
+        if (cursor.getCount() > 0){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date lastDate = sdf.parse(cursor.getString(cursor.getColumnIndex(LOG_DATE)));
+            Date currentDate = sdf.parse(date);
+
+            long daysBetween = (currentDate.getTime() - lastDate.getTime())/(24*60*60*1000);
+
+            values.put(USER_ID, user_id);
+            values.put(APP_ID, app_id);
+            values.put(LOG_STEPS_WALKED, 0);
+            values.put(LOG_MILES_WALKED, 0);
+            values.put(LOG_CALORIES_BURNED, 0);
+            values.put(LOG_CALORIES_CONSUMED, 0);
+            values.put(LOG_PULSE, 0);
+            values.put(LOG_BLOOD_PRESSURE, "0");
+
+            Log.e("Here!!!", "" + daysBetween);
+
+            for (long i = -daysBetween; i < 0; i++){
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DAY_OF_YEAR, (int) i);
+                //Date tempDate = sdf.parse(s.format(new Date(cal.getTimeInMillis())));
+                values.put(LOG_DATE, sdf.format(new Date(cal.getTimeInMillis())));
+                Log.e("Here!!!", "" + sdf.format(new Date(cal.getTimeInMillis())));
+                db.insert(TABLE_LOG, null, values);
+            }
+        }
+
+        selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'";
+
+        cursor = db.rawQuery(selectQuery, null);
+
         values.put(USER_ID, user_id);
         values.put(APP_ID, app_id);
         values.put(LOG_STEPS_WALKED, steps_walked);
