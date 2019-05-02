@@ -223,8 +223,8 @@ public class GraphActivity extends AppCompatActivity {
         List<AppLog> dailyAppLogList = new ArrayList<AppLog>();
 
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        Date testDate = sdf.parse(user.getCalculatedDate("yyyy-MM-dd", 0));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date testDate = sdf.parse(user.getCalculatedDate("yyyy-MM-dd", -7));
 
         int startingPoint = -1;
 
@@ -239,16 +239,15 @@ public class GraphActivity extends AppCompatActivity {
         }
 
         if (startingPoint > -1){
-            for (int i = 0; i < 7; i++){
-                //calender2.add(Calendar.DAY_OF_YEAR, (-1 * i));
-                //Date dayOfWeek = new Date(calender2.getTimeInMillis());
-                Date logDate = sdf.parse(appLogList.get(startingPoint + i).getDate());
-                //if(dayOfWeek.equals(logDate)){
-               //        dailyAppLogList.add(appLogList.get(i));
-               // }
-               // else{
-                //    dailyAppLogList.add(null);
-               // }
+            for (int i = -7; i < 0; i++){
+                Date dayOfWeek = sdf.parse(user.getCalculatedDate("yyyy-MM-dd", i));
+                Date logDate = sdf.parse(appLogList.get(i + 7).getDate());
+                if(dayOfWeek.equals(logDate)){
+                       dailyAppLogList.add(appLogList.get(i + 7));
+               }
+               else{
+                    dailyAppLogList.add(null);
+               }
             }
         }
 
