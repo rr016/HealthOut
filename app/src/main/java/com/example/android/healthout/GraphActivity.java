@@ -218,41 +218,16 @@ public class GraphActivity extends AppCompatActivity {
     public List<AppLog> createDailyAppLogList(List<AppLog> appLogList) throws ParseException {
         List<AppLog> dailyAppLogList = new ArrayList<AppLog>();
 
-        for (int i = -7; i < 0; i++){
-            dailyAppLogList.add(appLogList.get(appLogList.size() + i - 1));
-        }
-
-        /*
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date testDate = sdf.parse(user.getCalculatedDate("yyyy-MM-dd", -7));
-
-        int startingPoint = -1;
-
-        // Find starting appLog
-        for (int i = 0; i < appLogList.size(); i++){
-            Date logDate = sdf.parse(appLogList.get(i).getDate());
-            if (testDate.before(logDate)){
-                startingPoint = i;
-                Toast.makeText(getApplicationContext(), "" + startingPoint, Toast.LENGTH_LONG).show();
-                break;
-            }
-        }
-
-        if (startingPoint > -1){
+        if (appLogList.size() > 7){
             for (int i = -7; i < 0; i++){
-                Date dayOfWeek = sdf.parse(user.getCalculatedDate("yyyy-MM-dd", i));
-                Date logDate = sdf.parse(appLogList.get(appLogList.size() + i).getDate());
-                Toast.makeText(getApplicationContext(), "" + ((new Date().getTime() - dayOfWeek.getTime())/(24*60*60*1000)), Toast.LENGTH_LONG).show();
-                if(dayOfWeek.compareTo(logDate) == 0){
-                       dailyAppLogList.add(appLogList.get(appLogList.size() + i));
-                        Toast.makeText(getApplicationContext(), "" + logDate, Toast.LENGTH_LONG).show();
-               }
-               else{
-                    dailyAppLogList.add(new AppLog());
-               }
+                dailyAppLogList.add(appLogList.get(appLogList.size() + i - 1));
             }
         }
-        */
+        else{
+            for (int i = -appLogList.size(); i < 0; i++){
+                dailyAppLogList.add(appLogList.get(appLogList.size() + i - 1));
+            }
+        }
 
         return dailyAppLogList;
     }

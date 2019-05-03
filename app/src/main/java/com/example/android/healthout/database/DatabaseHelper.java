@@ -870,8 +870,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             Log.e("Here!!!", "" + daysBetween);
 
-            for (long i = -daysBetween; i < 0; i++){
+            for (long i = -daysBetween + 1; i < 0; i++){
                 Calendar cal = Calendar.getInstance();
+                cal.setTime(sdf.parse(date));
                 cal.add(Calendar.DAY_OF_YEAR, (int) i);
                 //Date tempDate = sdf.parse(s.format(new Date(cal.getTimeInMillis())));
                 values.put(LOG_DATE, sdf.format(new Date(cal.getTimeInMillis())));
