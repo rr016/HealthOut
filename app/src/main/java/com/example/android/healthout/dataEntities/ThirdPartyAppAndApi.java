@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThirdPartyAppAndApi implements Serializable {
+public abstract class ThirdPartyAppAndApi implements Serializable {
     private long api_id;
     private long app_id;
     private String app_name;
