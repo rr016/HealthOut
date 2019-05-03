@@ -35,8 +35,10 @@ import com.google.android.gms.tasks.Tasks;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -45,8 +47,9 @@ public class MainMenuActivity extends AppCompatActivity {
     DatabaseHelper db;
 
     User user;
-    AppLog fitbitAppLog = new AppLog();
-    AppLog googleFitAppLog = new AppLog();
+
+    public List<AppLog> fitbitAppLogList = new ArrayList<AppLog>();
+    public List<AppLog> googleFitAppLogList = new ArrayList<AppLog>();
 
     Button updateButton;
     Button registerAppsButton;
@@ -72,8 +75,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(new Date());
-        fitbitAppLog = db.getAppLogFromLogTable(user.getUser_id(), 1, date);
-        googleFitAppLog = db.getAppLogFromLogTable(user.getUser_id(), 2, date);
+
+        fitbitAppLogList = db.getAppLogListFromLogTable(user.getUser_id(), 1);
+        googleFitAppLogList = db.getAppLogListFromLogTable(user.getUser_id(), 2);
 
         updateButton = findViewById(R.id.button_update);
         registerAppsButton = findViewById(R.id.button_register_apps);
@@ -103,26 +107,52 @@ public class MainMenuActivity extends AppCompatActivity {
                 item_target[i] = user.goalList.get(i).getTarget_value();
 
                 if (user.goalList.get(i).getApp_id() == 1){
-                    switch(user.goalList.get(i).getType_name()) {
-                        case "Steps Walked":
-                            item_progress[i] = Long.toString(fitbitAppLog.getSteps_walked());
-                            break;
-                        case "Miles Walked":
-                            item_progress[i] = String.format("%.1f", fitbitAppLog.getMiles_walked());
-                            break;
-                        case "Calories Burned":
-                            item_progress[i] = Long.toString(fitbitAppLog.getCalories_burned());
-                            break;
-                        case "Calories Consumed":
-                            item_progress[i] = Long.toString(fitbitAppLog.getCalories_consumed());
-                            break;
-                        case "Pulse":
-                            item_progress[i] = Long.toString(fitbitAppLog.getPulse());
-                            break;
-                        default:
-                            item_progress[i] = "[prog]";
-                            break;
+                    if (user.goalList.get(i).getPeriod_id() == 1){
+                            switch(user.goalList.get(i).getType_name()) {
+                                case "Steps Walked":
+                                    item_progress[i] = Long.toString(fitbitAppLogList.get(fitbitAppLogList.size() - 1).getSteps_walked());
+                                    break;
+                                case "Miles Walked":
+                                    item_progress[i] = Double.toString(fitbitAppLogList.get(fitbitAppLogList.size() - 1).getMiles_walked());
+                                    break;
+                                case "Calories Burned":
+                                    item_progress[i] = Long.toString(fitbitAppLogList.get(fitbitAppLogList.size() - 1).getCalories_burned());
+                                    break;
+                                case "Calories Consumed":
+                                    item_progress[i] = Long.toString(fitbitAppLogList.get(fitbitAppLogList.size() - 1).getCalories_consumed());
+                                    break;
+                                case "Pulse":
+                                    item_progress[i] = Long.toString(fitbitAppLogList.get(fitbitAppLogList.size() - 1).getPulse());
+                                    break;
+                                default:
+                                    item_progress[i] = "[prog]";
+                                    break;
+                            }
                     }
+                    else if (user.goalList.get(i).getPeriod_id() == 2){
+                        switch(user.goalList.get(i).getType_name()) {
+                            case "Steps Walked":
+                                item_progress[i] = getWeeklyProgress(fitbitAppLogList, 1);
+                                break;
+                            case "Miles Walked":
+                                item_progress[i] = getWeeklyProgress(fitbitAppLogList, 2);
+                                break;
+                            case "Calories Burned":
+                                item_progress[i] = getWeeklyProgress(fitbitAppLogList, 3);
+                                break;
+                            case "Calories Consumed":
+                                item_progress[i] = getWeeklyProgress(fitbitAppLogList, 4);
+                                break;
+                            case "Pulse":
+                                item_progress[i] = getWeeklyProgress(fitbitAppLogList, 5);
+                                break;
+                            default:
+                                item_progress[i] = "[prog]";
+                                break;
+                        }
+                    }
+
+
                     if (item_progress[i].equals("-1") || item_progress[i].equals("-1.0")){
                         item_progress[i] = "0";
                     }
@@ -130,19 +160,19 @@ public class MainMenuActivity extends AppCompatActivity {
                 else if (user.goalList.get(i).getApp_id() == 2){
                     switch(user.goalList.get(i).getType_name()) {
                         case "Steps Walked":
-                            item_progress[i] = Long.toString(googleFitAppLog.getSteps_walked());
+                            item_progress[i] = Long.toString(googleFitAppLogList.get(googleFitAppLogList.size() - 1).getSteps_walked());
                             break;
                         case "Miles Walked":
-                            item_progress[i] = String.format("%.1f", fitbitAppLog.getMiles_walked());
+                            item_progress[i] = Double.toString(googleFitAppLogList.get(googleFitAppLogList.size() - 1).getMiles_walked());
                             break;
                         case "Calories Burned":
-                            item_progress[i] = Long.toString(googleFitAppLog.getCalories_burned());
+                            item_progress[i] = Long.toString(googleFitAppLogList.get(googleFitAppLogList.size() - 1).getCalories_burned());
                             break;
                         case "Calories Consumed":
-                            item_progress[i] = Long.toString(googleFitAppLog.getCalories_consumed());
+                            item_progress[i] = Long.toString(googleFitAppLogList.get(googleFitAppLogList.size() - 1).getCalories_consumed());
                             break;
                         case "Pulse":
-                            item_progress[i] = Long.toString(googleFitAppLog.getPulse());
+                            item_progress[i] = Long.toString(googleFitAppLogList.get(googleFitAppLogList.size() - 1).getPulse());
                             break;
                         default:
                             item_progress[i] = "[prog]";
@@ -226,6 +256,11 @@ public class MainMenuActivity extends AppCompatActivity {
                     db.addGoalToGoalTable(1,1,3,1, "2500");
                     db.addGoalToGoalTable(1,1,4,1, "2200");
                     db.addGoalToGoalTable(1,1,5,1, "80");
+                    db.addGoalToGoalTable(1,1,1,2, "21000");
+                    db.addGoalToGoalTable(1,1,2,2, "21");
+                    db.addGoalToGoalTable(1,1,3,2, "17500");
+                    db.addGoalToGoalTable(1,1,4,2, "15000");
+                    db.addGoalToGoalTable(1,1,5,2, "80");
                 }
 
                 long test = -1;
@@ -238,7 +273,26 @@ public class MainMenuActivity extends AppCompatActivity {
                     db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "132/85", user.getCalculatedDate("yyyy-MM-dd", -6));
                     db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "132/85", user.getCalculatedDate("yyyy-MM-dd", -5));
                       */
-                    //db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "124/83", user.getCalculatedDate("yyyy-MM-dd", -28));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -28));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -27));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -26));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -25));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -24));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -23));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -22));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -21));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -20));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -19));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -18));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -17));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -16));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -15));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -14));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -13));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -12));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -11));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -10));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -9));
                     db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -8));
                     db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -7));
                     db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -6));
@@ -388,7 +442,63 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
-    public void onConnected(Bundle bundle){
-        Log.i("Log_cat", "Google Fit Shwaged!");
-    }
+   public String getWeeklyProgress (List<AppLog> appLogList, long type_id) {
+       String progress = "null";
+       long valueLong = 0;
+       double valueDouble = 0;
+
+       if (appLogList.size() > 7) {
+           for (int i = -7; i < 0; i++) {
+               switch ((int) type_id) {
+                   case 1:
+                       valueLong += appLogList.get((appLogList.size() - 1) + i).getSteps_walked();
+                       break;
+                   case 2:
+                       valueDouble += appLogList.get((appLogList.size() - 1) + i).getMiles_walked();
+                       break;
+                   case 3:
+                       valueLong += appLogList.get((appLogList.size() - 1) + i).getCalories_burned();
+                       break;
+                   case 4:
+                       valueLong += appLogList.get((appLogList.size() - 1) + i).getCalories_consumed();
+                       break;
+                   case 5:
+                       valueLong += appLogList.get((appLogList.size() - 1) + i).getPulse();
+                       break;
+               }
+           }
+       } else {
+           for (int i = -appLogList.size(); i < 0; i++) {
+               switch ((int) type_id) {
+                   case 1:
+                       valueLong += appLogList.get((appLogList.size() - 1) + i).getSteps_walked();
+                       break;
+                   case 2:
+                       valueDouble += appLogList.get((appLogList.size() - 1) + i).getMiles_walked();
+                       break;
+                   case 3:
+                       valueLong += appLogList.get((appLogList.size() - 1) + i).getCalories_burned();
+                       break;
+                   case 4:
+                       valueLong += appLogList.get((appLogList.size() - 1) + i).getCalories_consumed();
+                       break;
+                   case 5:
+                       valueLong += appLogList.get((appLogList.size() - 1) + i).getPulse();
+                       break;
+               }
+           }
+
+       }
+
+       if (type_id == 1 || (type_id >=3 && type_id <=4))
+           progress = String.valueOf(valueLong);
+       else if (type_id == 2)
+           progress = String.valueOf(valueDouble);
+       else if (type_id == 5){
+           valueLong = valueLong / 7;
+           progress = String.valueOf(valueLong);
+       }
+
+       return progress;
+   }
 }

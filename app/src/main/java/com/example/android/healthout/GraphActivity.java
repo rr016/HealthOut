@@ -80,9 +80,8 @@ public class GraphActivity extends AppCompatActivity {
 
         // Log Table -- Display
         Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
-        long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_LOG);
-        for (int i = 1; i <= key; i++)
-            Toast.makeText(GraphActivity.this, db.getLogInfoFromLogTable(i), Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < appLogListToBeGraphed.size() - 1; i++)
+            Toast.makeText(GraphActivity.this, appLogListToBeGraphed.get(i).getAppLogInfo(), Toast.LENGTH_SHORT).show();
 
 
         int entries = appLogListToBeGraphed.size();
@@ -110,8 +109,7 @@ public class GraphActivity extends AppCompatActivity {
                 logDataLine.appendData(new DataPoint(i, dataLong), true, entries);
             else if (type_id == 2)
                 logDataLine.appendData(new DataPoint(i, dataDouble), true, entries);
-            else if (type_id == 6)
-                logDataLine.appendData(new DataPoint(i, Long.valueOf(dataString)), true, entries);
+
 
             targetValueLine.appendData(new DataPoint(i, Integer.valueOf(target_value)), true, entries); // striaght line at target value
         }
@@ -257,6 +255,7 @@ public class GraphActivity extends AppCompatActivity {
             for (int i = -27; i < -21; i++){
                 cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
             }
+            //cumulativeAppLog.averagePulse(7);
             weeklyAppLogList.add(cumulativeAppLog);
         }
         if (logCount >= 21){
@@ -264,6 +263,7 @@ public class GraphActivity extends AppCompatActivity {
             for (int i = -20; i < -14; i++){
                 cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
             }
+            //cumulativeAppLog.averagePulse(7);
             weeklyAppLogList.add(cumulativeAppLog);
         }
         if (logCount >= 14){
@@ -271,6 +271,7 @@ public class GraphActivity extends AppCompatActivity {
             for (int i = -13; i < -7; i++){
                 cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
             }
+            //cumulativeAppLog.averagePulse(7);
             weeklyAppLogList.add(cumulativeAppLog);
         }
         if (logCount >= 7){
@@ -278,6 +279,7 @@ public class GraphActivity extends AppCompatActivity {
             for (int i = -6; i < 0; i++){
                 cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
             }
+            //cumulativeAppLog.averagePulse(7);
             weeklyAppLogList.add(cumulativeAppLog);
         }
 

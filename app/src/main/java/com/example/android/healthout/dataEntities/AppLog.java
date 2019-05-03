@@ -81,4 +81,15 @@ public class AppLog implements Serializable {
         this.calories_consumed += appLog.getCalories_consumed();
         this.pulse += appLog.getPulse();
     }
+
+    public void averagePulse (int numAddedTogether){
+        this.pulse = pulse/numAddedTogether;
+    }
+
+    public String getAppLogInfo(){
+        String info = getSteps_walked() + "; " + getMiles_walked() + "; " + getCalories_burned() + "; "
+                + getCalories_consumed() + getPulse();
+        return info;
+    }
+
 }
