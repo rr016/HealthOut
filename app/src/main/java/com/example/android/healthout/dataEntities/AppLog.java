@@ -82,4 +82,14 @@ public class AppLog implements Serializable {
     }
 
     public void setDate (String date) { this.date = date; }
+
+    public void combineAppLogs (AppLog appLog){
+        this.log_id = -1;
+        this.steps_walked += appLog.getSteps_walked();
+        this.miles_walked += appLog.getMiles_walked();
+        this.calories_burned += appLog.getCalories_burned();
+        this.calories_consumed += appLog.getCalories_consumed();
+        this.pulse += appLog.getPulse();
+        this.blood_pressure = "Yolo Shwage";
+    }
 }

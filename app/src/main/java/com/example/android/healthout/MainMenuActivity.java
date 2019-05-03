@@ -101,10 +101,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 item_app[i] = user.goalList.get(i).getApp_name();
                 item_period[i] = user.goalList.get(i).getPeriod_length();
                 item_target[i] = user.goalList.get(i).getTarget_value();
-                //if(user.goalList.get(i).getProgress() == null)
-                // item_progress[i] = "[prog]";
-                // else
-                //item_progress[i] = user.goalList.get(i).getProgress();
 
                 if (user.goalList.get(i).getApp_id() == 1){
                     switch(user.goalList.get(i).getType_name()) {
@@ -240,7 +236,20 @@ public class MainMenuActivity extends AppCompatActivity {
 
                 long test = -1;
                 try {
+                    /*
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "132/85", user.getCalculatedDate("yyyy-MM-dd", -10));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "132/85", user.getCalculatedDate("yyyy-MM-dd", -9));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "132/85", user.getCalculatedDate("yyyy-MM-dd", -8));
                     db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "132/85", user.getCalculatedDate("yyyy-MM-dd", -7));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "132/85", user.getCalculatedDate("yyyy-MM-dd", -6));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "132/85", user.getCalculatedDate("yyyy-MM-dd", -5));
+                      */
+                    //db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "124/83", user.getCalculatedDate("yyyy-MM-dd", -28));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "125/84", user.getCalculatedDate("yyyy-MM-dd", -8));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "125/84", user.getCalculatedDate("yyyy-MM-dd", -7));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "127/89", user.getCalculatedDate("yyyy-MM-dd", -6));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "127/89", user.getCalculatedDate("yyyy-MM-dd", -5));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "132/85", user.getCalculatedDate("yyyy-MM-dd", -4));
                     db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "124/83", user.getCalculatedDate("yyyy-MM-dd", -3));
                     db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "125/84", user.getCalculatedDate("yyyy-MM-dd", -2));
                     db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "127/89", user.getCalculatedDate("yyyy-MM-dd", -1));
