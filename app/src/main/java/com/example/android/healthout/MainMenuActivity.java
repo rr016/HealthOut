@@ -2,9 +2,11 @@ package com.example.android.healthout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,13 +19,27 @@ import android.widget.Toast;
 
 import com.example.android.healthout.dataEntities.AppLog;
 import com.example.android.healthout.dataEntities.User;
+import com.example.android.healthout.database.DatabaseHelper;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
+import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.FitnessOptions;
+import com.google.android.gms.fitness.data.DataSet;
+import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.fitness.request.DataReadRequest;
+import com.google.android.gms.fitness.result.DataReadResponse;
+import com.google.android.gms.fitness.result.DataReadResult;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class MainMenuActivity extends AppCompatActivity {
     DatabaseHelper db;
@@ -86,9 +102,9 @@ public class MainMenuActivity extends AppCompatActivity {
                 item_period[i] = user.goalList.get(i).getPeriod_length();
                 item_target[i] = user.goalList.get(i).getTarget_value();
                 //if(user.goalList.get(i).getProgress() == null)
-                   // item_progress[i] = "[prog]";
-               // else
-                    //item_progress[i] = user.goalList.get(i).getProgress();
+                // item_progress[i] = "[prog]";
+                // else
+                //item_progress[i] = user.goalList.get(i).getProgress();
 
                 if (user.goalList.get(i).getApp_id() == 1){
                     switch(user.goalList.get(i).getType_name()) {
@@ -176,6 +192,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     item_type, item_app, item_period, item_target, item_progress, imageID);
             listView.setAdapter(adapter);
 
+
             // Click a Goal
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -221,19 +238,16 @@ public class MainMenuActivity extends AppCompatActivity {
                     db.addGoalToGoalTable(1,1,5,1, "80");
                 }
 
-                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "135/90", user.getCalculatedDate("yyyy-MM-dd", -16));
-                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "128/93", user.getCalculatedDate("yyyy-MM-dd", -15));
-                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "122/93", user.getCalculatedDate("yyyy-MM-dd", -14));
-                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "127/90", user.getCalculatedDate("yyyy-MM-dd", -13));
-                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "131/85", user.getCalculatedDate("yyyy-MM-dd", -12));
-                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "130/97", user.getCalculatedDate("yyyy-MM-dd", -11));
-                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "125/87", user.getCalculatedDate("yyyy-MM-dd", -10));
-                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "124/84", user.getCalculatedDate("yyyy-MM-dd", -9));
-                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "132/85", user.getCalculatedDate("yyyy-MM-dd", -8));
-                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "124/83", user.getCalculatedDate("yyyy-MM-dd", -3));
-                db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "125/84", user.getCalculatedDate("yyyy-MM-dd", -2));
-                db.addLogToLogTable(1, 1, new Random().nextInt(9000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "127/89", user.getCalculatedDate("yyyy-MM-dd", -1));
-                Long test = db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "127/89", user.getCalculatedDate("yyyy-MM-dd", 0));
+                long test = -1;
+                try {
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "132/85", user.getCalculatedDate("yyyy-MM-dd", -7));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "124/83", user.getCalculatedDate("yyyy-MM-dd", -3));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "125/84", user.getCalculatedDate("yyyy-MM-dd", -2));
+                    db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "127/89", user.getCalculatedDate("yyyy-MM-dd", -1));
+                    test = db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, "127/89", user.getCalculatedDate("yyyy-MM-dd", 0));
+                }catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 if (test > 0) {
                     Toast.makeText(MainMenuActivity.this, "Random Log Data", Toast.LENGTH_SHORT).show();
                 } else {
@@ -323,16 +337,16 @@ public class MainMenuActivity extends AppCompatActivity {
                         .setTitle("Logout")
                         .setMessage("Are you sure you want to logout?")
                         .setPositiveButton("No", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialog, int which) {
 
-                }
-                }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent moveToLogin = new Intent(MainMenuActivity.this, LoginActivity.class);
-                    // Prevent user from returning to this page
-                    moveToLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(moveToLogin);
-                }
+                            }
+                        }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent moveToLogin = new Intent(MainMenuActivity.this, LoginActivity.class);
+                        // Prevent user from returning to this page
+                        moveToLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(moveToLogin);
+                    }
                 }).setIcon(android.R.drawable.ic_dialog_alert).show();
 
                 return true;
@@ -369,5 +383,9 @@ public class MainMenuActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void onConnected(Bundle bundle){
+        Log.i("Log_cat", "Google Fit Shwaged!");
     }
 }

@@ -2,11 +2,8 @@ package com.example.android.healthout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -16,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.android.healthout.dataEntities.AppLog;
 import com.example.android.healthout.dataEntities.User;
+import com.example.android.healthout.database.DatabaseHelper;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
@@ -24,10 +22,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class GraphActivity extends AppCompatActivity {
     DatabaseHelper db;
@@ -92,22 +88,22 @@ public class GraphActivity extends AppCompatActivity {
         for(int i = 0; i < entries; i++){
             switch ((int)type_id){
                 case 1:
-                    dataLong = appLogList.get(i).getSteps_walked();
+                    dataLong = appLogListToBeGraphed.get(i).getSteps_walked();
                     break;
                 case 2:
-                    dataDouble = appLogList.get(i).getMiles_walked();
+                    dataDouble = appLogListToBeGraphed.get(i).getMiles_walked();
                     break;
                 case 3:
-                    dataLong = appLogList.get(i).getCalories_burned();
+                    dataLong = appLogListToBeGraphed.get(i).getCalories_burned();
                     break;
                 case 4:
-                    dataLong = appLogList.get(i).getCalories_consumed();
+                    dataLong = appLogListToBeGraphed.get(i).getCalories_consumed();
                     break;
                 case 5:
-                    dataLong = appLogList.get(i).getPulse();
+                    dataLong = appLogListToBeGraphed.get(i).getPulse();
                     break;
                 case 6:
-                    dataString = appLogList.get(i).getBlood_pressure();
+                    dataString = appLogListToBeGraphed.get(i).getBlood_pressure();
                     break;
             }
 
@@ -222,32 +218,14 @@ public class GraphActivity extends AppCompatActivity {
     public List<AppLog> createDailyAppLogList(List<AppLog> appLogList) throws ParseException {
         List<AppLog> dailyAppLogList = new ArrayList<AppLog>();
 
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date testDate = sdf.parse(user.getCalculatedDate("yyyy-MM-dd", -7));
-
-        int startingPoint = -1;
-
-        // Find starting appLog
-        for (int i = 0; i < appLogList.size(); i++){
-            Date logDate = sdf.parse(appLogList.get(i).getDate());
-            Toast.makeText(getApplicationContext(), testDate + " vs " + logDate, Toast.LENGTH_LONG).show();
-            if (testDate.before(logDate)){
-                startingPoint = i;
-                break;
+        if (appLogList.size() > 7){
+            for (int i = -7; i < 0; i++){
+                dailyAppLogList.add(appLogList.get(appLogList.size() + i - 1));
             }
         }
-
-        if (startingPoint > -1){
-            for (int i = -7; i < 0; i++){
-                Date dayOfWeek = sdf.parse(user.getCalculatedDate("yyyy-MM-dd", i));
-                Date logDate = sdf.parse(appLogList.get(i + 7).getDate());
-                if(dayOfWeek.equals(logDate)){
-                       dailyAppLogList.add(appLogList.get(i + 7));
-               }
-               else{
-                    dailyAppLogList.add(null);
-               }
+        else{
+            for (int i = -appLogList.size(); i < 0; i++){
+                dailyAppLogList.add(appLogList.get(appLogList.size() + i - 1));
             }
         }
 
