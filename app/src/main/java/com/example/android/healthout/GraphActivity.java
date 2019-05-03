@@ -2,6 +2,7 @@ package com.example.android.healthout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.DatabaseUtils;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -79,6 +80,13 @@ public class GraphActivity extends AppCompatActivity {
         GraphView graph = (GraphView) findViewById(R.id.graph);
         logDataLine = new LineGraphSeries<DataPoint>();
         targetValueLine = new LineGraphSeries<DataPoint>();
+
+        // Log Table -- Display
+        Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
+        long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_LOG);
+        for (int i = 1; i <= key; i++)
+            Toast.makeText(GraphActivity.this, db.getLogInfoFromLogTable(i), Toast.LENGTH_SHORT).show();
+
 
         int entries = appLogListToBeGraphed.size();
 
@@ -217,12 +225,12 @@ public class GraphActivity extends AppCompatActivity {
 
         if (appLogList.size() > 7){
             for (int i = -7; i < 0; i++){
-                dailyAppLogList.add(appLogList.get(appLogList.size() + i - 1));
+                dailyAppLogList.add(appLogList.get(appLogList.size() + i));
             }
         }
         else{
-            for (int i = - (appLogList.size() - 1); i < 0; i++){
-                dailyAppLogList.add(appLogList.get(appLogList.size() + i - 1));
+            for (int i = - appLogList.size(); i < 0; i++){
+                dailyAppLogList.add(appLogList.get(appLogList.size() + i));
             }
         }
 

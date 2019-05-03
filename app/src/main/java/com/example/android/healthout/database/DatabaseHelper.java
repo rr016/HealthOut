@@ -1050,7 +1050,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public String getLogInfoFromLogTable(long log_id){
         String log_info = getUserEmailFromLogTable(log_id) + ", " + getAppNameFromLogTable(log_id)
-                + ", " + getStepsWalkedFromLogTable(log_id) + ", " + getMilesWalkedFromLogTable(log_id)
+                + ", " + getStepsWalkedFromLogTable(log_id) + ", " + String.format("%.2f", getMilesWalkedFromLogTable(log_id))
                 + ", " + getCaloriesBurnedFromLogTable(log_id) + ", " + getCaloriesConsumedFromLogTable(log_id) + ", "
                 + getPulseFromLogTable(log_id) + ", " + getBloodPressureFromLogTable(log_id) + ", "
                 + getDateFromLogTable(log_id);
