@@ -49,20 +49,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:text="To change email"
+        android:text="To change username"
         android:textSize="15dp"
         android:textColor="@color/colorBlack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_current_password" />
 
     <EditText
-        android:id="@+id/editText_new_email"
+        android:id="@+id/editText_new_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
-        android:hint="New email"
-        android:inputType="textEmailAddress"
+        android:hint="New username"
+        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -76,7 +76,7 @@
         android:textSize="15dp"
         android:textColor="@color/colorBlack"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_new_email" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_new_username" />
 
     <EditText
         android:id="@+id/editText_new_password"

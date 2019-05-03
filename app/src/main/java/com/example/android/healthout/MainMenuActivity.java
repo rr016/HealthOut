@@ -312,7 +312,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 }
 
                 user.goalList = db.getGoalListFromGoalTable(user.getUser_id());
-                user.appAndApiList = db.getAppAndApiListFromLogTable(user.getUser_id());
 
                 // Refreshes page
                 finish();

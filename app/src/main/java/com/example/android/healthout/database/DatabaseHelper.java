@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // User Table - column names
     public static final String USER_ID = "user_id";
-    public static final String USER_EMAIL = "Email";
+    public static final String USER_USERNAME = "username";
     public static final String USER_PASSWORD = "Password";
 
     // App Table - column names
@@ -83,7 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         // User Table -- created
         database.execSQL("CREATE TABLE " + TABLE_USER +
-                " (" + USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_EMAIL + " TEXT, " + USER_PASSWORD + " TEXT)");
+                " (" + USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_USERNAME + " TEXT, " + USER_PASSWORD + " TEXT)");
         // App Table -- created
         database.execSQL("CREATE TABLE " + TABLE_APP +
                 " (" + APP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + APP_NAME + " TEXT)");
@@ -155,17 +155,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*************************************************** User Table    methods ***************************************************/
     /*****************************************************************************************************************************/
 
-    public long addUserToUserTable(String email, String password) {
+    public long addUserToUserTable(String username, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(USER_EMAIL, email);
+        values.put(USER_USERNAME, username);
         values.put(USER_PASSWORD, password);
         long result = db.insert(TABLE_USER, null, values);
         db.close();
         return result;
     }
 
-    public String getUserEmailFromUserTable(long user_id) {
+    public String getUserusernameFromUserTable(long user_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_USER + " WHERE "
                 + USER_ID + " = " + user_id;
@@ -176,7 +176,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        return cursor.getString(cursor.getColumnIndex(USER_EMAIL));
+        return cursor.getString(cursor.getColumnIndex(USER_USERNAME));
     }
 
     public String getUserPasswordFromUserTable(long user_id) {
@@ -193,11 +193,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getString(cursor.getColumnIndex(USER_PASSWORD));
     }
 
-    public long getUserIdFromUserTable(String email, String password) {
+    public long getUserIdFromUserTable(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {USER_ID};
-        String selection = USER_EMAIL + "=?" + " and " + USER_PASSWORD + "=?";
-        String[] selectionArgs = {email, password};
+        String selection = USER_USERNAME + "=?" + " and " + USER_PASSWORD + "=?";
+        String[] selectionArgs = {username, password};
         Cursor cursor = db.query(TABLE_USER, columns, selection, selectionArgs, null, null, null);
         long id = -1;
         if(cursor.getCount() > 0) {
@@ -212,13 +212,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getAccountFromUserTable(long user_id){
-        return getUserEmailFromUserTable(user_id) + ", " + getUserPasswordFromUserTable(user_id);
+        return getUserusernameFromUserTable(user_id) + ", " + getUserPasswordFromUserTable(user_id);
     }
 
-    public long changeEmailInUserTable(long user_id, String new_email){
+    public long changeusernameInUserTable(long user_id, String new_username){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(USER_EMAIL, new_email);
+        values.put(USER_USERNAME, new_username);
         long result = db.update(TABLE_USER, values, USER_ID + "=" + user_id, null);
         db.close();
         return result;
@@ -238,11 +238,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.delete(TABLE_USER, USER_ID + "='" + user_id + "'", null) > 0;
     }
 
-    public boolean checkUserInUserTable(String email, String password) {
+    public boolean checkUserInUserTable(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {USER_ID};
-        String selection = USER_EMAIL + "=?" + " and " + USER_PASSWORD + "=?";
-        String[] selectionArgs = {email, password};
+        String selection = USER_USERNAME + "=?" + " and " + USER_PASSWORD + "=?";
+        String[] selectionArgs = {username, password};
         Cursor cursor = db.query(TABLE_USER, columns, selection, selectionArgs, null, null, null);
         int count = cursor.getCount();
         cursor.close();
@@ -492,8 +492,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getLong(cursor.getColumnIndex(USER_ID));
     }
 
-    public String getUserEmailFromGoalTable(long goal_id) {
-        return getUserEmailFromUserTable(getUserIdFromGoalTable(goal_id));
+    public String getUserusernameFromGoalTable(long goal_id) {
+        return getUserusernameFromUserTable(getUserIdFromGoalTable(goal_id));
     }
 
     public Long getAppIdFromGoalTable(long goal_id) {
@@ -565,7 +565,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getGoalInfoFromGoalTable(long goal_id){
-        String goalInfo = getUserEmailFromGoalTable(goal_id) + ", " + getAppNameFromGoalTable(goal_id)
+        String goalInfo = getUserusernameFromGoalTable(goal_id) + ", " + getAppNameFromGoalTable(goal_id)
                 + ", " + getTypeNameFromGoalTable(goal_id) + ", " + getPeriodLengthFromGoalTable(goal_id)
                 + ", " + getTargetValueIdFromGoalTable(goal_id);
         return goalInfo;
@@ -660,7 +660,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(API_REGISTERED, registered);
         values.put(API_USERNAME, app_username);
         values.put(API_EMAIL, app_email);
-        values.put(API_PASSWORD, app_email);
+        values.put(API_PASSWORD, app_password);
         long result = db.insert(TABLE_API, null, values);
         db.close();
         return result;
@@ -698,8 +698,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getLong(cursor.getColumnIndex(APP_ID));
     }
 
-    public String getUserEmailFromApiTable(long api_id) {
-        return getUserEmailFromUserTable(getUserIdFromApiTable(api_id));
+    public String getUserusernameFromApiTable(long api_id) {
+        return getUserusernameFromUserTable(getUserIdFromApiTable(api_id));
     }
 
     public boolean isRegisteredInApiTable(long api_id) {
@@ -759,7 +759,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getApiInfoFromApiTable(long api_id){
-        String api_info = getUserEmailFromApiTable(api_id) + ", " + getAppNameFromApiTable(api_id)
+        String api_info = getUserusernameFromApiTable(api_id) + ", " + getAppNameFromApiTable(api_id)
                 + ", " + isRegisteredInApiTable(api_id) + ", " + getAppUsernameFromApiTable(api_id)
                 + ", " + getAppEmailFromApiTable(api_id) + ", " + getAppPasswordFromApiTable(api_id);
         return api_info;
@@ -806,7 +806,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return result;
     }
-
+/*
     public List<ThirdPartyAppAndApi> getAppAndApiListFromLogTable(long user_id){
         SQLiteDatabase db = this.getReadableDatabase();
         List<ThirdPartyAppAndApi> appAndApiList = new ArrayList<ThirdPartyAppAndApi>();
@@ -822,7 +822,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             currentAppAndApi.setApp_name(cursor.getString(cursor.getColumnIndex(APP_NAME)));
             currentAppAndApi.setRegistered(cursor.getInt(cursor.getColumnIndex(API_REGISTERED)) > 0);
             currentAppAndApi.setApp_username(cursor.getString(cursor.getColumnIndex(API_USERNAME)));
-            currentAppAndApi.setApp_email(cursor.getString(cursor.getColumnIndex(API_EMAIL)));
+            currentAppAndApi.setApp_username(cursor.getString(cursor.getColumnIndex(API_EMAIL)));
             currentAppAndApi.setApp_password(cursor.getString(cursor.getColumnIndex(API_PASSWORD)));
             appAndApiList.add(currentAppAndApi);
         }
@@ -830,7 +830,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return appAndApiList;
     }
-
+*/
     /*****************************************************************************************************************************/
     /**************************************************** Log Table    methods ***************************************************/
     /*****************************************************************************************************************************/
@@ -920,8 +920,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getLong(cursor.getColumnIndex(USER_ID));
     }
 
-    public String getUserEmailFromLogTable(long log_id) {
-        return getUserEmailFromUserTable(getUserIdFromLogTable(log_id));
+    public String getUserusernameFromLogTable(long log_id) {
+        return getUserusernameFromUserTable(getUserIdFromLogTable(log_id));
     }
 
     public Long getAppIdFromLogTable(long log_id) {
@@ -1028,7 +1028,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getLogInfoFromLogTable(long log_id){
-        String log_info = getUserEmailFromLogTable(log_id) + ", " + getAppNameFromLogTable(log_id)
+        String log_info = getUserusernameFromLogTable(log_id) + ", " + getAppNameFromLogTable(log_id)
                 + ", " + getStepsWalkedFromLogTable(log_id) + ", " + String.format("%.2f", getMilesWalkedFromLogTable(log_id))
                 + ", " + getCaloriesBurnedFromLogTable(log_id) + ", " + getCaloriesConsumedFromLogTable(log_id) + ", "
                 + getPulseFromLogTable(log_id) + ", " + getDateFromLogTable(log_id);

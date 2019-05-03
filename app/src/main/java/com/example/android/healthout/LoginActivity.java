@@ -14,7 +14,7 @@ import com.example.android.healthout.database.DatabaseHelper;
 public class LoginActivity extends AppCompatActivity {
     DatabaseHelper db;
 
-    EditText emailEditText;
+    EditText usernameEditText;
     EditText passwordEditText;
     Button loginButton;
     Button registerButton;
@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
-        emailEditText = findViewById(R.id.edittext_email);
+        usernameEditText = findViewById(R.id.edittext_username);
         passwordEditText = findViewById(R.id.edittext_password);
         loginButton = findViewById(R.id.button_login);
         registerButton = findViewById(R.id.button_register);
@@ -41,14 +41,14 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String  sEmail = emailEditText.getText().toString();
+                String  susername = usernameEditText.getText().toString();
                 String sPassword = passwordEditText.getText().toString();
 
-                Boolean res = db.checkUserInUserTable(sEmail, sPassword);
+                Boolean res = db.checkUserInUserTable(susername, sPassword);
                 if(res == true){
-                    user.setEmail(sEmail);
+                    user.setusername(susername);
                     user.setPassword(sPassword);
-                    user.setUser_id(db.getUserIdFromUserTable(sEmail, sPassword));
+                    user.setUser_id(db.getUserIdFromUserTable(susername, sPassword));
                     user.setLogged_in(true);
 
                     user.allAppsList = db.getAllAppsFromAppTable();

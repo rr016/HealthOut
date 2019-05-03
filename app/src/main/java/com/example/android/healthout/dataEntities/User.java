@@ -10,7 +10,7 @@ import java.util.List;
 public class User implements Serializable {
     private boolean logged_in;
     private long user_id;
-    private String email;
+    private String username;
     private String password;
 
     public List<String> allAppsList = new ArrayList<String>();
@@ -23,7 +23,7 @@ public class User implements Serializable {
     public User() {
         this.logged_in = false;
         this.user_id = -1;
-        this.email = null;
+        this.username = null;
         this.password = null;
     }
 
@@ -43,12 +43,12 @@ public class User implements Serializable {
         this.user_id = user_id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getusername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setusername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -59,8 +59,8 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public boolean isEmailValid(String email){
-        if (email.contains("@") && email.contains("."))
+    public boolean isusernameValid(String username){
+        if (username.length() < 15 && username.length() > 0)
             return true;
 
         return false;

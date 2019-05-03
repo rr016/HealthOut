@@ -14,7 +14,6 @@ public class Goal implements Serializable {
     private String period_length;
     private String target_value;
     private String progress;
-    ThirdPartyAppAndApi thirdPartyApp = new ThirdPartyAppAndApi();
 
     public Goal(){
         this.goal_id = -1;

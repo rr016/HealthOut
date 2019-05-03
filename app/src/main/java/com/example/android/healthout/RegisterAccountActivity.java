@@ -13,11 +13,11 @@ import com.example.android.healthout.database.DatabaseHelper;
 public class RegisterAccountActivity extends AppCompatActivity {
     DatabaseHelper db;
 
-    EditText emailEditText;
+    EditText usernameEditText;
     EditText passwordEditText;
     EditText confirmPasswordEditText;
     Button signUpButton;
-    String sEmail;
+    String susername;
     String sPassword;
     String sConfirmPassword;
 
@@ -30,7 +30,7 @@ public class RegisterAccountActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
-        emailEditText = findViewById(R.id.edittext_email2);
+        usernameEditText = findViewById(R.id.edittext_username2);
         passwordEditText = findViewById(R.id.edittext_password2);
         confirmPasswordEditText = findViewById(R.id.edittext_confirm_password);
         signUpButton = findViewById(R.id.button_sign_up);
@@ -39,12 +39,12 @@ public class RegisterAccountActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sEmail = emailEditText.getText().toString();
+                susername = usernameEditText.getText().toString();
                 sPassword = passwordEditText.getText().toString();
                 sConfirmPassword = confirmPasswordEditText.getText().toString();
 
                 if (sPassword.equals(sConfirmPassword)){
-                    Long val = db.addUserToUserTable(sEmail, sPassword);
+                    Long val = db.addUserToUserTable(susername, sPassword);
                     if(val > 0){
                         Toast.makeText(RegisterAccountActivity.this,"Account Registered", Toast.LENGTH_SHORT).show();
                         Intent moveToLogin = new Intent(RegisterAccountActivity.this, LoginActivity.class);

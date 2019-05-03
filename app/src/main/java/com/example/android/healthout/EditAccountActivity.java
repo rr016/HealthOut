@@ -20,7 +20,7 @@ public class EditAccountActivity extends AppCompatActivity {
     DatabaseHelper db;
 
     EditText currentPasswordEditText;
-    EditText newEmailEditText;
+    EditText newusernameEditText;
     EditText newPasswordEditText;
     EditText confirmNewPasswordEditText;
     Button applyButton;
@@ -36,7 +36,7 @@ public class EditAccountActivity extends AppCompatActivity {
         db = new com.example.android.healthout.database.DatabaseHelper(this);
 
         currentPasswordEditText = findViewById(R.id.editText_current_password);
-        newEmailEditText = findViewById(R.id.editText_new_email);
+        newusernameEditText = findViewById(R.id.editText_new_username);
         newPasswordEditText = findViewById(R.id.editText_new_password);
         confirmNewPasswordEditText = findViewById(R.id.editText_confirm_new_password);
         applyButton = findViewById(R.id.button_apply_account);
@@ -46,44 +46,44 @@ public class EditAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String sCurrentPassword = currentPasswordEditText.getText().toString();
-                String sNewEmail = newEmailEditText.getText().toString();
+                String sNewusername = newusernameEditText.getText().toString();
                 String sNewPassword = newPasswordEditText.getText().toString();
                 String sConfirmNewPassword = confirmNewPasswordEditText.getText().toString();
 
                 boolean currentPasswordValid = sCurrentPassword.equals(user.getPassword());  // whether current password is correct
-                boolean newEmailValid = user.isEmailValid(sNewEmail);   // whether new email is of valid format
+                boolean newusernameValid = user.isusernameValid(sNewusername);   // whether new username is of valid format
                 boolean newPasswordValid = user.isPasswordValid(sNewPassword, sConfirmNewPassword); // whether new passwords are of valid format and match
-                long changedEmail = 0;
+                long changedusername = 0;
                 long changedPassword = 0;
 
                 if (currentPasswordValid == true) // if current password is valid
                 {
-                    if (newEmailValid == true)  // then if new email is of valid format
-                        changedEmail = db.changeEmailInUserTable(user.getUser_id(), sNewEmail);
+                    if (newusernameValid == true)  // then if new username is of valid format
+                        changedusername = db.changeusernameInUserTable(user.getUser_id(), sNewusername);
                     if (newPasswordValid == true) // and/or if passwords are of valid format and match
                         changedPassword = db.changePasswordInUserTable(user.getUser_id(), sNewPassword);
                 }
 
 
-                if (currentPasswordValid == true && (newEmailValid == true || newPasswordValid == true)){
-                    if (changedEmail == 1 && changedPassword == 1) // if no errors when changing email and/or password
+                if (currentPasswordValid == true && (newusernameValid == true || newPasswordValid == true)){
+                    if (changedusername == 1 && changedPassword == 1) // if no errors when changing username and/or password
                     {
-                        user.setEmail(sNewEmail);
+                        user.setusername(sNewusername);
                         user.setPassword(sNewPassword);
                         Toast.makeText(getApplicationContext(), "Account update succesful", Toast.LENGTH_LONG).show();
                         Intent moveToMainMenu = new Intent(EditAccountActivity.this, MainMenuActivity.class).putExtra("user", user);
                         startActivity(moveToMainMenu);
                         finish(); // Prevent user from returning to this page
                     }
-                    else if (changedEmail == 1 && changedPassword == 0) // if no errors when changing email
+                    else if (changedusername == 1 && changedPassword == 0) // if no errors when changing username
                     {
-                        user.setEmail(sNewEmail);
-                        Toast.makeText(getApplicationContext(), "Email update succesful", Toast.LENGTH_LONG).show();
+                        user.setusername(sNewusername);
+                        Toast.makeText(getApplicationContext(), "username update succesful", Toast.LENGTH_LONG).show();
                         Intent moveToMainMenu = new Intent(EditAccountActivity.this, MainMenuActivity.class).putExtra("user", user);
                         startActivity(moveToMainMenu);
                         finish(); // Prevent user from returning to this page
                     }
-                    else if (changedEmail == 0 && changedPassword == 1) // if no errors when changing password
+                    else if (changedusername == 0 && changedPassword == 1) // if no errors when changing password
                     {
                         user.setPassword(sNewPassword);
                         Toast.makeText(getApplicationContext(), "Password update succesful", Toast.LENGTH_LONG).show();
@@ -95,11 +95,11 @@ public class EditAccountActivity extends AppCompatActivity {
                 else if (currentPasswordValid == false){
                     Toast.makeText(getApplicationContext(), "Incorrect current password", Toast.LENGTH_LONG).show();
                 }
-                else if (sNewEmail.length() > 0 && sNewPassword.length() > 0 && newEmailValid == false && newPasswordValid == false){
-                    Toast.makeText(getApplicationContext(), "Invalid new email and new password", Toast.LENGTH_LONG).show();
+                else if (sNewusername.length() > 0 && sNewPassword.length() > 0 && newusernameValid == false && newPasswordValid == false){
+                    Toast.makeText(getApplicationContext(), "Invalid new username and new password", Toast.LENGTH_LONG).show();
                 }
-                else if (sNewEmail.length() > 0 && newEmailValid == false){
-                    Toast.makeText(getApplicationContext(), "Invalid new email", Toast.LENGTH_LONG).show();
+                else if (sNewusername.length() > 0 && newusernameValid == false){
+                    Toast.makeText(getApplicationContext(), "Invalid new username", Toast.LENGTH_LONG).show();
                 }
                 else if (sNewPassword.length() > 0 && newPasswordValid == false){
                     if (sNewPassword.equals(sConfirmNewPassword) == false)
