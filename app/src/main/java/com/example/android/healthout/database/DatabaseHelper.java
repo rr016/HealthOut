@@ -72,7 +72,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String LOG_CALORIES_BURNED = "calories_burned";
     public static final String LOG_CALORIES_CONSUMED = "calories_consumed";
     public static final String LOG_PULSE = "pulse";
-    public static final String LOG_BLOOD_PRESSURE = "blood_pressure";
     public static final String LOG_DATE = "date";
 
 
@@ -107,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " (" + LOG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, "
                 + APP_ID + " INTEGER, "+ LOG_STEPS_WALKED + " INTEGER, " + LOG_MILES_WALKED + " DOUBLE, "
                 + LOG_CALORIES_BURNED + " INTEGER, " + LOG_CALORIES_CONSUMED + " INTEGER, "
-                + LOG_PULSE + " INTEGER, " + LOG_BLOOD_PRESSURE + " TEXT, " + LOG_DATE + " STRING)");
+                + LOG_PULSE + " INTEGER, " + LOG_DATE + " STRING)");
 
         // App Table -- preload data
         ContentValues cvApp = new ContentValues();
@@ -128,8 +127,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.insert(TABLE_TYPE, null, cvType);
         cvType.put(TYPE_NAME, "Pulse");
         database.insert(TABLE_TYPE, null, cvType);
-        cvType.put(TYPE_NAME, "Blood Pressure");
-        database.insert(TABLE_TYPE, null, cvType);
 
         // Period Table -- preload data
         ContentValues cvPeriod = new ContentValues();
@@ -138,8 +135,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cvPeriod.put(PERIOD_LENGTH, "Weekly");
         database.insert(TABLE_PERIOD, null, cvPeriod);
         cvPeriod.put(PERIOD_LENGTH, "Monthly");
-        database.insert(TABLE_PERIOD, null, cvPeriod);
-        cvPeriod.put(PERIOD_LENGTH, "Yearly");
         database.insert(TABLE_PERIOD, null, cvPeriod);
     }
 
@@ -841,7 +836,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*****************************************************************************************************************************/
 
     public long addLogToLogTable(long user_id, long app_id, long steps_walked, double miles_walked, long calories_burned,
-                                 long calories_consumed, long pulse, String blood_pressure, String date) throws ParseException {
+                                 long calories_consumed, long pulse, String date) throws ParseException {
         SQLiteDatabase db = this.getWritableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
                 + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
@@ -866,7 +861,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(LOG_CALORIES_BURNED, 0);
             values.put(LOG_CALORIES_CONSUMED, 0);
             values.put(LOG_PULSE, 0);
-            values.put(LOG_BLOOD_PRESSURE, "0");
 
             Log.e("Here!!!", "" + daysBetween);
 
@@ -893,7 +887,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(LOG_CALORIES_BURNED, calories_burned);
         values.put(LOG_CALORIES_CONSUMED, calories_consumed);
         values.put(LOG_PULSE, pulse);
-        values.put(LOG_BLOOD_PRESSURE, blood_pressure);
         values.put(LOG_DATE, date);
 
         long result = -1;
@@ -1020,20 +1013,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getLong(cursor.getColumnIndex(LOG_PULSE));
     }
 
-    public String getBloodPressureFromLogTable(long log_id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
-                + LOG_ID + " = " + log_id;
-
-        Log.e(LOG_CAT, selectQuery);
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        return cursor.getString(cursor.getColumnIndex(LOG_BLOOD_PRESSURE));
-    }
-
     public String getDateFromLogTable(long log_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
@@ -1052,8 +1031,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String log_info = getUserEmailFromLogTable(log_id) + ", " + getAppNameFromLogTable(log_id)
                 + ", " + getStepsWalkedFromLogTable(log_id) + ", " + String.format("%.2f", getMilesWalkedFromLogTable(log_id))
                 + ", " + getCaloriesBurnedFromLogTable(log_id) + ", " + getCaloriesConsumedFromLogTable(log_id) + ", "
-                + getPulseFromLogTable(log_id) + ", " + getBloodPressureFromLogTable(log_id) + ", "
-                + getDateFromLogTable(log_id);
+                + getPulseFromLogTable(log_id) + ", " + getDateFromLogTable(log_id);
         return log_info;
     }
 
@@ -1075,7 +1053,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             appLog.setCalories_burned(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_BURNED)));
             appLog.setCalories_consumed(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_CONSUMED)));
             appLog.setPulse(cursor.getLong(cursor.getColumnIndex(LOG_PULSE)));
-            appLog.setBlood_pressure(cursor.getString(cursor.getColumnIndex(LOG_BLOOD_PRESSURE)));
             appLog.setDate(cursor.getString(cursor.getColumnIndex(LOG_DATE)));
         }
         else{
@@ -1102,7 +1079,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             currentAppLog.setCalories_burned(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_BURNED)));
             currentAppLog.setCalories_consumed(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_CONSUMED)));
             currentAppLog.setPulse(cursor.getLong(cursor.getColumnIndex(LOG_PULSE)));
-            currentAppLog.setBlood_pressure(cursor.getString(cursor.getColumnIndex(LOG_BLOOD_PRESSURE)));
             currentAppLog.setDate(cursor.getString(cursor.getColumnIndex(LOG_DATE)));
             appLogList.add(currentAppLog);
         }

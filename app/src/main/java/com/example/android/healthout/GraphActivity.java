@@ -68,9 +68,6 @@ public class GraphActivity extends AppCompatActivity {
             case 3:
                 //dataLong = appLogList.get(i).getCalories_burned();
                 break;
-            case 4:
-                //dataLong = appLogList.get(i).getCalories_consumed();
-                break;
         }
 
         long dataLong = -1;
@@ -107,9 +104,6 @@ public class GraphActivity extends AppCompatActivity {
                 case 5:
                     dataLong = appLogListToBeGraphed.get(i).getPulse();
                     break;
-                case 6:
-                    dataString = appLogListToBeGraphed.get(i).getBlood_pressure();
-                    break;
             }
 
             if (type_id == 1 || (type_id >=3 && type_id <=5))
@@ -143,6 +137,22 @@ public class GraphActivity extends AppCompatActivity {
             gridLabel.setHorizontalAxisTitle("Days");
             gridLabel.setVerticalAxisTitle("Pulse");
         }
+
+        switch((int) period_id) {
+            case 1: // Daily
+                graph.getViewport().setMinX(0);
+                graph.getViewport().setMaxX(7);
+                break;
+            case 2: // Weekly
+                graph.getViewport().setMinX(0);
+                graph.getViewport().setMaxX(4);
+                break;
+            case 3: // Monthly
+                graph.getViewport().setMinX(0);
+                graph.getViewport().setMaxX(4);
+                break;
+        }
+        graph.getViewport().setXAxisBoundsManual(true);
 
         targetValueLine.setColor(Color.rgb(255, 0, 0));
         graph.addSeries(logDataLine);

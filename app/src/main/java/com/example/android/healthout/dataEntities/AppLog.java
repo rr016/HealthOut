@@ -9,7 +9,6 @@ public class AppLog implements Serializable {
     private long calories_burned;
     private long calories_consumed;
     private long pulse;
-    private String blood_pressure;
     private String date;
 
     public AppLog(){
@@ -19,7 +18,6 @@ public class AppLog implements Serializable {
         this.calories_burned = -1;
         this.calories_consumed = -1;
         this.pulse = -1;
-        this.blood_pressure = null;
         this.date = null;
     }
 
@@ -69,14 +67,6 @@ public class AppLog implements Serializable {
         this.pulse = pulse;
     }
 
-    public String getBlood_pressure() {
-        return blood_pressure;
-    }
-
-    public void setBlood_pressure(String blood_pressure) {
-        this.blood_pressure = blood_pressure;
-    }
-
     public String getDate() {
         return date;
     }
@@ -90,6 +80,5 @@ public class AppLog implements Serializable {
         this.calories_burned += appLog.getCalories_burned();
         this.calories_consumed += appLog.getCalories_consumed();
         this.pulse += appLog.getPulse();
-        this.blood_pressure = "Yolo Shwage";
     }
 }
