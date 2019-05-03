@@ -57,16 +57,12 @@ public class GraphActivity extends AppCompatActivity {
 
         appLogList = db.getAppLogListFromLogTable(user.getUser_id(), app_id);
 
-        switch ((int)type_id){
+        switch ((int)period_id){
             case 1:
-                try {
-                    appLogListToBeGraphed = createDailyAppLogList(appLogList);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                appLogListToBeGraphed = createDailyAppLogList(appLogList);
                 break;
             case 2:
-                //dataDouble = appLogList.get(i).getMiles_walked();
+                appLogListToBeGraphed = createWeeklyAppLogList(appLogList);
                 break;
             case 3:
                 //dataLong = appLogList.get(i).getCalories_burned();
@@ -85,6 +81,7 @@ public class GraphActivity extends AppCompatActivity {
         targetValueLine = new LineGraphSeries<DataPoint>();
 
         int entries = appLogListToBeGraphed.size();
+
         for(int i = 0; i < entries; i++){
             switch ((int)type_id){
                 case 1:
@@ -215,7 +212,7 @@ public class GraphActivity extends AppCompatActivity {
         }
     }
 
-    public List<AppLog> createDailyAppLogList(List<AppLog> appLogList) throws ParseException {
+    public List<AppLog> createDailyAppLogList(List<AppLog> appLogList) {
         List<AppLog> dailyAppLogList = new ArrayList<AppLog>();
 
         if (appLogList.size() > 7){
@@ -224,11 +221,48 @@ public class GraphActivity extends AppCompatActivity {
             }
         }
         else{
-            for (int i = -appLogList.size(); i < 0; i++){
+            for (int i = - (appLogList.size() - 1); i < 0; i++){
                 dailyAppLogList.add(appLogList.get(appLogList.size() + i - 1));
             }
         }
 
         return dailyAppLogList;
+    }
+
+    public List<AppLog> createWeeklyAppLogList(List<AppLog> appLogList) {
+        List<AppLog> weeklyAppLogList = new ArrayList<AppLog>();
+
+        int logCount = appLogList.size();
+
+        if (logCount >= 28){
+            AppLog cumulativeAppLog = appLogList.get(logCount -28 - 1);
+            for (int i = -27; i < -21; i++){
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+            }
+            weeklyAppLogList.add(cumulativeAppLog);
+        }
+        if (logCount >= 21){
+            AppLog cumulativeAppLog = appLogList.get(logCount -21 - 1);
+            for (int i = -20; i < -14; i++){
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+            }
+            weeklyAppLogList.add(cumulativeAppLog);
+        }
+        if (logCount >= 14){
+            AppLog cumulativeAppLog = appLogList.get(logCount -14 - 1);
+            for (int i = -13; i < -7; i++){
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+            }
+            weeklyAppLogList.add(cumulativeAppLog);
+        }
+        if (logCount >= 7){
+            AppLog cumulativeAppLog = appLogList.get(logCount -7 - 1);
+            for (int i = -6; i < 0; i++){
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+            }
+            weeklyAppLogList.add(cumulativeAppLog);
+        }
+
+        return weeklyAppLogList;
     }
 }
