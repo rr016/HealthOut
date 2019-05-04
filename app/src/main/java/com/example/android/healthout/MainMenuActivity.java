@@ -47,6 +47,7 @@ public class MainMenuActivity extends AppCompatActivity {
     DatabaseHelper db;
 
     User user;
+    long user_id;
 
     public List<AppLog> fitbitAppLogList = new ArrayList<AppLog>();
     public List<AppLog> googleFitAppLogList = new ArrayList<AppLog>();
@@ -72,12 +73,13 @@ public class MainMenuActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
 
         user = (User)getIntent().getSerializableExtra("user");
+        user_id = user.getUser_id();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(new Date());
 
-        fitbitAppLogList = db.getAppLogListFromLogTable(user.getUser_id(), 1);
-        googleFitAppLogList = db.getAppLogListFromLogTable(user.getUser_id(), 2);
+        fitbitAppLogList = db.getAppLogListFromLogTable(user_id, 1);
+        googleFitAppLogList = db.getAppLogListFromLogTable(user_id, 2);
 
         updateButton = findViewById(R.id.button_update);
         registerAppsButton = findViewById(R.id.button_register_apps);
@@ -315,27 +317,57 @@ public class MainMenuActivity extends AppCompatActivity {
                     */
 
                 if (user.goalList.size() == 0){
-                    db.addGoalToGoalTable(1,1,1,1, "3000");
-                    db.addGoalToGoalTable(1,1,2,1, "3");
-                    db.addGoalToGoalTable(1,1,3,1, "2500");
-                    db.addGoalToGoalTable(1,1,4,1, "2200");
-                    db.addGoalToGoalTable(1,1,5,1, "80");
-                    db.addGoalToGoalTable(1,1,1,2, "21000");
-                    db.addGoalToGoalTable(1,1,2,2, "21");
-                    db.addGoalToGoalTable(1,1,3,2, "17500");
-                    db.addGoalToGoalTable(1,1,4,2, "15000");
-                    db.addGoalToGoalTable(1,1,5,2, "80");
-                    db.addGoalToGoalTable(1,1,1,3, "84000");
-                    db.addGoalToGoalTable(1,1,2,3, "84");
-                    db.addGoalToGoalTable(1,1,3,3, "70000");
-                    db.addGoalToGoalTable(1,1,4,3, "60000");
-                    db.addGoalToGoalTable(1,1,5,3, "80");
+                    // --- Fitbit ---
+                    // Daily
+                    db.addGoalToGoalTable(user_id,1,1,1, "3000");
+                    db.addGoalToGoalTable(user_id,1,2,1, "3");
+                    db.addGoalToGoalTable(user_id,1,3,1, "2500");
+                    db.addGoalToGoalTable(user_id,1,4,1, "2200");
+                    db.addGoalToGoalTable(user_id,1,5,1, "80");
+                    // Weekly
+                    db.addGoalToGoalTable(user_id,1,1,2, "21000");
+                    db.addGoalToGoalTable(user_id,1,2,2, "21");
+                    db.addGoalToGoalTable(user_id,1,3,2, "17500");
+                    db.addGoalToGoalTable(user_id,1,4,2, "15000");
+                    db.addGoalToGoalTable(user_id,1,5,2, "80");
+                    // Monthly
+                    db.addGoalToGoalTable(user_id,1,1,3, "84000");
+                    db.addGoalToGoalTable(user_id,1,2,3, "84");
+                    db.addGoalToGoalTable(user_id,1,3,3, "70000");
+                    db.addGoalToGoalTable(user_id,1,4,3, "60000");
+                    db.addGoalToGoalTable(user_id,1,5,3, "80");
+
+                    // --- Google Fit ---
+                    // Daily
+                    db.addGoalToGoalTable(user_id,2,1,1, "3000");
+                    db.addGoalToGoalTable(user_id,2,2,1, "3");
+                    db.addGoalToGoalTable(user_id,2,3,1, "2500");
+                    db.addGoalToGoalTable(user_id,2,4,1, "2200");
+                    db.addGoalToGoalTable(user_id,2,5,1, "80");
+                    // Weekly
+                    db.addGoalToGoalTable(user_id,2,1,2, "21000");
+                    db.addGoalToGoalTable(user_id,2,2,2, "21");
+                    db.addGoalToGoalTable(user_id,2,3,2, "17500");
+                    db.addGoalToGoalTable(user_id,2,4,2, "15000");
+                    db.addGoalToGoalTable(user_id,2,5,2, "80");
+                    // Monthly
+                    db.addGoalToGoalTable(user_id,2,1,3, "84000");
+                    db.addGoalToGoalTable(user_id,2,2,3, "84");
+                    db.addGoalToGoalTable(user_id,2,3,3, "70000");
+                    db.addGoalToGoalTable(user_id,2,4,3, "60000");
+                    db.addGoalToGoalTable(user_id,2,5,3, "80");
                 }
 
                 long test = -1;
                 try {
+                    // Fitbit -- Create Random Log Data
                     for (int i = 0; i < 122; i++){
-                        test = db.addLogToLogTable(1, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -i));
+                        test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -i));
+                    }
+
+                    // Google Fit -- Create Random Log Data
+                    for (int i = 0; i < 122; i++){
+                        test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -i));
                     }
                 }catch (ParseException e) {
                     e.printStackTrace();
@@ -346,7 +378,7 @@ public class MainMenuActivity extends AppCompatActivity {
                     Toast.makeText(MainMenuActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
 
-                user.goalList = db.getGoalListFromGoalTable(user.getUser_id());
+                user.goalList = db.getGoalListFromGoalTable(user_id);
 
                 // Refreshes page
                 finish();
@@ -451,8 +483,8 @@ public class MainMenuActivity extends AppCompatActivity {
                             }
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "USER_ID = "+user.getUser_id(), Toast.LENGTH_LONG).show();
-                        db.deleteAccountFromUserTable(user.getUser_id());
+                        Toast.makeText(getApplicationContext(), "USER_ID = "+user_id, Toast.LENGTH_LONG).show();
+                        db.deleteAccountFromUserTable(user_id);
 
                         Intent moveToLogin = new Intent(MainMenuActivity.this, LoginActivity.class);
                         // Prevent user from returning to this page

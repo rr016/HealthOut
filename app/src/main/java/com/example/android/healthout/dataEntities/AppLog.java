@@ -87,8 +87,8 @@ public class AppLog implements Serializable {
     }
 
     public String getAppLogInfo(){
-        String info = getSteps_walked() + "; " + getMiles_walked() + "; " + getCalories_burned() + "; "
-                + getCalories_consumed() + getPulse();
+        String info = getSteps_walked() + "; " + String.format("%.2f", getMiles_walked()) + "; " + getCalories_burned() + "; "
+                + getCalories_consumed() + "; " + getPulse();
         return info;
     }
 
