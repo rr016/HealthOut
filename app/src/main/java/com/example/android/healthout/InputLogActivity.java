@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
@@ -63,8 +64,8 @@ public class InputLogActivity extends AppCompatActivity {
             //show the selected date as a toast
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
-                Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_SHORT).show();
-                calendarView.setDate((new Date(year, month, day)).getTime());
+                //Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_SHORT).show();
+                calendarView.setDate((new Date(year-1900, month, day)).getTime());
                 //eventOccursOn = c.getTimeInMillis(); //this is what you want to use later
             }
         });
@@ -77,6 +78,28 @@ public class InputLogActivity extends AppCompatActivity {
                 SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
                 String selectedDate = s.format(new Date(calendarView.getDate()));
                 Toast.makeText(getApplicationContext(), "" +  selectedDate, Toast.LENGTH_SHORT).show();
+                try {
+                    switch ((int) db.getTypeIdFromTypeTable(goalTypeSpinner.getSelectedItem().toString())) {
+                        case 1:
+                            db.addStepsWalkedToLogTable(user.getUser_id(), 3, Long.valueOf(logEditText.getText().toString()), selectedDate);
+                            break;
+                        case 2:
+                            db.addMilesWalkedToLogTable(user.getUser_id(), 3, Double.valueOf(logEditText.getText().toString()), selectedDate);
+                            break;
+                        case 3:
+                            db.addCaloriesBurnedToLogTable(user.getUser_id(), 3, Long.valueOf(logEditText.getText().toString()), selectedDate);
+                            break;
+                        case 4:
+                            db.addCaloriesConsumedToLogTable(user.getUser_id(), 3, Long.valueOf(logEditText.getText().toString()), selectedDate);
+                            break;
+                        case 5:
+                            db.addPulseToLogTable(user.getUser_id(), 3, Long.valueOf(logEditText.getText().toString()), selectedDate);
+                            break;
+                    }
+                }
+                catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
