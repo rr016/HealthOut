@@ -843,11 +843,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        cursor.moveToFirst();
-
-        while (cursor.getCount() > 0 && cursor.getPosition() > cursor.getCount() && cursor.getString(cursor.getColumnIndex(LOG_DATE) + 1).equals(date) == false){
-            cursor.moveToNext();
-        }
+        cursor.moveToLast();
 
         ContentValues values = new ContentValues();
 
