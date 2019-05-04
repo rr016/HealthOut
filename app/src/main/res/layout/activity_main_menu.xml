@@ -20,6 +20,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/button_input_log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorRed"
+        android:text="Input Log"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/button_update"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/button_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,7 +62,7 @@
         android:layout_width="192dp"
         android:layout_height="77dp"
         android:layout_marginEnd="1dp"
-        android:background="@color/colorRed"
+        android:background="@color/colorGrey"
         android:fontFamily="Arial"
         android:text="Register Apps"
         android:textColor="@color/colorWhite"
