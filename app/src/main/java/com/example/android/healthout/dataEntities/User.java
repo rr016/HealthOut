@@ -1,5 +1,7 @@
 package com.example.android.healthout.dataEntities;
 
+import com.example.android.healthout.database.DatabaseHelper;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 public class User implements Serializable {
+
     private boolean logged_in;
     private long user_id;
     private String username;

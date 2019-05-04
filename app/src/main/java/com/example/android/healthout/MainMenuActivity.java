@@ -360,32 +360,45 @@ public class MainMenuActivity extends AppCompatActivity {
                     db.addGoalToGoalTable(user_id,2,3,3, "70000");
                     db.addGoalToGoalTable(user_id,2,4,3, "60000");
                     db.addGoalToGoalTable(user_id,2,5,3, "80");
-
-                    long test = -1;
-                    try {
-                        // Fitbit -- Create Random Log Data
-                        for (int i = 0; i < 122; i++){
-                            test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -i));
-                        }
-
-                        // Google Fit -- Create Random Log Data
-                        for (int i = 0; i < 122; i++){
-                            test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -i));
-                        }
-                    }catch (ParseException e) {
-                        Log.e("Progress Error", "Don't work");
-                        e.printStackTrace();
-                    }
-                    if (test > 0) {
-                        Toast.makeText(MainMenuActivity.this, "Random Log Data", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(MainMenuActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                    }
-
-                    // Refreshes page
-                    finish();
-                    startActivity(getIntent());
                 }
+
+                long test = -1;
+                try {
+                    /*
+                    // Fitbit -- Create Random Log Data
+                    for (int i = -122; i < 0; i++){
+                        test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", i));
+                    }
+
+                    // Google Fit -- Create Random Log Data
+                    for (int i = -122; i < 0; i++){
+                        test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", i));
+                    }
+                    */
+                    test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -15));
+                    test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -10));
+                    test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -5));
+                    test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", 0));
+
+                    test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -15));
+                    test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -10));
+                    test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -5));
+                    test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", 0));
+
+
+                }catch (ParseException e) {
+                    Log.e("Progress Error", "Don't work");
+                    e.printStackTrace();
+                }
+                if (test > 0) {
+                    Toast.makeText(MainMenuActivity.this, "Random Log Data", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainMenuActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+
+                // Refreshes page
+                finish();
+                startActivity(getIntent());
                     /*
                     // User Table -- Display
                     Toast.makeText(getApplicationContext(), "User Table:", Toast.LENGTH_LONG).show();

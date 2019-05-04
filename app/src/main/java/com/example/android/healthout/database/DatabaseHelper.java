@@ -114,6 +114,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         database.insert(TABLE_APP, null, cvApp);
         cvApp.put(APP_NAME, "Google Fit");
         database.insert(TABLE_APP, null, cvApp);
+        cvApp.put(APP_NAME, "User Input");
+        database.insert(TABLE_APP, null, cvApp);
 
         // Type Table -- preload data
         ContentValues cvType = new ContentValues();
