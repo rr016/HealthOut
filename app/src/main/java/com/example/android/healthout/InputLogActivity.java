@@ -1,7 +1,9 @@
 package com.example.android.healthout;
 
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +18,16 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+
 import com.example.android.healthout.dataEntities.User;
 import com.example.android.healthout.database.DatabaseHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class InputLogActivity extends AppCompatActivity {
     DatabaseHelper db;
@@ -47,11 +57,26 @@ public class InputLogActivity extends AppCompatActivity {
 
         loadGoalTypeSpinnerData();
 
+        //long eventOccursOn;
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            //show the selected date as a toast
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
+                Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_SHORT).show();
+                calendarView.setDate((new Date(year, month, day)).getTime());
+                //eventOccursOn = c.getTimeInMillis(); //this is what you want to use later
+            }
+        });
+
         // Click Input Button
         inputButton.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Hello There!", Toast.LENGTH_LONG).show();
+                SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+                String selectedDate = s.format(new Date(calendarView.getDate()));
+                Toast.makeText(getApplicationContext(), "" +  selectedDate, Toast.LENGTH_SHORT).show();
             }
         });
     }
