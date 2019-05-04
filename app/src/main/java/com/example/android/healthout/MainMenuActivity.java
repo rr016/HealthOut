@@ -55,6 +55,7 @@ public class MainMenuActivity extends AppCompatActivity {
     Button updateButton;
     Button registerAppsButton;
     Button editGoalsButton;
+    Button inputLogButton;
     ListView listView;
 
     String goalItem[];
@@ -88,6 +89,7 @@ public class MainMenuActivity extends AppCompatActivity {
         updateButton = findViewById(R.id.button_update);
         registerAppsButton = findViewById(R.id.button_register_apps);
         editGoalsButton = findViewById(R.id.button_edit_goals);
+        inputLogButton = findViewById(R.id.button_input_log);
         listView = findViewById(R.id.ListView_display_goals);
 
         // For Clickable ListView Goals
@@ -434,6 +436,15 @@ public class MainMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent moveToEditGoals = new Intent(MainMenuActivity.this, EditGoalsActivity.class).putExtra("user", user);
                 startActivity(moveToEditGoals);
+            }
+        });
+
+        // Click Input Log Button
+        inputLogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moveToInputLog = new Intent(MainMenuActivity.this, InputLogActivity.class).putExtra("user", user);
+                startActivity(moveToInputLog);
             }
         });
     }
