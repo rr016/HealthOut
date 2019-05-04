@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class InputLogActivity extends AppCompatActivity {
     Spinner goalTypeSpinner;
     EditText logEditText;
     Button inputButton;
+    CalendarView calendarView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class InputLogActivity extends AppCompatActivity {
         goalTypeSpinner = findViewById(R.id.spinner_goal_type_log);
         logEditText = findViewById(R.id.editText_log_data);
         inputButton = findViewById(R.id.button_input);
+        calendarView = findViewById(R.id.calendar);
 
         loadGoalTypeSpinnerData();
 

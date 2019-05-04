@@ -65,7 +65,7 @@
         android:background="@color/colorGrey"
         android:fontFamily="Arial"
         android:text="Register Apps"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
