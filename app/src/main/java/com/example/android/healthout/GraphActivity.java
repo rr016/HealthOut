@@ -66,7 +66,7 @@ public class GraphActivity extends AppCompatActivity {
                 appLogListToBeGraphed = createWeeklyAppLogList(appLogList);
                 break;
             case 3:
-                //dataLong = appLogList.get(i).getCalories_burned();
+                appLogListToBeGraphed = createMonthlyAppLogList(appLogList);
                 break;
         }
 
@@ -80,9 +80,8 @@ public class GraphActivity extends AppCompatActivity {
 
         // Log Table -- Display
         Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
-        for (int i = 0; i < appLogListToBeGraphed.size() - 1; i++)
+        for (int i = 0; i < appLogListToBeGraphed.size(); i++)
             Toast.makeText(GraphActivity.this, appLogListToBeGraphed.get(i).getAppLogInfo(), Toast.LENGTH_SHORT).show();
-
 
         int entries = appLogListToBeGraphed.size();
 
@@ -116,24 +115,29 @@ public class GraphActivity extends AppCompatActivity {
 
         GridLabelRenderer gridLabel = graph.getGridLabelRenderer();
         if (type_id == 1){
-            gridLabel.setHorizontalAxisTitle("Days");
             gridLabel.setVerticalAxisTitle("Steps Walked");
         }
-        if (type_id == 2){
-            gridLabel.setHorizontalAxisTitle("Days");
+        else if (type_id == 2){
             gridLabel.setVerticalAxisTitle("Miles Walked");
         }
-        if (type_id == 3){
-            gridLabel.setHorizontalAxisTitle("Days");
+        else if (type_id == 3){
             gridLabel.setVerticalAxisTitle("Calories Burned");
         }
-        if (type_id == 4){
-            gridLabel.setHorizontalAxisTitle("Days");
+        else if (type_id == 4){
             gridLabel.setVerticalAxisTitle("Calories Consumed");
         }
-        if (type_id == 5){
-            gridLabel.setHorizontalAxisTitle("Days");
+        else if (type_id == 5){
             gridLabel.setVerticalAxisTitle("Pulse");
+        }
+
+        if (period_id == 1){
+            gridLabel.setHorizontalAxisTitle("Days");
+        }
+        else if (period_id == 2){
+            gridLabel.setHorizontalAxisTitle("Weeks");
+        }
+        else if (period_id == 3){
+            gridLabel.setHorizontalAxisTitle("Months");
         }
 
         switch((int) period_id) {
@@ -255,7 +259,7 @@ public class GraphActivity extends AppCompatActivity {
             for (int i = -27; i < -21; i++){
                 cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
             }
-            //cumulativeAppLog.averagePulse(7);
+            cumulativeAppLog.averagePulse(7);
             weeklyAppLogList.add(cumulativeAppLog);
         }
         if (logCount >= 21){
@@ -263,7 +267,7 @@ public class GraphActivity extends AppCompatActivity {
             for (int i = -20; i < -14; i++){
                 cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
             }
-            //cumulativeAppLog.averagePulse(7);
+            cumulativeAppLog.averagePulse(7);
             weeklyAppLogList.add(cumulativeAppLog);
         }
         if (logCount >= 14){
@@ -271,7 +275,7 @@ public class GraphActivity extends AppCompatActivity {
             for (int i = -13; i < -7; i++){
                 cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
             }
-            //cumulativeAppLog.averagePulse(7);
+            cumulativeAppLog.averagePulse(7);
             weeklyAppLogList.add(cumulativeAppLog);
         }
         if (logCount >= 7){
@@ -279,10 +283,51 @@ public class GraphActivity extends AppCompatActivity {
             for (int i = -6; i < 0; i++){
                 cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
             }
-            //cumulativeAppLog.averagePulse(7);
+            cumulativeAppLog.averagePulse(7);
             weeklyAppLogList.add(cumulativeAppLog);
         }
 
         return weeklyAppLogList;
+    }
+
+    public List<AppLog> createMonthlyAppLogList(List<AppLog> appLogList) {
+        List<AppLog> monthlyAppLogList = new ArrayList<AppLog>();
+
+        int logCount = appLogList.size();
+
+        if (logCount >= 120){
+            AppLog cumulativeAppLog = appLogList.get(logCount -120 - 1);
+            for (int i = -119; i < -90; i++){
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+            }
+            cumulativeAppLog.averagePulse(30);
+            monthlyAppLogList.add(cumulativeAppLog);
+        }
+        if (logCount >= 90){
+            AppLog cumulativeAppLog = appLogList.get(logCount -90 - 1);
+            for (int i = -89; i < -60; i++){
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+            }
+            cumulativeAppLog.averagePulse(30);
+            monthlyAppLogList.add(cumulativeAppLog);
+        }
+        if (logCount >= 60){
+            AppLog cumulativeAppLog = appLogList.get(logCount -60 - 1);
+            for (int i = -59; i < -30; i++){
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+            }
+            cumulativeAppLog.averagePulse(30);
+            monthlyAppLogList.add(cumulativeAppLog);
+        }
+        if (logCount >= 30){
+            AppLog cumulativeAppLog = appLogList.get(logCount -30 - 1);
+            for (int i = -29; i < 0; i++){
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+            }
+            cumulativeAppLog.averagePulse(30);
+            monthlyAppLogList.add(cumulativeAppLog);
+        }
+
+        return monthlyAppLogList;
     }
 }

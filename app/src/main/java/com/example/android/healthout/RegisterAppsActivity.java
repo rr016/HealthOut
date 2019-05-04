@@ -1,14 +1,22 @@
 package com.example.android.healthout;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.android.healthout.dataEntities.User;
@@ -16,6 +24,9 @@ import com.example.android.healthout.database.DatabaseHelper;
 
 public class RegisterAppsActivity extends AppCompatActivity {
     DatabaseHelper db;
+
+    Switch aSwitchFitbit;
+    Switch aSwitchGoogleFit;
 
     User user;
 
@@ -27,11 +38,32 @@ public class RegisterAppsActivity extends AppCompatActivity {
         user = (User)getIntent().getSerializableExtra("user");
         db = new DatabaseHelper(this);
 
-        // Log Table -- Display
-        Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
-        long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_LOG);
-        for (long i = 1; i <= key; i++)
-            Toast.makeText(RegisterAppsActivity.this, db.getLogInfoFromLogTable(i), Toast.LENGTH_SHORT).show();
+        aSwitchFitbit = findViewById(R.id.switch_fitbit);
+        aSwitchGoogleFit = findViewById(R.id.switch_google_fit);
+
+        aSwitchFitbit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(getApplicationContext(), "FITBIT ON", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "FITBIT OFF", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        aSwitchGoogleFit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Toast.makeText(getApplicationContext(), "GOOGLE FIT ON", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "GOOGLE FIT OFF", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
     }
 
     /************************ MENU BAR ************************/
