@@ -75,11 +75,15 @@ public class MainMenuActivity extends AppCompatActivity {
         user = (User)getIntent().getSerializableExtra("user");
         user_id = user.getUser_id();
 
+        user.goalList = db.getGoalListFromGoalTable(user_id);
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(new Date());
 
         fitbitAppLogList = db.getAppLogListFromLogTable(user_id, 1);
         googleFitAppLogList = db.getAppLogListFromLogTable(user_id, 2);
+
+        Toast.makeText(MainMenuActivity.this, fitbitAppLogList.size() + "; " + googleFitAppLogList.size(), Toast.LENGTH_SHORT).show();
 
         updateButton = findViewById(R.id.button_update);
         registerAppsButton = findViewById(R.id.button_register_apps);
@@ -115,7 +119,7 @@ public class MainMenuActivity extends AppCompatActivity {
                                 item_progress[i] = Long.toString(fitbitAppLogList.get(fitbitAppLogList.size() - 1).getSteps_walked());
                                 break;
                             case "Miles Walked":
-                                item_progress[i] = Double.toString(fitbitAppLogList.get(fitbitAppLogList.size() - 1).getMiles_walked());
+                                item_progress[i] = String.format("%.2f", fitbitAppLogList.get(fitbitAppLogList.size() - 1).getMiles_walked());
                                 break;
                             case "Calories Burned":
                                 item_progress[i] = Long.toString(fitbitAppLogList.get(fitbitAppLogList.size() - 1).getCalories_burned());
@@ -187,7 +191,7 @@ public class MainMenuActivity extends AppCompatActivity {
                                 item_progress[i] = Long.toString(googleFitAppLogList.get(googleFitAppLogList.size() - 1).getSteps_walked());
                                 break;
                             case "Miles Walked":
-                                item_progress[i] = Double.toString(googleFitAppLogList.get(googleFitAppLogList.size() - 1).getMiles_walked());
+                                item_progress[i] =  String.format("%.2f", googleFitAppLogList.get(googleFitAppLogList.size() - 1).getMiles_walked());
                                 break;
                             case "Calories Burned":
                                 item_progress[i] = Long.toString(googleFitAppLogList.get(googleFitAppLogList.size() - 1).getCalories_burned());
@@ -370,6 +374,7 @@ public class MainMenuActivity extends AppCompatActivity {
                         test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -i));
                     }
                 }catch (ParseException e) {
+                    Log.e("Progress Error", "Don't work");
                     e.printStackTrace();
                 }
                 if (test > 0) {
@@ -377,8 +382,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(MainMenuActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
-
-                user.goalList = db.getGoalListFromGoalTable(user_id);
 
                 // Refreshes page
                 finish();
@@ -483,7 +486,7 @@ public class MainMenuActivity extends AppCompatActivity {
                             }
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "USER_ID = "+user_id, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "USER_ID = "+ user_id, Toast.LENGTH_LONG).show();
                         db.deleteAccountFromUserTable(user_id);
 
                         Intent moveToLogin = new Intent(MainMenuActivity.this, LoginActivity.class);
