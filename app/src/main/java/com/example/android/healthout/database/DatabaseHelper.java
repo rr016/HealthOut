@@ -908,6 +908,336 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public long addStepsWalkedToLogTable(long user_id, long app_id, long steps_walked, String date) throws ParseException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        cursor.moveToLast();
+
+        ContentValues values = new ContentValues();
+
+        if (cursor.getCount() > 0){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date lastDate = sdf.parse(cursor.getString(cursor.getColumnIndex(LOG_DATE)));
+            Date currentDate = sdf.parse(date);
+
+            long daysBetween = (currentDate.getTime() - lastDate.getTime())/(24*60*60*1000);
+
+            values.put(USER_ID, user_id);
+            values.put(APP_ID, app_id);
+            values.put(LOG_STEPS_WALKED, 0);
+            values.put(LOG_MILES_WALKED, 0);
+            values.put(LOG_CALORIES_BURNED, 0);
+            values.put(LOG_CALORIES_CONSUMED, 0);
+            values.put(LOG_PULSE, 0);
+
+            Log.e("Here!!!", "" + daysBetween);
+
+            for (long i = -daysBetween + 1; i < 0; i++){
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(sdf.parse(date));
+                cal.add(Calendar.DAY_OF_YEAR, (int) i);
+                //Date tempDate = sdf.parse(s.format(new Date(cal.getTimeInMillis())));
+                values.put(LOG_DATE, sdf.format(new Date(cal.getTimeInMillis())));
+                Log.e("Here!!!", "" + sdf.format(new Date(cal.getTimeInMillis())));
+                db.insert(TABLE_LOG, null, values);
+            }
+        }
+
+        selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'";
+
+        cursor = db.rawQuery(selectQuery, null);
+
+        values.put(USER_ID, user_id);
+        values.put(APP_ID, app_id);
+        values.put(LOG_STEPS_WALKED, steps_walked);
+        values.put(LOG_DATE, date);
+
+        long result = -1;
+        int count = cursor.getCount();
+
+        if (count > 1){
+            Log.e(LOG_CAT, "Error! Too many instances with same date: " + count);
+        }
+        else if (count < 1){
+            result = db.insert(TABLE_LOG, null, values);
+        }
+        else{
+            result = db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
+                    + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'", null);
+        }
+        db.close();
+        return result;
+    }
+
+    public long addMilesWalkedToLogTable(long user_id, long app_id, double miles_walked, String date) throws ParseException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        cursor.moveToLast();
+
+        ContentValues values = new ContentValues();
+
+        if (cursor.getCount() > 0){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date lastDate = sdf.parse(cursor.getString(cursor.getColumnIndex(LOG_DATE)));
+            Date currentDate = sdf.parse(date);
+
+            long daysBetween = (currentDate.getTime() - lastDate.getTime())/(24*60*60*1000);
+
+            values.put(USER_ID, user_id);
+            values.put(APP_ID, app_id);
+            values.put(LOG_STEPS_WALKED, 0);
+            values.put(LOG_MILES_WALKED, 0);
+            values.put(LOG_CALORIES_BURNED, 0);
+            values.put(LOG_CALORIES_CONSUMED, 0);
+            values.put(LOG_PULSE, 0);
+
+            Log.e("Here!!!", "" + daysBetween);
+
+            for (long i = -daysBetween + 1; i < 0; i++){
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(sdf.parse(date));
+                cal.add(Calendar.DAY_OF_YEAR, (int) i);
+                //Date tempDate = sdf.parse(s.format(new Date(cal.getTimeInMillis())));
+                values.put(LOG_DATE, sdf.format(new Date(cal.getTimeInMillis())));
+                Log.e("Here!!!", "" + sdf.format(new Date(cal.getTimeInMillis())));
+                db.insert(TABLE_LOG, null, values);
+            }
+        }
+
+        selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'";
+
+        cursor = db.rawQuery(selectQuery, null);
+
+        values.put(USER_ID, user_id);
+        values.put(APP_ID, app_id);
+        values.put(LOG_MILES_WALKED, miles_walked);
+        values.put(LOG_DATE, date);
+
+        long result = -1;
+        int count = cursor.getCount();
+
+        if (count > 1){
+            Log.e(LOG_CAT, "Error! Too many instances with same date: " + count);
+        }
+        else if (count < 1){
+            result = db.insert(TABLE_LOG, null, values);
+        }
+        else{
+            result = db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
+                    + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'", null);
+        }
+        db.close();
+        return result;
+    }
+
+    public long addCaloriesBurnedToLogTable(long user_id, long app_id, long calories_burned, String date) throws ParseException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        cursor.moveToLast();
+
+        ContentValues values = new ContentValues();
+
+        if (cursor.getCount() > 0){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date lastDate = sdf.parse(cursor.getString(cursor.getColumnIndex(LOG_DATE)));
+            Date currentDate = sdf.parse(date);
+
+            long daysBetween = (currentDate.getTime() - lastDate.getTime())/(24*60*60*1000);
+
+            values.put(USER_ID, user_id);
+            values.put(APP_ID, app_id);
+            values.put(LOG_STEPS_WALKED, 0);
+            values.put(LOG_MILES_WALKED, 0);
+            values.put(LOG_CALORIES_BURNED, 0);
+            values.put(LOG_CALORIES_CONSUMED, 0);
+            values.put(LOG_PULSE, 0);
+
+            Log.e("Here!!!", "" + daysBetween);
+
+            for (long i = -daysBetween + 1; i < 0; i++){
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(sdf.parse(date));
+                cal.add(Calendar.DAY_OF_YEAR, (int) i);
+                //Date tempDate = sdf.parse(s.format(new Date(cal.getTimeInMillis())));
+                values.put(LOG_DATE, sdf.format(new Date(cal.getTimeInMillis())));
+                Log.e("Here!!!", "" + sdf.format(new Date(cal.getTimeInMillis())));
+                db.insert(TABLE_LOG, null, values);
+            }
+        }
+
+        selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'";
+
+        cursor = db.rawQuery(selectQuery, null);
+
+        values.put(USER_ID, user_id);
+        values.put(APP_ID, app_id);
+        values.put(LOG_CALORIES_BURNED, calories_burned);
+        values.put(LOG_DATE, date);
+
+        long result = -1;
+        int count = cursor.getCount();
+
+        if (count > 1){
+            Log.e(LOG_CAT, "Error! Too many instances with same date: " + count);
+        }
+        else if (count < 1){
+            result = db.insert(TABLE_LOG, null, values);
+        }
+        else{
+            result = db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
+                    + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'", null);
+        }
+        db.close();
+        return result;
+    }
+
+    public long addCaloriesConsumedToLogTable(long user_id, long app_id, long calories_consumed, String date) throws ParseException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        cursor.moveToLast();
+
+        ContentValues values = new ContentValues();
+
+        if (cursor.getCount() > 0){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date lastDate = sdf.parse(cursor.getString(cursor.getColumnIndex(LOG_DATE)));
+            Date currentDate = sdf.parse(date);
+
+            long daysBetween = (currentDate.getTime() - lastDate.getTime())/(24*60*60*1000);
+
+            values.put(USER_ID, user_id);
+            values.put(APP_ID, app_id);
+            values.put(LOG_STEPS_WALKED, 0);
+            values.put(LOG_MILES_WALKED, 0);
+            values.put(LOG_CALORIES_BURNED, 0);
+            values.put(LOG_CALORIES_CONSUMED, 0);
+            values.put(LOG_PULSE, 0);
+
+            Log.e("Here!!!", "" + daysBetween);
+
+            for (long i = -daysBetween + 1; i < 0; i++){
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(sdf.parse(date));
+                cal.add(Calendar.DAY_OF_YEAR, (int) i);
+                //Date tempDate = sdf.parse(s.format(new Date(cal.getTimeInMillis())));
+                values.put(LOG_DATE, sdf.format(new Date(cal.getTimeInMillis())));
+                Log.e("Here!!!", "" + sdf.format(new Date(cal.getTimeInMillis())));
+                db.insert(TABLE_LOG, null, values);
+            }
+        }
+
+        selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'";
+
+        cursor = db.rawQuery(selectQuery, null);
+
+        values.put(USER_ID, user_id);
+        values.put(APP_ID, app_id);
+        values.put(LOG_CALORIES_CONSUMED, calories_consumed);
+        values.put(LOG_DATE, date);
+
+        long result = -1;
+        int count = cursor.getCount();
+
+        if (count > 1){
+            Log.e(LOG_CAT, "Error! Too many instances with same date: " + count);
+        }
+        else if (count < 1){
+            result = db.insert(TABLE_LOG, null, values);
+        }
+        else{
+            result = db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
+                    + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'", null);
+        }
+        db.close();
+        return result;
+    }
+
+    public long addPulseToLogTable(long user_id, long app_id, long pulse, String date) throws ParseException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        cursor.moveToLast();
+
+        ContentValues values = new ContentValues();
+
+        if (cursor.getCount() > 0){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date lastDate = sdf.parse(cursor.getString(cursor.getColumnIndex(LOG_DATE)));
+            Date currentDate = sdf.parse(date);
+
+            long daysBetween = (currentDate.getTime() - lastDate.getTime())/(24*60*60*1000);
+
+            values.put(USER_ID, user_id);
+            values.put(APP_ID, app_id);
+            values.put(LOG_STEPS_WALKED, 0);
+            values.put(LOG_MILES_WALKED, 0);
+            values.put(LOG_CALORIES_BURNED, 0);
+            values.put(LOG_CALORIES_CONSUMED, 0);
+            values.put(LOG_PULSE, 0);
+
+            Log.e("Here!!!", "" + daysBetween);
+
+            for (long i = -daysBetween + 1; i < 0; i++){
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(sdf.parse(date));
+                cal.add(Calendar.DAY_OF_YEAR, (int) i);
+                //Date tempDate = sdf.parse(s.format(new Date(cal.getTimeInMillis())));
+                values.put(LOG_DATE, sdf.format(new Date(cal.getTimeInMillis())));
+                Log.e("Here!!!", "" + sdf.format(new Date(cal.getTimeInMillis())));
+                db.insert(TABLE_LOG, null, values);
+            }
+        }
+
+        selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'";
+
+        cursor = db.rawQuery(selectQuery, null);
+
+        values.put(USER_ID, user_id);
+        values.put(APP_ID, app_id);
+        values.put(LOG_PULSE, pulse);
+        values.put(LOG_DATE, date);
+
+        long result = -1;
+        int count = cursor.getCount();
+
+        if (count > 1){
+            Log.e(LOG_CAT, "Error! Too many instances with same date: " + count);
+        }
+        else if (count < 1){
+            result = db.insert(TABLE_LOG, null, values);
+        }
+        else{
+            result = db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
+                    + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + "'" + date + "'", null);
+        }
+        db.close();
+        return result;
+    }
+
     public Long getUserIdFromLogTable(long log_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
