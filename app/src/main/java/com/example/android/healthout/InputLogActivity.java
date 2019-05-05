@@ -19,7 +19,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 
 import com.example.android.healthout.dataEntities.User;
 import com.example.android.healthout.database.DatabaseHelper;
@@ -57,15 +56,10 @@ public class InputLogActivity extends AppCompatActivity {
 
         loadGoalTypeSpinnerData();
 
-        //long eventOccursOn;
-
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            //show the selected date as a toast
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
-                Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_SHORT).show();
-                calendarView.setDate((new Date(year, month, day)).getTime());
-                //eventOccursOn = c.getTimeInMillis(); //this is what you want to use later
+                calendarView.setDate((new Date(year-1900, month, day)).getTime());
             }
         });
 
