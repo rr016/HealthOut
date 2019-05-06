@@ -40,6 +40,8 @@ public class InputLogActivity extends AppCompatActivity {
     Button inputButton;
     CalendarView calendarView;
 
+    String sApp;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,8 @@ public class InputLogActivity extends AppCompatActivity {
         inputButton = findViewById(R.id.button_input);
         calendarView = findViewById(R.id.calendar);
 
+        sApp = appSpinner.getSelectedItem().toString();
+
         loadAppSpinnerData();
         loadGoalTypeSpinnerData();
 
@@ -69,6 +73,7 @@ public class InputLogActivity extends AppCompatActivity {
             }
         });
 
+        /*
         // Click Input Button
         inputButton.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.O)
@@ -80,19 +85,19 @@ public class InputLogActivity extends AppCompatActivity {
                 try {
                     switch ((int) db.getTypeIdFromTypeTable(goalTypeSpinner.getSelectedItem().toString())) {
                         case 1:
-                            db.addStepsWalkedToLogTable(user.getUser_id(), 3, Long.valueOf(logEditText.getText().toString()), selectedDate);
+                            db.addStepsWalkedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logEditText.getText().toString()), selectedDate);
                             break;
                         case 2:
-                            db.addMilesWalkedToLogTable(user.getUser_id(), 3, Double.valueOf(logEditText.getText().toString()), selectedDate);
+                           db.addMilesWalkedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Double.valueOf(logEditText.getText().toString()), selectedDate);
                             break;
                         case 3:
-                            db.addCaloriesBurnedToLogTable(user.getUser_id(), 3, Long.valueOf(logEditText.getText().toString()), selectedDate);
+                            db.addCaloriesBurnedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logEditText.getText().toString()), selectedDate);
                             break;
                         case 4:
-                            db.addCaloriesConsumedToLogTable(user.getUser_id(), 3, Long.valueOf(logEditText.getText().toString()), selectedDate);
+                            db.addCaloriesConsumedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logEditText.getText().toString()), selectedDate);
                             break;
                         case 5:
-                            db.addPulseToLogTable(user.getUser_id(), 3, Long.valueOf(logEditText.getText().toString()), selectedDate);
+                            db.addPulseToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logEditText.getText().toString()), selectedDate);
                             break;
                     }
                 }
@@ -101,6 +106,7 @@ public class InputLogActivity extends AppCompatActivity {
                 }
             }
         });
+        */
     }
 
     /************************ MENU BAR ************************/

@@ -365,32 +365,35 @@ public class MainMenuActivity extends AppCompatActivity {
                 }
 
                 long test = -1;
-                try {
-                    // Fitbit -- Create Random Log Data
-                    for (int i = -122; i < 0; i++){
-                        test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", i));
-                    }
 
-                    // Google Fit -- Create Random Log Data
-                    for (int i = -122; i < 0; i++){
-                        test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", i));
-                    }
-                    /*
-                    test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -15));
-                    test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -10));
-                    test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -5));
-                    test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", 0));
-
-                    test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -15));
-                    test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -10));
-                    test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -5));
-                    test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", 0));
-                    */
-
-                }catch (ParseException e) {
-                    Log.e("Progress Error", "Don't work");
-                    e.printStackTrace();
+                /*
+                // Fitbit -- Create Random Log Data
+                for (int i = -122; i < 0; i++) {
+                    test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", i));
                 }
+
+                // Google Fit -- Create Random Log Data
+                for (int i = -122; i < 0; i++) {
+                    test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", i));
+                }
+                */
+
+
+                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -120));
+                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -100));
+                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -80));
+                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -60));
+                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -40));
+                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -20));
+                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -0));
+
+                test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -122));
+                test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -93));
+                test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -62));
+                test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -31));
+                test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -0));
+
+
                 if (test > 0) {
                     Toast.makeText(MainMenuActivity.this, "Random Log Data", Toast.LENGTH_SHORT).show();
                 } else {
@@ -535,19 +538,19 @@ public class MainMenuActivity extends AppCompatActivity {
             for (int i = -7; i < 0; i++) {
                 switch ((int) type_id) {
                     case 1:
-                        valueLong += appLogList.get((appLogList.size() - 1) + i).getSteps_walked();
+                        valueLong += appLogList.get((appLogList.size()) + i).getSteps_walked();
                         break;
                     case 2:
-                        valueDouble += appLogList.get((appLogList.size() - 1) + i).getMiles_walked();
+                        valueDouble += appLogList.get((appLogList.size()) + i).getMiles_walked();
                         break;
                     case 3:
-                        valueLong += appLogList.get((appLogList.size() - 1) + i).getCalories_burned();
+                        valueLong += appLogList.get((appLogList.size()) + i).getCalories_burned();
                         break;
                     case 4:
-                        valueLong += appLogList.get((appLogList.size() - 1) + i).getCalories_consumed();
+                        valueLong += appLogList.get((appLogList.size()) + i).getCalories_consumed();
                         break;
                     case 5:
-                        valueLong += appLogList.get((appLogList.size() - 1) + i).getPulse();
+                        valueLong += appLogList.get((appLogList.size()) + i).getPulse();
                         break;
                 }
             }
@@ -595,19 +598,19 @@ public class MainMenuActivity extends AppCompatActivity {
             for (int i = -30; i < 0; i++) {
                 switch ((int) type_id) {
                     case 1:
-                        valueLong += appLogList.get((appLogList.size() - 1) + i).getSteps_walked();
+                        valueLong += appLogList.get((appLogList.size()) + i).getSteps_walked();
                         break;
                     case 2:
-                        valueDouble += appLogList.get((appLogList.size() - 1) + i).getMiles_walked();
+                        valueDouble += appLogList.get((appLogList.size()) + i).getMiles_walked();
                         break;
                     case 3:
-                        valueLong += appLogList.get((appLogList.size() - 1) + i).getCalories_burned();
+                        valueLong += appLogList.get((appLogList.size()) + i).getCalories_burned();
                         break;
                     case 4:
-                        valueLong += appLogList.get((appLogList.size() - 1) + i).getCalories_consumed();
+                        valueLong += appLogList.get((appLogList.size()) + i).getCalories_consumed();
                         break;
                     case 5:
-                        valueLong += appLogList.get((appLogList.size() - 1) + i).getPulse();
+                        valueLong += appLogList.get((appLogList.size()) + i).getPulse();
                         break;
                 }
             }

@@ -9,7 +9,7 @@ public class AppLog implements Serializable {
     private long calories_burned;
     private long calories_consumed;
     private long pulse;
-    private String date;
+    private long date;
 
     public AppLog(){
         this.log_id = -1;
@@ -18,7 +18,7 @@ public class AppLog implements Serializable {
         this.calories_burned = -1;
         this.calories_consumed = -1;
         this.pulse = -1;
-        this.date = null;
+        this.date = -1;
     }
 
     public long getLog_id() {
@@ -67,11 +67,11 @@ public class AppLog implements Serializable {
         this.pulse = pulse;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate (String date) { this.date = date; }
+    public void setDate (long date) { this.date = date; }
 
     public void combineAppLogs (AppLog appLog){
         this.log_id = -1;

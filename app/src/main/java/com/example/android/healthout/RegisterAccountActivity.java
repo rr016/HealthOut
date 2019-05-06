@@ -51,9 +51,11 @@ public class RegisterAccountActivity extends AppCompatActivity {
                         startActivity(moveToLogin);
                         finish(); // Prevent user from returning to this page
                     }
-                    else{
+                    else if (val == -2)
+                        Toast.makeText(RegisterAccountActivity.this,"Username taken", Toast.LENGTH_SHORT).show();
+
+                    else
                         Toast.makeText(RegisterAccountActivity.this,"Registration Error", Toast.LENGTH_SHORT).show();
-                    }
                 }
                 else{
                     Toast.makeText(RegisterAccountActivity.this,"Passwords are not matching", Toast.LENGTH_SHORT).show();

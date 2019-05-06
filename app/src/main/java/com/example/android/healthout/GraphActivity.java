@@ -255,33 +255,33 @@ public class GraphActivity extends AppCompatActivity {
         int logCount = appLogList.size();
 
         if (logCount >= 28){
-            AppLog cumulativeAppLog = appLogList.get(logCount -28 - 1);
+            AppLog cumulativeAppLog = appLogList.get(logCount -28);
             for (int i = -27; i < -21; i++){
-                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i));
             }
             cumulativeAppLog.averagePulse(7);
             weeklyAppLogList.add(cumulativeAppLog);
         }
         if (logCount >= 21){
-            AppLog cumulativeAppLog = appLogList.get(logCount -21 - 1);
+            AppLog cumulativeAppLog = appLogList.get(logCount -21);
             for (int i = -20; i < -14; i++){
-                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i));
             }
             cumulativeAppLog.averagePulse(7);
             weeklyAppLogList.add(cumulativeAppLog);
         }
         if (logCount >= 14){
-            AppLog cumulativeAppLog = appLogList.get(logCount -14 - 1);
+            AppLog cumulativeAppLog = appLogList.get(logCount -14);
             for (int i = -13; i < -7; i++){
-                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i));
             }
             cumulativeAppLog.averagePulse(7);
             weeklyAppLogList.add(cumulativeAppLog);
         }
         if (logCount >= 7){
-            AppLog cumulativeAppLog = appLogList.get(logCount -7 - 1);
+            AppLog cumulativeAppLog = appLogList.get(logCount -7);
             for (int i = -6; i < 0; i++){
-                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i));
             }
             cumulativeAppLog.averagePulse(7);
             weeklyAppLogList.add(cumulativeAppLog);
@@ -296,33 +296,33 @@ public class GraphActivity extends AppCompatActivity {
         int logCount = appLogList.size();
 
         if (logCount >= 120){
-            AppLog cumulativeAppLog = appLogList.get(logCount -120 - 1);
+            AppLog cumulativeAppLog = appLogList.get(logCount -120);
             for (int i = -119; i < -90; i++){
-                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i));
             }
             cumulativeAppLog.averagePulse(30);
             monthlyAppLogList.add(cumulativeAppLog);
         }
         if (logCount >= 90){
-            AppLog cumulativeAppLog = appLogList.get(logCount -90 - 1);
+            AppLog cumulativeAppLog = appLogList.get(logCount -90);
             for (int i = -89; i < -60; i++){
-                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i));
             }
             cumulativeAppLog.averagePulse(30);
             monthlyAppLogList.add(cumulativeAppLog);
         }
         if (logCount >= 60){
-            AppLog cumulativeAppLog = appLogList.get(logCount -60 - 1);
+            AppLog cumulativeAppLog = appLogList.get(logCount -60);
             for (int i = -59; i < -30; i++){
-                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i));
             }
             cumulativeAppLog.averagePulse(30);
             monthlyAppLogList.add(cumulativeAppLog);
         }
         if (logCount >= 30){
-            AppLog cumulativeAppLog = appLogList.get(logCount -30 - 1);
+            AppLog cumulativeAppLog = appLogList.get(logCount -30);
             for (int i = -29; i < 0; i++){
-                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i - 1));
+                cumulativeAppLog.combineAppLogs(appLogList.get(logCount + i));
             }
             cumulativeAppLog.averagePulse(30);
             monthlyAppLogList.add(cumulativeAppLog);

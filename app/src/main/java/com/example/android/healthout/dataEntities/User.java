@@ -77,11 +77,11 @@ public class User implements Serializable {
         return false;
     }
 
-    public String getCalculatedDate(String dateFormat, int days) {
+    public long getCalculatedDate(String dateFormat, int days) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat s = new SimpleDateFormat(dateFormat);
         cal.add(Calendar.DAY_OF_YEAR, days);
-        return s.format(new Date(cal.getTimeInMillis()));
+        return cal.getTimeInMillis();
     }
 }
 
