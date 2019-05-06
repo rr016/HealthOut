@@ -56,6 +56,11 @@ public class RegisterAppsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        new AlertDialog.Builder(this)
+                .setTitle("Under Construction")
+                .setMessage("This function is not yet available!")
+                .setIcon(android.R.drawable.ic_dialog_alert).show();
     }
 
     /************************ MENU BAR ************************/

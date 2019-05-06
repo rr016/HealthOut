@@ -34,6 +34,7 @@ public class InputLogActivity extends AppCompatActivity {
 
     User user;
 
+    Spinner appSpinner;
     Spinner goalTypeSpinner;
     EditText logEditText;
     Button inputButton;
@@ -50,11 +51,13 @@ public class InputLogActivity extends AppCompatActivity {
         Bundle extras = intent.getExtras();
         user = (User)extras.getSerializable("user");
 
+        appSpinner = findViewById(R.id.spinner_appname_log);
         goalTypeSpinner = findViewById(R.id.spinner_goal_type_log);
         logEditText = findViewById(R.id.editText_log_data);
         inputButton = findViewById(R.id.button_input);
         calendarView = findViewById(R.id.calendar);
 
+        loadAppSpinnerData();
         loadGoalTypeSpinnerData();
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -173,6 +176,12 @@ public class InputLogActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void loadAppSpinnerData(){
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_dropdown_item, user.allAppsList);
+        appSpinner.setAdapter(dataAdapter);
     }
 
     private void loadGoalTypeSpinnerData(){
