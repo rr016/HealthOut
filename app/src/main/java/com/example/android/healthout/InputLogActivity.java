@@ -63,13 +63,9 @@ public class InputLogActivity extends AppCompatActivity {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
-
                 calendarView.setDate((new Date(year-1900, month, day)).getTime());
-
-                //Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_SHORT).show();
                 calendarView.setDate((new Date(year-1900, month, day)).getTime());
                 //eventOccursOn = c.getTimeInMillis(); //this is what you want to use later
-
             }
         });
 
