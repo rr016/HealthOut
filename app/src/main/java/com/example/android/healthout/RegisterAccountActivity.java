@@ -22,8 +22,8 @@ public class RegisterAccountActivity extends AppCompatActivity {
     String sPassword = "";
     String sConfirmPassword = "";
 
-    boolean usernameValid = false;
-    boolean passwordValid = false;
+    boolean usernameValid = true;
+    boolean passwordValid = true;
 
     User user;
 
@@ -50,8 +50,8 @@ public class RegisterAccountActivity extends AppCompatActivity {
                 sPassword = passwordEditText.getText().toString();
                 sConfirmPassword = confirmPasswordEditText.getText().toString();
 
-                usernameValid = user.isUsernameValid(sUsername);   // whether new username is of valid format
-                passwordValid = user.isPasswordValid(sPassword, sConfirmPassword); // whether new passwords are of valid format and match
+                //usernameValid = user.isUsernameValid(sUsername);   // whether new username is of valid format
+                //passwordValid = user.isPasswordValid(sPassword, sConfirmPassword); // whether new passwords are of valid format and match
 
                 if (sPassword.equals(sConfirmPassword)){
                     if (usernameValid && passwordValid){
