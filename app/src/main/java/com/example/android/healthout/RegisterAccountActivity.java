@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.android.healthout.dataEntities.User;
 import com.example.android.healthout.database.DatabaseHelper;
 
 public class RegisterAccountActivity extends AppCompatActivity {
@@ -17,9 +18,14 @@ public class RegisterAccountActivity extends AppCompatActivity {
     EditText passwordEditText;
     EditText confirmPasswordEditText;
     Button signUpButton;
-    String susername;
-    String sPassword;
-    String sConfirmPassword;
+    String sUsername = "";
+    String sPassword = "";
+    String sConfirmPassword = "";
+
+    boolean usernameValid = false;
+    boolean passwordValid = false;
+
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,7 @@ public class RegisterAccountActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_register_account);
 
+        user = (User)getIntent().getSerializableExtra("user");
         db = new DatabaseHelper(this);
 
         usernameEditText = findViewById(R.id.edittext_username2);
@@ -39,23 +46,31 @@ public class RegisterAccountActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                susername = usernameEditText.getText().toString();
+                sUsername = usernameEditText.getText().toString();
                 sPassword = passwordEditText.getText().toString();
                 sConfirmPassword = confirmPasswordEditText.getText().toString();
 
-                if (sPassword.equals(sConfirmPassword)){
-                    Long val = db.addUserToUserTable(susername, sPassword);
-                    if(val > 0){
-                        Toast.makeText(RegisterAccountActivity.this,"Account Registered", Toast.LENGTH_SHORT).show();
-                        Intent moveToLogin = new Intent(RegisterAccountActivity.this, LoginActivity.class);
-                        startActivity(moveToLogin);
-                        finish(); // Prevent user from returning to this page
-                    }
-                    else if (val == -2)
-                        Toast.makeText(RegisterAccountActivity.this,"Username taken", Toast.LENGTH_SHORT).show();
+                usernameValid = user.isUsernameValid(sUsername);   // whether new username is of valid format
+                passwordValid = user.isPasswordValid(sPassword, sConfirmPassword); // whether new passwords are of valid format and match
 
-                    else
-                        Toast.makeText(RegisterAccountActivity.this,"Registration Error", Toast.LENGTH_SHORT).show();
+                if (sPassword.equals(sConfirmPassword)){
+                    if (usernameValid && passwordValid){
+                        Long val = db.addUserToUserTable(sUsername, sPassword);
+                        if(val > 0){
+                            Toast.makeText(RegisterAccountActivity.this,"Account Registered", Toast.LENGTH_SHORT).show();
+                            Intent moveToLogin = new Intent(RegisterAccountActivity.this, LoginActivity.class);
+                            startActivity(moveToLogin);
+                            finish(); // Prevent user from returning to this page
+                        }
+                        else if (val == -2)
+                            Toast.makeText(RegisterAccountActivity.this,"Username taken", Toast.LENGTH_SHORT).show();
+
+                        else
+                            Toast.makeText(RegisterAccountActivity.this,"Registration Error", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(RegisterAccountActivity.this,"Passwords & Username must be between 5-15 characters", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else{
                     Toast.makeText(RegisterAccountActivity.this,"Passwords are not matching", Toast.LENGTH_SHORT).show();

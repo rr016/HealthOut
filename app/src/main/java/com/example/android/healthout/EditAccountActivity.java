@@ -20,7 +20,7 @@ public class EditAccountActivity extends AppCompatActivity {
     DatabaseHelper db;
 
     EditText currentPasswordEditText;
-    EditText newusernameEditText;
+    EditText newUsernameEditText;
     EditText newPasswordEditText;
     EditText confirmNewPasswordEditText;
     Button applyButton;
@@ -36,7 +36,7 @@ public class EditAccountActivity extends AppCompatActivity {
         db = new com.example.android.healthout.database.DatabaseHelper(this);
 
         currentPasswordEditText = findViewById(R.id.editText_current_password);
-        newusernameEditText = findViewById(R.id.editText_new_username);
+        newUsernameEditText = findViewById(R.id.editText_new_username);
         newPasswordEditText = findViewById(R.id.editText_new_password);
         confirmNewPasswordEditText = findViewById(R.id.editText_confirm_new_password);
         applyButton = findViewById(R.id.button_apply_account);
@@ -46,29 +46,29 @@ public class EditAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String sCurrentPassword = currentPasswordEditText.getText().toString();
-                String sNewusername = newusernameEditText.getText().toString();
+                String sNewUsername = newUsernameEditText.getText().toString();
                 String sNewPassword = newPasswordEditText.getText().toString();
                 String sConfirmNewPassword = confirmNewPasswordEditText.getText().toString();
 
                 boolean currentPasswordValid = sCurrentPassword.equals(user.getPassword());  // whether current password is correct
-                boolean newusernameValid = user.isusernameValid(sNewusername);   // whether new username is of valid format
+                boolean newUsernameValid = user.isUsernameValid(sNewUsername);   // whether new username is of valid format
                 boolean newPasswordValid = user.isPasswordValid(sNewPassword, sConfirmNewPassword); // whether new passwords are of valid format and match
                 long changedusername = 0;
                 long changedPassword = 0;
 
                 if (currentPasswordValid == true) // if current password is valid
                 {
-                    if (newusernameValid == true)  // then if new username is of valid format
-                        changedusername = db.changeusernameInUserTable(user.getUser_id(), sNewusername);
+                    if (newUsernameValid == true)  // then if new username is of valid format
+                        changedusername = db.changeusernameInUserTable(user.getUser_id(), sNewUsername);
                     if (newPasswordValid == true) // and/or if passwords are of valid format and match
                         changedPassword = db.changePasswordInUserTable(user.getUser_id(), sNewPassword);
                 }
 
 
-                if (currentPasswordValid == true && (newusernameValid == true || newPasswordValid == true)){
+                if (currentPasswordValid == true && (newUsernameValid == true || newPasswordValid == true)){
                     if (changedusername == 1 && changedPassword == 1) // if no errors when changing username and/or password
                     {
-                        user.setusername(sNewusername);
+                        user.setusername(sNewUsername);
                         user.setPassword(sNewPassword);
                         Toast.makeText(getApplicationContext(), "Account update succesful", Toast.LENGTH_LONG).show();
                         Intent moveToMainMenu = new Intent(EditAccountActivity.this, MainMenuActivity.class).putExtra("user", user);
@@ -77,7 +77,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     }
                     else if (changedusername == 1 && changedPassword == 0) // if no errors when changing username
                     {
-                        user.setusername(sNewusername);
+                        user.setusername(sNewUsername);
                         Toast.makeText(getApplicationContext(), "username update succesful", Toast.LENGTH_LONG).show();
                         Intent moveToMainMenu = new Intent(EditAccountActivity.this, MainMenuActivity.class).putExtra("user", user);
                         startActivity(moveToMainMenu);
@@ -95,10 +95,10 @@ public class EditAccountActivity extends AppCompatActivity {
                 else if (currentPasswordValid == false){
                     Toast.makeText(getApplicationContext(), "Incorrect current password", Toast.LENGTH_LONG).show();
                 }
-                else if (sNewusername.length() > 0 && sNewPassword.length() > 0 && newusernameValid == false && newPasswordValid == false){
+                else if (sNewUsername.length() > 0 && sNewPassword.length() > 0 && newUsernameValid == false && newPasswordValid == false){
                     Toast.makeText(getApplicationContext(), "Invalid new username and new password", Toast.LENGTH_LONG).show();
                 }
-                else if (sNewusername.length() > 0 && newusernameValid == false){
+                else if (sNewUsername.length() > 0 && newUsernameValid == false){
                     Toast.makeText(getApplicationContext(), "Invalid new username", Toast.LENGTH_LONG).show();
                 }
                 else if (sNewPassword.length() > 0 && newPasswordValid == false){

@@ -62,15 +62,15 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public boolean isusernameValid(String username){
-        if (username.length() < 15 && username.length() > 0)
+    public boolean isUsernameValid(String username){
+        if (username.length() >= 5 && password.length() <= 15)
             return true;
 
         return false;
     }
 
     public boolean isPasswordValid(String password, String confirmPassword){
-        if (password.length() >= 5 && password.length() <= 20)
+        if (password.length() >= 5 && password.length() <= 15)
             if (password.equals(confirmPassword))
                 return true;
 
