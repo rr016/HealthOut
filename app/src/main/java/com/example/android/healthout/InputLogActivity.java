@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,8 +41,6 @@ public class InputLogActivity extends AppCompatActivity {
     Button inputButton;
     CalendarView calendarView;
 
-    String sApp;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +58,6 @@ public class InputLogActivity extends AppCompatActivity {
         inputButton = findViewById(R.id.button_input);
         calendarView = findViewById(R.id.calendar);
 
-        sApp = appSpinner.getSelectedItem().toString();
-
         loadAppSpinnerData();
         loadGoalTypeSpinnerData();
 
@@ -73,40 +70,46 @@ public class InputLogActivity extends AppCompatActivity {
             }
         });
 
-        /*
         // Click Input Button
         inputButton.setOnClickListener(new View.OnClickListener() {
+            String sApp = appSpinner.getSelectedItem().toString();
+
             @TargetApi(Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
-                String selectedDate = s.format(new Date(calendarView.getDate()));
-                Toast.makeText(getApplicationContext(), "" +  selectedDate, Toast.LENGTH_SHORT).show();
-                try {
+                long selectedDate = calendarView.getDate();
+                long today = new Date().getTime();
+
+                String logText = logEditText.getText().toString();
+
+                if (selectedDate < today && logText.length() > 0){
                     switch ((int) db.getTypeIdFromTypeTable(goalTypeSpinner.getSelectedItem().toString())) {
                         case 1:
-                            db.addStepsWalkedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logEditText.getText().toString()), selectedDate);
+                            db.addStepsWalkedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), Long.valueOf(selectedDate));
                             break;
                         case 2:
-                           db.addMilesWalkedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Double.valueOf(logEditText.getText().toString()), selectedDate);
+                            db.addMilesWalkedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Double.valueOf(logText), Long.valueOf(selectedDate));
                             break;
                         case 3:
-                            db.addCaloriesBurnedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logEditText.getText().toString()), selectedDate);
+                            db.addCaloriesBurnedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), Long.valueOf(selectedDate));
                             break;
                         case 4:
-                            db.addCaloriesConsumedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logEditText.getText().toString()), selectedDate);
+                            db.addCaloriesConsumedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), Long.valueOf(selectedDate));
                             break;
                         case 5:
-                            db.addPulseToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logEditText.getText().toString()), selectedDate);
+                            db.addPulseToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), Long.valueOf(selectedDate));
                             break;
                     }
                 }
-                catch (ParseException e) {
-                    e.printStackTrace();
+                else if (logText.length() < 1){
+                    Toast.makeText(getApplicationContext(), "Error: No Data Entered.", Toast.LENGTH_SHORT).show();
                 }
+                else{
+                    Toast.makeText(getApplicationContext(), "Error: Future Date Selected.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
-        */
     }
 
     /************************ MENU BAR ************************/

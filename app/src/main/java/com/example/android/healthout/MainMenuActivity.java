@@ -366,7 +366,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
                 long test = -1;
 
-                /*
                 // Fitbit -- Create Random Log Data
                 for (int i = -122; i < 0; i++) {
                     test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", i));
@@ -376,23 +375,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 for (int i = -122; i < 0; i++) {
                     test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", i));
                 }
-                */
-
-
-                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -120));
-                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -100));
-                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -80));
-                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -60));
-                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -40));
-                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -20));
-                test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -0));
-
-                test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -122));
-                test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -93));
-                test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -62));
-                test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -31));
-                test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate("yyyy-MM-dd", -0));
-
 
                 if (test > 0) {
                     Toast.makeText(MainMenuActivity.this, "Random Log Data", Toast.LENGTH_SHORT).show();
@@ -403,36 +385,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 // Refreshes page
                 finish();
                 startActivity(getIntent());
-                    /*
-                    // User Table -- Display
-                    Toast.makeText(getApplicationContext(), "User Table:", Toast.LENGTH_LONG).show();
-                    long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_USER);
-                    for (int i = 1; i <= key; i++)
-                        Toast.makeText(MainMenuActivity.this, db.getAccountFromUserTable(i), Toast.LENGTH_SHORT).show();
-
-                    // Goal Table -- Display
-                    Toast.makeText(getApplicationContext(), "Goal Table:", Toast.LENGTH_LONG).show();
-                    key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_GOAL);
-                    for (int i = 1; i <= key; i++)
-                        Toast.makeText(MainMenuActivity.this, db.getGoalInfoFromGoalTable(i), Toast.LENGTH_SHORT).show();
-
-                    // API Table -- Display
-                    Toast.makeText(getApplicationContext(), "API Table:", Toast.LENGTH_LONG).show();
-                    key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_API);
-                    for (int i = 1; i <= key; i++)
-                        Toast.makeText(MainMenuActivity.this, db.getApiInfoFromApiTable(i), Toast.LENGTH_SHORT).show();
-
-                    // Log Table -- Display
-                    Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
-                    long key = DatabaseUtils.queryNumEntries(db.getReadableDatabase(), db.TABLE_LOG);
-                    for (int i = 1; i <= key; i++)
-                        Toast.makeText(MainMenuActivity.this, db.getLogInfoFromLogTable(i), Toast.LENGTH_SHORT).show();
-
-                   int key = user.goalList.size();
-                    for (int i = 0; i < key; i++){
-                        Toast.makeText(MainMenuActivity.this, user.goalList.get(i).getAllGoalData(), Toast.LENGTH_SHORT).show();
-                    }
-                    */
             }
         });
 

@@ -12,13 +12,13 @@ public class AppLog implements Serializable {
     private long date;
 
     public AppLog(){
-        this.log_id = -1;
-        this.steps_walked = -1;
-        this.miles_walked = -1;
-        this.calories_burned = -1;
-        this.calories_consumed = -1;
-        this.pulse = -1;
-        this.date = -1;
+        this.log_id = 0;
+        this.steps_walked = 0;
+        this.miles_walked = 0;
+        this.calories_burned = 0;
+        this.calories_consumed = 0;
+        this.pulse = 0;
+        this.date = 0;
     }
 
     public long getLog_id() {
