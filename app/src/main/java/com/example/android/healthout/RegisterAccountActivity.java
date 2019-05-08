@@ -50,7 +50,7 @@ public class RegisterAccountActivity extends AppCompatActivity {
                 sConfirmPassword = confirmPasswordEditText.getText().toString();
 
                 if (sPassword.equals(sConfirmPassword)) {
-                    if (sUsername.length() <= 15 && sPassword.length() <= 15 && sPassword.length() >= 5){
+                    if (sUsername.length() >= 3 && sUsername.length() <= 15 && sPassword.length() >= 5 && sPassword.length() <= 15){
                         long val = db.addUserToUserTable(sUsername, sPassword);
                         if (val > 0) {
                             Toast.makeText(RegisterAccountActivity.this, "Account Registered", Toast.LENGTH_SHORT).show();
@@ -64,14 +64,11 @@ public class RegisterAccountActivity extends AppCompatActivity {
                         else
                             Toast.makeText(RegisterAccountActivity.this, "Registration Error", Toast.LENGTH_SHORT).show();
                     }
-                    else if (sUsername.length() > 15){
-                        Toast.makeText(RegisterAccountActivity.this, "Username can't exceed 15 characters", Toast.LENGTH_SHORT).show();
+                    else if (sUsername.length() < 3 || sUsername.length() > 15){
+                        Toast.makeText(RegisterAccountActivity.this, "Username should be 3 - 15 characters", Toast.LENGTH_SHORT).show();
                     }
-                    else if (sPassword.length() > 15){
-                        Toast.makeText(RegisterAccountActivity.this, "Password can't exceed 15 characters", Toast.LENGTH_SHORT).show();
-                    }
-                    else if (sPassword.length() < 5){
-                        Toast.makeText(RegisterAccountActivity.this, "Password must be longer than 4 characters", Toast.LENGTH_SHORT).show();
+                    else if (sPassword.length() < 5 || sPassword.length() > 15){
+                        Toast.makeText(RegisterAccountActivity.this, "Password should be 5 - 15 characters", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         Toast.makeText(RegisterAccountActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
