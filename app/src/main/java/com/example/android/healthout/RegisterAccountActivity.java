@@ -50,18 +50,32 @@ public class RegisterAccountActivity extends AppCompatActivity {
                 sConfirmPassword = confirmPasswordEditText.getText().toString();
 
                 if (sPassword.equals(sConfirmPassword)) {
-                    long val = db.addUserToUserTable(sUsername, sPassword);
-                    if (val > 0) {
-                        Toast.makeText(RegisterAccountActivity.this, "Account Registered", Toast.LENGTH_SHORT).show();
-                        Intent moveToLogin = new Intent(RegisterAccountActivity.this, LoginActivity.class);
-                        startActivity(moveToLogin);
-                        finish(); // Prevent user from returning to this page
-                    } else if (val == -2)
-                        Toast.makeText(RegisterAccountActivity.this, "Username taken", Toast.LENGTH_SHORT).show();
-
-                    else
-                        Toast.makeText(RegisterAccountActivity.this, "Registration Error", Toast.LENGTH_SHORT).show();
-
+                    if (sUsername.length() <= 15 && sPassword.length() <= 15 && sPassword.length() >= 5){
+                        long val = db.addUserToUserTable(sUsername, sPassword);
+                        if (val > 0) {
+                            Toast.makeText(RegisterAccountActivity.this, "Account Registered", Toast.LENGTH_SHORT).show();
+                            Intent moveToLogin = new Intent(RegisterAccountActivity.this, LoginActivity.class);
+                            startActivity(moveToLogin);
+                            finish(); // Prevent user from returning to this page
+                        }
+                        else if (val == -2){
+                            Toast.makeText(RegisterAccountActivity.this, "Username taken", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                            Toast.makeText(RegisterAccountActivity.this, "Registration Error", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (sUsername.length() > 15){
+                        Toast.makeText(RegisterAccountActivity.this, "Username can't exceed 15 characters", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (sPassword.length() > 15){
+                        Toast.makeText(RegisterAccountActivity.this, "Password can't exceed 15 characters", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (sPassword.length() < 5){
+                        Toast.makeText(RegisterAccountActivity.this, "Password must be longer than 4 characters", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(RegisterAccountActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(RegisterAccountActivity.this, "Passwords are not matching", Toast.LENGTH_SHORT).show();
                 }
