@@ -100,12 +100,14 @@ public class InputLogActivity extends AppCompatActivity {
                             db.addPulseToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), Long.valueOf(selectedDate));
                             break;
                     }
+
+                    Toast.makeText(getApplicationContext(), "Log data added", Toast.LENGTH_SHORT).show();
                 }
                 else if (logText.length() < 1){
-                    Toast.makeText(getApplicationContext(), "Error: No Data Entered.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error: no data entered", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Error: Future Date Selected.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error: future date selected", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -166,7 +168,6 @@ public class InputLogActivity extends AppCompatActivity {
                             }
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "USER_ID = "+user.getUser_id(), Toast.LENGTH_LONG).show();
                         db.deleteAccountFromUserTable(user.getUser_id());
 
                         Intent moveToLogin = new Intent(InputLogActivity.this, LoginActivity.class);

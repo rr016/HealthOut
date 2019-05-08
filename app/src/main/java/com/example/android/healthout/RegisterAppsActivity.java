@@ -117,7 +117,6 @@ public class RegisterAppsActivity extends AppCompatActivity {
                             }
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "USER_ID = "+user.getUser_id(), Toast.LENGTH_LONG).show();
                         db.deleteAccountFromUserTable(user.getUser_id());
 
                         Intent moveToLogin = new Intent(RegisterAppsActivity.this, LoginActivity.class);

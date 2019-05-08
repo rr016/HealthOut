@@ -73,7 +73,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String LOG_CALORIES_BURNED = "calories_burned";
     public static final String LOG_CALORIES_CONSUMED = "calories_consumed";
     public static final String LOG_PULSE = "pulse";
-    public static final String LOG_DATE = "date";
+    public static final String LOG_DATE_LONG = "date_long";
+    public static final String LOG_DATE_STRING = "date_string";
 
     // Date Table - column names
     public static final String DATE_ID = "date_id";
@@ -112,8 +113,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " (" + LOG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, "
                 + APP_ID + " INTEGER, "+ LOG_STEPS_WALKED + " INTEGER, " + LOG_MILES_WALKED + " DOUBLE, "
                 + LOG_CALORIES_BURNED + " INTEGER, " + LOG_CALORIES_CONSUMED + " INTEGER, "
-                + LOG_PULSE + " INTEGER, " + LOG_DATE + " LONG)");
-        // Goal Table -- created
+                + LOG_PULSE + " INTEGER, " + LOG_DATE_LONG + " LONG, " + LOG_DATE_STRING + " STRING)");
+        // Date Table -- created
         database.execSQL("CREATE TABLE " + TABLE_DATE +
                 " (" + DATE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_ID + " INTEGER, " + APP_ID + " INTEGER, "
                 + DATE_FIRST + " LONG, " + DATE_LAST + " LONG)");
@@ -224,10 +225,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return id;
-    }
-
-    public String getAccountFromUserTable(long user_id){
-        return getUserusernameFromUserTable(user_id) + ", " + getUserPasswordFromUserTable(user_id);
     }
 
     public long changeusernameInUserTable(long user_id, String new_username){
@@ -842,7 +839,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**************************************************** Date Table    methods **************************************************/
     /*****************************************************************************************************************************/
 
-    public long addDateToDateTable (long user_id, long app_id, long date){
+    public long addDateToDateTable (long user_id, long app_id, long date_long){
         SQLiteDatabase db = this.getWritableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_DATE + " WHERE "
@@ -855,8 +852,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.getCount() < 1){
             values.put(USER_ID, user_id);
             values.put(APP_ID, app_id);
-            values.put(DATE_FIRST, date);
-            values.put(DATE_LAST, date);
+            values.put(DATE_FIRST, date_long);
+            values.put(DATE_LAST, date_long);
             result = db.insert(TABLE_DATE, null, values);
         }
         else {
@@ -865,13 +862,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             long lastDate = cursor.getLong(cursor.getColumnIndex(DATE_LAST));
 
             boolean updated = false;
-            if (date < firstDate){
-                values.put(DATE_FIRST, date);
+            if (date_long < firstDate){
+                values.put(DATE_FIRST, date_long);
                 updated = true;
             }
 
-            if (date > lastDate){
-                values.put(DATE_LAST, date);
+            if (date_long > lastDate){
+                values.put(DATE_LAST, date_long);
                 updated = true;
             }
 
@@ -883,7 +880,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public long getDaysBetweenInDateTable (long user_id, long app_id, long date){
+    public long getDaysBetweenInDateTable (long user_id, long app_id, long date_long){
         SQLiteDatabase db = this.getWritableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_DATE + " WHERE "
@@ -898,13 +895,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             long firstDate = cursor.getLong(cursor.getColumnIndex(DATE_FIRST));
             long lastDate = cursor.getLong(cursor.getColumnIndex(DATE_LAST));
 
-            Log.e("Here!!!", date + " vs " + firstDate);
-            daysBetween = (date - firstDate)/(24*60*60*1000);
+            Log.e("Here!!!", date_long + " vs " + firstDate);
+            daysBetween = (date_long - firstDate)/(24*60*60*1000);
             if (daysBetween < 0){
                 return daysBetween;
             }
-            Log.e("Here!!!", date + " vs " + lastDate);
-            daysBetween = (date - lastDate)/(24*60*60*1000);
+            Log.e("Here!!!", date_long + " vs " + lastDate);
+            daysBetween = (date_long - lastDate)/(24*60*60*1000);
             if (daysBetween > 0){
                 return daysBetween;
             }
@@ -917,7 +914,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**************************************************** Log Table    methods ***************************************************/
     /*****************************************************************************************************************************/
 
-    public void fillInEmptyDaysToLogTable(long user_id, long app_id, long date){
+    public void fillInEmptyDaysToLogTable(long user_id, long app_id, long date_long){
         SQLiteDatabase db = this.getWritableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
@@ -936,32 +933,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(LOG_PULSE, 0);
 
         if (cursor.getCount() > 0){
-            Date inputedDate = new Date(date);
-            Date firstDate = new Date(cursor.getLong(cursor.getColumnIndex(LOG_DATE)));
-            Date lastDate = new Date(cursor.getLong(cursor.getColumnIndex(LOG_DATE)));
+            Date inputedDate = new Date(date_long);
 
-            long daysBetween = getDaysBetweenInDateTable(user_id, app_id, date);
+            long daysBetween = getDaysBetweenInDateTable(user_id, app_id, date_long);
 
             Log.e("Here!!!", "" + daysBetween);
 
             if (daysBetween < 0){
                 for (long i = daysBetween; i < 0; i++){
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(inputedDate);
-                    cal.add(Calendar.DAY_OF_YEAR, (int) -i);
-                    values.put(LOG_DATE, cal.getTimeInMillis());
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    cal.add(Calendar.DAY_OF_YEAR, (int) i);
+                    values.put(LOG_DATE_LONG, cal.getTimeInMillis());
+                    values.put(LOG_DATE_STRING, sdf.format(new Date(cal.getTimeInMillis())));
                     Log.e("Here!!!", "" + sdf.format(new Date(cal.getTimeInMillis())));
                     db.insert(TABLE_LOG, null, values);
                 }
             }
             else if (daysBetween > 0){
                 for (long i = -daysBetween + 1; i < 0; i++){
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(inputedDate);
                     cal.add(Calendar.DAY_OF_YEAR, (int) i);
-                    values.put(LOG_DATE, cal.getTimeInMillis());
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    values.put(LOG_DATE_LONG, cal.getTimeInMillis());
+                    values.put(LOG_DATE_STRING, sdf.format(new Date(cal.getTimeInMillis())));
                     Log.e("Here!!!", "" + sdf.format(new Date(cal.getTimeInMillis())));
                     db.insert(TABLE_LOG, null, values);
                 }
@@ -969,17 +966,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         else{
             long today = new Date().getTime();
-            long daysBetween = (date - today)/(24*60*60*1000);
+            long daysBetween = (date_long - today)/(24*60*60*1000);
             Log.e("Here!!!", "No dates in Date Table: " + daysBetween);
 
             if (daysBetween < 0){
                 for (long i = daysBetween; i < 0; i++){
-                    Date inputedDate = new Date(date);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date inputedDate = new Date(date_long);
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(inputedDate);
                     cal.add(Calendar.DAY_OF_YEAR, (int) -i);
-                    values.put(LOG_DATE, cal.getTimeInMillis());
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    values.put(LOG_DATE_LONG, cal.getTimeInMillis());
+                    values.put(LOG_DATE_STRING, sdf.format(new Date(cal.getTimeInMillis())));
                     Log.e("Here!!!", "" + sdf.format(new Date(cal.getTimeInMillis())));
                     db.insert(TABLE_LOG, null, values);
                 }
@@ -1006,14 +1004,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR));
     }
 
+
     public long addLogToLogTable(long user_id, long app_id, long steps_walked, double miles_walked, long calories_burned,
-                                 long calories_consumed, long pulse, long date) {
+                                 long calories_consumed, long pulse, long date_long, String date_string) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        fillInEmptyDaysToLogTable(user_id, app_id, date);
+        fillInEmptyDaysToLogTable(user_id, app_id, date_long);
 
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
-                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
+                + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id + " and " + LOG_DATE_STRING + " = '" + date_string + "'";
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -1025,44 +1024,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(LOG_CALORIES_BURNED, calories_burned);
         values.put(LOG_CALORIES_CONSUMED, calories_consumed);
         values.put(LOG_PULSE, pulse);
-        values.put(LOG_DATE, date);
+        values.put(LOG_DATE_LONG, date_long);
+        values.put(LOG_DATE_STRING, date_string);
 
         long result = -1;
-        int count = 0;
-
-        cursor.moveToFirst();
-        long replaceTime = 0;
-
-        for (int i = 0; i < cursor.getCount(); i++){
-            long tempTime = cursor.getLong(cursor.getColumnIndex(LOG_DATE));
-            if (isSameDay(tempTime, date)){
-                count++;
-                replaceTime = tempTime;
-            }
-        }
+        int count = cursor.getCount();
 
         if (count < 1){
             result = db.insert(TABLE_LOG, null, values);
-            addDateToDateTable(user_id, app_id, date);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Log.e("Here!!!", "Added Date: " + sdf.format(date));
+            addDateToDateTable(user_id, app_id, date_long);
+            Log.e("Here!!!", "Added Date: " + date_string);
         }
         else{
             result = db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
-                    + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + replaceTime, null);
-            addDateToDateTable(user_id, app_id, date);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Log.e("Here!!!", "Update Date: " + sdf.format(date));
+                    + APP_ID + " = " + app_id + " and " + LOG_DATE_STRING + " = " + "'" + date_string + "'", null);
+            addDateToDateTable(user_id, app_id, date_long);
+            Log.e("Here!!!", "Update Date: " + date_string);
         }
         db.close();
         return result;
     }
 
 
-    public long addStepsWalkedToLogTable(long user_id, long app_id, long steps_walked, long date) {
+    public long addStepsWalkedToLogTable(long user_id, long app_id, long steps_walked, long date_long) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        fillInEmptyDaysToLogTable(user_id, app_id, date);
+        fillInEmptyDaysToLogTable(user_id, app_id, date_long);
 
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
                 + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
@@ -1073,7 +1060,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(USER_ID, user_id);
         values.put(APP_ID, app_id);
         values.put(LOG_STEPS_WALKED, steps_walked);
-        values.put(LOG_DATE, date);
+        values.put(LOG_DATE_LONG, date_long);
 
         long result = -1;
         int count = 0;
@@ -1082,8 +1069,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long replaceTime = 0;
 
         for (int i = 0; i < cursor.getCount(); i++){
-            long tempTime = cursor.getLong(cursor.getColumnIndex(LOG_DATE));
-            if (isSameDay(tempTime, date)){
+            long tempTime = cursor.getLong(cursor.getColumnIndex(LOG_DATE_LONG));
+            if (isSameDay(tempTime, date_long)){
                 count++;
                 replaceTime = tempTime;
             }
@@ -1092,25 +1079,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (count < 1){
             result = db.insert(TABLE_LOG, null, values);
-            addDateToDateTable(user_id, app_id, date);
+            addDateToDateTable(user_id, app_id, date_long);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Log.e("Here!!!", "Added Date: " + sdf.format(date));
+            Log.e("Here!!!", "Added Date: " + sdf.format(date_long));
         }
         else{
             result = db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
-                    + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + replaceTime, null);
-            addDateToDateTable(user_id, app_id, date);
+                    + APP_ID + " = " + app_id + " and " + LOG_DATE_LONG + " = " + replaceTime, null);
+            addDateToDateTable(user_id, app_id, date_long);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Log.e("Here!!!", "Update Date: " + sdf.format(date));
+            Log.e("Here!!!", "Update Date: " + sdf.format(date_long));
         }
         db.close();
         return result;
     }
 
-    public long addMilesWalkedToLogTable(long user_id, long app_id, double miles_walked, long date) {
+    public long addMilesWalkedToLogTable(long user_id, long app_id, double miles_walked, long date_long) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        fillInEmptyDaysToLogTable(user_id, app_id, date);
+        fillInEmptyDaysToLogTable(user_id, app_id, date_long);
 
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
                 + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
@@ -1121,7 +1108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(USER_ID, user_id);
         values.put(APP_ID, app_id);
         values.put(LOG_MILES_WALKED, miles_walked);
-        values.put(LOG_DATE, date);
+        values.put(LOG_DATE_LONG, date_long);
 
         long result = -1;
         int count = 0;
@@ -1130,8 +1117,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long replaceTime = 0;
 
         for (int i = 0; i < cursor.getCount(); i++){
-            long tempTime = cursor.getLong(cursor.getColumnIndex(LOG_DATE));
-            if (isSameDay(tempTime, date)){
+            long tempTime = cursor.getLong(cursor.getColumnIndex(LOG_DATE_LONG));
+            if (isSameDay(tempTime, date_long)){
                 count++;
                 replaceTime = tempTime;
             }
@@ -1140,25 +1127,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (count < 1){
             result = db.insert(TABLE_LOG, null, values);
-            addDateToDateTable(user_id, app_id, date);
+            addDateToDateTable(user_id, app_id, date_long);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Log.e("Here!!!", "Added Date: " + sdf.format(date));
+            Log.e("Here!!!", "Added Date: " + sdf.format(date_long));
         }
         else{
             result = db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
-                    + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + replaceTime, null);
-            addDateToDateTable(user_id, app_id, date);
+                    + APP_ID + " = " + app_id + " and " + LOG_DATE_LONG + " = " + replaceTime, null);
+            addDateToDateTable(user_id, app_id, date_long);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Log.e("Here!!!", "Update Date: " + sdf.format(date));
+            Log.e("Here!!!", "Update Date: " + sdf.format(date_long));
         }
         db.close();
         return result;
     }
 
-    public long addCaloriesBurnedToLogTable(long user_id, long app_id, long calories_burned, long date) {
+    public long addCaloriesBurnedToLogTable(long user_id, long app_id, long calories_burned, long date_long) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        fillInEmptyDaysToLogTable(user_id, app_id, date);
+        fillInEmptyDaysToLogTable(user_id, app_id, date_long);
 
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
                 + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
@@ -1169,7 +1156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(USER_ID, user_id);
         values.put(APP_ID, app_id);
         values.put(LOG_CALORIES_BURNED, calories_burned);
-        values.put(LOG_DATE, date);
+        values.put(LOG_DATE_LONG, date_long);
 
         long result = -1;
         int count = cursor.getCount();
@@ -1178,8 +1165,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long replaceTime = 0;
 
         for (int i = 0; i < cursor.getCount(); i++){
-            long tempTime = cursor.getLong(cursor.getColumnIndex(LOG_DATE));
-            if (isSameDay(tempTime, date)){
+            long tempTime = cursor.getLong(cursor.getColumnIndex(LOG_DATE_LONG));
+            if (isSameDay(tempTime, date_long)){
                 count++;
                 replaceTime = tempTime;
             }
@@ -1188,25 +1175,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (count < 1){
             result = db.insert(TABLE_LOG, null, values);
-            addDateToDateTable(user_id, app_id, date);
+            addDateToDateTable(user_id, app_id, date_long);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Log.e("Here!!!", "Added Date: " + sdf.format(date));
+            Log.e("Here!!!", "Added Date: " + sdf.format(date_long));
         }
         else{
             result = db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
-                    + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + replaceTime, null);
-            addDateToDateTable(user_id, app_id, date);
+                    + APP_ID + " = " + app_id + " and " + LOG_DATE_LONG + " = " + replaceTime, null);
+            addDateToDateTable(user_id, app_id, date_long);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Log.e("Here!!!", "Update Date: " + sdf.format(date));
+            Log.e("Here!!!", "Update Date: " + sdf.format(date_long));
         }
         db.close();
         return result;
     }
 
-    public long addCaloriesConsumedToLogTable(long user_id, long app_id, long calories_consumed, long date) {
+    public long addCaloriesConsumedToLogTable(long user_id, long app_id, long calories_consumed, long date_long) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        fillInEmptyDaysToLogTable(user_id, app_id, date);
+        fillInEmptyDaysToLogTable(user_id, app_id, date_long);
 
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
                 + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
@@ -1217,7 +1204,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(USER_ID, user_id);
         values.put(APP_ID, app_id);
         values.put(LOG_CALORIES_CONSUMED, calories_consumed);
-        values.put(LOG_DATE, date);
+        values.put(LOG_DATE_LONG, date_long);
 
         long result = -1;
         int count = 0;
@@ -1226,8 +1213,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long replaceTime = 0;
 
         for (int i = 0; i < cursor.getCount(); i++){
-            long tempTime = cursor.getLong(cursor.getColumnIndex(LOG_DATE));
-            if (isSameDay(tempTime, date)){
+            long tempTime = cursor.getLong(cursor.getColumnIndex(LOG_DATE_LONG));
+            if (isSameDay(tempTime, date_long)){
                 count++;
                 replaceTime = tempTime;
             }
@@ -1236,25 +1223,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (count < 1){
             result = db.insert(TABLE_LOG, null, values);
-            addDateToDateTable(user_id, app_id, date);
+            addDateToDateTable(user_id, app_id, date_long);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Log.e("Here!!!", "Added Date: " + sdf.format(date));
+            Log.e("Here!!!", "Added Date: " + sdf.format(date_long));
         }
         else{
             result = db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
-                    + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + replaceTime, null);
-            addDateToDateTable(user_id, app_id, date);
+                    + APP_ID + " = " + app_id + " and " + LOG_DATE_LONG + " = " + replaceTime, null);
+            addDateToDateTable(user_id, app_id, date_long);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Log.e("Here!!!", "Update Date: " + sdf.format(date));
+            Log.e("Here!!!", "Update Date: " + sdf.format(date_long));
         }
         db.close();
         return result;
     }
 
-    public long addPulseToLogTable(long user_id, long app_id, long pulse, long date) {
+    public long addPulseToLogTable(long user_id, long app_id, long pulse, long date_long) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        fillInEmptyDaysToLogTable(user_id, app_id, date);
+        fillInEmptyDaysToLogTable(user_id, app_id, date_long);
 
         String selectQuery = "SELECT  * FROM " + TABLE_LOG + " WHERE "
                 + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
@@ -1265,7 +1252,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(USER_ID, user_id);
         values.put(APP_ID, app_id);
         values.put(LOG_PULSE, pulse);
-        values.put(LOG_DATE, date);
+        values.put(LOG_DATE_LONG, date_long);
 
         long result = -1;
         int count = 0;
@@ -1274,8 +1261,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long replaceTime = 0;
 
         for (int i = 0; i < cursor.getCount(); i++){
-            long tempTime = cursor.getLong(cursor.getColumnIndex(LOG_DATE));
-            if (isSameDay(tempTime, date)){
+            long tempTime = cursor.getLong(cursor.getColumnIndex(LOG_DATE_LONG));
+            if (isSameDay(tempTime, date_long)){
                 count++;
                 replaceTime = tempTime;
             }
@@ -1284,16 +1271,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
        if (count < 1){
             result = db.insert(TABLE_LOG, null, values);
-            addDateToDateTable(user_id, app_id, date);
+            addDateToDateTable(user_id, app_id, date_long);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Log.e("Here!!!", "Added Date: " + sdf.format(date));
+            Log.e("Here!!!", "Added Date: " + sdf.format(date_long));
         }
         else{
             result = db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
-                    + APP_ID + " = " + app_id + " and " + LOG_DATE + " = " + replaceTime, null);
-            addDateToDateTable(user_id, app_id, date);
+                    + APP_ID + " = " + app_id + " and " + LOG_DATE_LONG + " = " + replaceTime, null);
+            addDateToDateTable(user_id, app_id, date_long);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-           Log.e("Here!!!", "Update Date: " + sdf.format(date));
+           Log.e("Here!!!", "Update Date: " + sdf.format(date_long));
         }
         db.close();
         return result;
@@ -1417,7 +1404,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        return cursor.getLong(cursor.getColumnIndex(LOG_DATE));
+        return cursor.getLong(cursor.getColumnIndex(LOG_DATE_LONG));
     }
 
     public String getLogInfoFromLogTable(long log_id){
@@ -1436,10 +1423,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + USER_ID + " = " + user_id + " and " + APP_ID + " = " + app_id;
 
         String[] columns = {LOG_ID, LOG_STEPS_WALKED, LOG_MILES_WALKED, LOG_CALORIES_BURNED,
-                LOG_CALORIES_CONSUMED, LOG_PULSE, LOG_DATE};
+                LOG_CALORIES_CONSUMED, LOG_PULSE, LOG_DATE_LONG};
         String selection = USER_ID + "=?" + " and " + APP_ID + "=?";
         String[] selectionArgs = {String.valueOf(user_id), String.valueOf(app_id)};
-        Cursor cursor = db.query(TABLE_LOG, columns, selection, selectionArgs, null, null, LOG_DATE + " ASC");
+        Cursor cursor = db.query(TABLE_LOG, columns, selection, selectionArgs, null, null, LOG_DATE_LONG + " ASC");
 
         while (cursor.moveToNext()){
             AppLog currentAppLog = new AppLog();
@@ -1449,7 +1436,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             currentAppLog.setCalories_burned(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_BURNED)));
             currentAppLog.setCalories_consumed(cursor.getLong(cursor.getColumnIndex(LOG_CALORIES_CONSUMED)));
             currentAppLog.setPulse(cursor.getLong(cursor.getColumnIndex(LOG_PULSE)));
-            currentAppLog.setDate(cursor.getLong(cursor.getColumnIndex(LOG_DATE)));
+            currentAppLog.setDate(cursor.getLong(cursor.getColumnIndex(LOG_DATE_LONG)));
             appLogList.add(currentAppLog);
         }
         cursor.close();

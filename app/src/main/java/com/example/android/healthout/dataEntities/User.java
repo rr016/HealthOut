@@ -1,5 +1,7 @@
 package com.example.android.healthout.dataEntities;
 
+import android.util.Log;
+
 import com.example.android.healthout.database.DatabaseHelper;
 
 import java.io.Serializable;
@@ -81,6 +83,14 @@ public class User implements Serializable {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, days);
         return cal.getTimeInMillis();
+    }
+
+    public String getDateString (long date_long){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        date.setTime(date_long);
+
+        return sdf.format(date);
     }
 }
 

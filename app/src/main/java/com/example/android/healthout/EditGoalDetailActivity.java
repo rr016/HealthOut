@@ -75,8 +75,6 @@ public class EditGoalDetailActivity extends AppCompatActivity {
             periodSpinner.setSelection(temp);
         }
 
-        Toast.makeText(getApplicationContext(), "" + position_index, Toast.LENGTH_LONG).show();
-
         // Click Apply Button
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +85,7 @@ public class EditGoalDetailActivity extends AppCompatActivity {
                 sPeriod = periodSpinner.getSelectedItem().toString();
 
                 if(sTarget.isEmpty() || sTarget.equals("") || sTarget.matches(".*[a-z].*")){
-                    Toast.makeText(getApplicationContext(), "Target field error!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Error: target field empty", Toast.LENGTH_LONG).show();
                 }
                 else {
                     if(goal_id < 0){
@@ -192,7 +190,6 @@ public class EditGoalDetailActivity extends AppCompatActivity {
                             }
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "USER_ID = "+user.getUser_id(), Toast.LENGTH_LONG).show();
                         db.deleteAccountFromUserTable(user.getUser_id());
 
                         Intent moveToLogin = new Intent(EditGoalDetailActivity.this, LoginActivity.class);

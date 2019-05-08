@@ -84,8 +84,6 @@ public class MainMenuActivity extends AppCompatActivity {
         fitbitAppLogList = db.getAppLogListFromLogTable(user_id, 1);
         googleFitAppLogList = db.getAppLogListFromLogTable(user_id, 2);
 
-        Toast.makeText(MainMenuActivity.this, fitbitAppLogList.size() + "; " + googleFitAppLogList.size(), Toast.LENGTH_SHORT).show();
-
         updateButton = findViewById(R.id.button_update);
         registerAppsButton = findViewById(R.id.button_register_apps);
         editGoalsButton = findViewById(R.id.button_edit_goals);
@@ -159,32 +157,6 @@ public class MainMenuActivity extends AppCompatActivity {
                                 break;
                         }
                     }
-                    else if (user.goalList.get(i).getPeriod_id() == 3){
-                        switch(user.goalList.get(i).getType_name()) {
-                            case "Steps Walked":
-                                item_progress[i] = getMonthlyProgress(fitbitAppLogList, 1);
-                                break;
-                            case "Miles Walked":
-                                item_progress[i] = getMonthlyProgress(fitbitAppLogList, 2);
-                                break;
-                            case "Calories Burned":
-                                item_progress[i] = getMonthlyProgress(fitbitAppLogList, 3);
-                                break;
-                            case "Calories Consumed":
-                                item_progress[i] = getMonthlyProgress(fitbitAppLogList, 4);
-                                break;
-                            case "Pulse":
-                                item_progress[i] = getMonthlyProgress(fitbitAppLogList, 5);
-                                break;
-                            default:
-                                item_progress[i] = "[prog]";
-                                break;
-                        }
-                    }
-
-                    if (item_progress[i].equals("-1") || item_progress[i].equals("-1.0")){
-                        item_progress[i] = "0";
-                    }
                 }
                 else if (user.goalList.get(i).getApp_id() == 2){
                     if (user.goalList.get(i).getPeriod_id() == 1) {
@@ -231,32 +203,6 @@ public class MainMenuActivity extends AppCompatActivity {
                                 break;
                         }
                     }
-                    else if (user.goalList.get(i).getPeriod_id() == 3) {
-                        switch(user.goalList.get(i).getType_name()) {
-                            case "Steps Walked":
-                                item_progress[i] = getMonthlyProgress(googleFitAppLogList, 1);
-                                break;
-                            case "Miles Walked":
-                                item_progress[i] = getMonthlyProgress(googleFitAppLogList, 2);
-                                break;
-                            case "Calories Burned":
-                                item_progress[i] = getMonthlyProgress(googleFitAppLogList, 3);
-                                break;
-                            case "Calories Consumed":
-                                item_progress[i] = getMonthlyProgress(googleFitAppLogList, 4);
-                                break;
-                            case "Pulse":
-                                item_progress[i] = getMonthlyProgress(googleFitAppLogList, 5);
-                                break;
-                            default:
-                                item_progress[i] = "[prog]";
-                                break;
-                        }
-                    }
-
-                    if (item_progress[i].equals("-1") || item_progress[i].equals("-1.0")){
-                        item_progress[i] = "0";
-                    }
                 }
 
                 switch(user.goalList.get(i).getType_name()) {
@@ -289,7 +235,6 @@ public class MainMenuActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //Toast.makeText(getApplicationContext(), goalInfoArray[position], Toast.LENGTH_LONG).show();
                     Intent moveToGraph = new Intent(MainMenuActivity.this, GraphActivity.class);
                     Bundle extras = new Bundle();
                     extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
@@ -307,77 +252,60 @@ public class MainMenuActivity extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    /*
-                    // API Table -- add data
-                    db.addApiToApiTable(1, 1, true, "N/A", "Alex@gmail.com", "AlexIsDaMan2");
-                    db.addApiToApiTable(1, 2, true, "KingAlex90", "Alex@gmail.com", "AlexIsTooFly45");
-                    db.addApiToApiTable(2, 1, true, "N/A", "cdk123@yahoo.com", "PleaseLogin");
-                    db.addApiToApiTable(2, 2, false, null, null, null);
-                    db.addApiToApiTable(3, 1, true, "N/A", "Blue123@outlook.com", "fmd2m4k$");
-                    db.addApiToApiTable(3, 2, true, "Blue123", "Blue123@outlook.com", "fmd2m4k$");
+                // --- Fitbit ---
+                // Daily
+                db.addGoalToGoalTable(user_id, 1, 1, 1, "3000");
+                db.addGoalToGoalTable(user_id, 1, 2, 1, "3");
+                db.addGoalToGoalTable(user_id, 1, 3, 1, "2500");
+                db.addGoalToGoalTable(user_id, 1, 4, 1, "2200");
+                db.addGoalToGoalTable(user_id, 1, 5, 1, "80");
+                // Weekly
+                db.addGoalToGoalTable(user_id, 1, 1, 2, "21000");
+                db.addGoalToGoalTable(user_id, 1, 2, 2, "21");
+                db.addGoalToGoalTable(user_id, 1, 3, 2, "17500");
+                db.addGoalToGoalTable(user_id, 1, 4, 2, "15000");
+                db.addGoalToGoalTable(user_id, 1, 5, 2, "80");
+                // Monthly
+                db.addGoalToGoalTable(user_id, 1, 1, 3, "84000");
+                db.addGoalToGoalTable(user_id, 1, 2, 3, "84");
+                db.addGoalToGoalTable(user_id, 1, 3, 3, "70000");
+                db.addGoalToGoalTable(user_id, 1, 4, 3, "60000");
+                db.addGoalToGoalTable(user_id, 1, 5, 3, "80");
 
-                    db.addLogToLogTable(1,1, 1560,0.8, 200, 1000, 93, "135/90");
-                    db.addLogToLogTable(3, 1, 9786, 6.2, 1003, 2340, 86, "128/93");
-                    db.addLogToLogTable(3, 2, 2010, 1.3, 300, 1650, 85, "122/93");
-                    db.addLogToLogTable(1,2, 1032, 0.7, 197, 0, 0, null);
-                    */
-
-                if (user.goalList.size() == 0 && fitbitAppLogList.size() == 0 && googleFitAppLogList.size() == 0){
-                    // --- Fitbit ---
-                    // Daily
-                    db.addGoalToGoalTable(user_id,1,1,1, "3000");
-                    db.addGoalToGoalTable(user_id,1,2,1, "3");
-                    db.addGoalToGoalTable(user_id,1,3,1, "2500");
-                    db.addGoalToGoalTable(user_id,1,4,1, "2200");
-                    db.addGoalToGoalTable(user_id,1,5,1, "80");
-                    // Weekly
-                    db.addGoalToGoalTable(user_id,1,1,2, "21000");
-                    db.addGoalToGoalTable(user_id,1,2,2, "21");
-                    db.addGoalToGoalTable(user_id,1,3,2, "17500");
-                    db.addGoalToGoalTable(user_id,1,4,2, "15000");
-                    db.addGoalToGoalTable(user_id,1,5,2, "80");
-                    // Monthly
-                    db.addGoalToGoalTable(user_id,1,1,3, "84000");
-                    db.addGoalToGoalTable(user_id,1,2,3, "84");
-                    db.addGoalToGoalTable(user_id,1,3,3, "70000");
-                    db.addGoalToGoalTable(user_id,1,4,3, "60000");
-                    db.addGoalToGoalTable(user_id,1,5,3, "80");
-
-                    // --- Google Fit ---
-                    // Daily
-                    db.addGoalToGoalTable(user_id,2,1,1, "3000");
-                    db.addGoalToGoalTable(user_id,2,2,1, "3");
-                    db.addGoalToGoalTable(user_id,2,3,1, "2500");
-                    db.addGoalToGoalTable(user_id,2,4,1, "2200");
-                    db.addGoalToGoalTable(user_id,2,5,1, "80");
-                    // Weekly
-                    db.addGoalToGoalTable(user_id,2,1,2, "21000");
-                    db.addGoalToGoalTable(user_id,2,2,2, "21");
-                    db.addGoalToGoalTable(user_id,2,3,2, "17500");
-                    db.addGoalToGoalTable(user_id,2,4,2, "15000");
-                    db.addGoalToGoalTable(user_id,2,5,2, "80");
-                    // Monthly
-                    db.addGoalToGoalTable(user_id,2,1,3, "84000");
-                    db.addGoalToGoalTable(user_id,2,2,3, "84");
-                    db.addGoalToGoalTable(user_id,2,3,3, "70000");
-                    db.addGoalToGoalTable(user_id,2,4,3, "60000");
-                    db.addGoalToGoalTable(user_id,2,5,3, "80");
-                }
+                // --- Google Fit ---
+                // Daily
+                db.addGoalToGoalTable(user_id, 2, 1, 1, "3000");
+                db.addGoalToGoalTable(user_id, 2, 2, 1, "3");
+                db.addGoalToGoalTable(user_id, 2, 3, 1, "2500");
+                db.addGoalToGoalTable(user_id, 2, 4, 1, "2200");
+                db.addGoalToGoalTable(user_id, 2, 5, 1, "80");
+                // Weekly
+                db.addGoalToGoalTable(user_id, 2, 1, 2, "21000");
+                db.addGoalToGoalTable(user_id, 2, 2, 2, "21");
+                db.addGoalToGoalTable(user_id, 2, 3, 2, "17500");
+                db.addGoalToGoalTable(user_id, 2, 4, 2, "15000");
+                db.addGoalToGoalTable(user_id, 2, 5, 2, "80");
+                // Monthly
+                db.addGoalToGoalTable(user_id, 2, 1, 3, "84000");
+                db.addGoalToGoalTable(user_id, 2, 2, 3, "84");
+                db.addGoalToGoalTable(user_id, 2, 3, 3, "70000");
+                db.addGoalToGoalTable(user_id, 2, 4, 3, "60000");
+                db.addGoalToGoalTable(user_id, 2, 5, 3, "80");
 
                 long test = -1;
 
                 // Fitbit -- Create Random Log Data
                 for (int i = -122; i < 0; i++) {
-                    test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate(i));
+                    test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate(i), user.getDateString(user.getCalculatedDate(i)));
                 }
 
                 // Google Fit -- Create Random Log Data
                 for (int i = -122; i < 0; i++) {
-                    test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate(i));
+                    test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate(i), user.getDateString(user.getCalculatedDate(i)));
                 }
 
                 if (test > 0) {
-                    Toast.makeText(MainMenuActivity.this, "Random Log Data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainMenuActivity.this, "Random Log Data added", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainMenuActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
@@ -464,7 +392,6 @@ public class MainMenuActivity extends AppCompatActivity {
                             }
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "USER_ID = "+ user_id, Toast.LENGTH_LONG).show();
                         db.deleteAccountFromUserTable(user_id);
 
                         Intent moveToLogin = new Intent(MainMenuActivity.this, LoginActivity.class);

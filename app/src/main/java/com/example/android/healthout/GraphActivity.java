@@ -78,10 +78,12 @@ public class GraphActivity extends AppCompatActivity {
         logDataLine = new LineGraphSeries<DataPoint>();
         targetValueLine = new LineGraphSeries<DataPoint>();
 
+        /*
         // Log Table -- Display
         Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
         for (int i = 0; i < appLogListToBeGraphed.size(); i++)
             Toast.makeText(GraphActivity.this, appLogListToBeGraphed.get(i).getAppLogInfo(), Toast.LENGTH_SHORT).show();
+        */
 
         int entries = appLogListToBeGraphed.size();
 
@@ -215,7 +217,6 @@ public class GraphActivity extends AppCompatActivity {
                             }
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "USER_ID = "+user.getUser_id(), Toast.LENGTH_LONG).show();
                         db.deleteAccountFromUserTable(user.getUser_id());
 
                         Intent moveToLogin = new Intent(GraphActivity.this, LoginActivity.class);
