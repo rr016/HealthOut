@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.example.android.healthout.dataEntities.User;
 import com.example.android.healthout.database.DatabaseHelper;
 
+import java.util.Objects;
+
 public class RegisterAccountActivity extends AppCompatActivity {
     DatabaseHelper db;
 
@@ -22,16 +24,13 @@ public class RegisterAccountActivity extends AppCompatActivity {
     String sPassword = "";
     String sConfirmPassword = "";
 
-    boolean usernameValid = true;
-    boolean passwordValid = true;
-
     User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Hide Action bar
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_register_account);
 
         user = (User)getIntent().getSerializableExtra("user");
@@ -50,30 +49,21 @@ public class RegisterAccountActivity extends AppCompatActivity {
                 sPassword = passwordEditText.getText().toString();
                 sConfirmPassword = confirmPasswordEditText.getText().toString();
 
-                //usernameValid = user.isUsernameValid(sUsername);   // whether new username is of valid format
-                //passwordValid = user.isPasswordValid(sPassword, sConfirmPassword); // whether new passwords are of valid format and match
+                if (sPassword.equals(sConfirmPassword)) {
+                    long val = db.addUserToUserTable(sUsername, sPassword);
+                    if (val > 0) {
+                        Toast.makeText(RegisterAccountActivity.this, "Account Registered", Toast.LENGTH_SHORT).show();
+                        Intent moveToLogin = new Intent(RegisterAccountActivity.this, LoginActivity.class);
+                        startActivity(moveToLogin);
+                        finish(); // Prevent user from returning to this page
+                    } else if (val == -2)
+                        Toast.makeText(RegisterAccountActivity.this, "Username taken", Toast.LENGTH_SHORT).show();
 
-                if (sPassword.equals(sConfirmPassword)){
-                    if (usernameValid && passwordValid){
-                        Long val = db.addUserToUserTable(sUsername, sPassword);
-                        if(val > 0){
-                            Toast.makeText(RegisterAccountActivity.this,"Account Registered", Toast.LENGTH_SHORT).show();
-                            Intent moveToLogin = new Intent(RegisterAccountActivity.this, LoginActivity.class);
-                            startActivity(moveToLogin);
-                            finish(); // Prevent user from returning to this page
-                        }
-                        else if (val == -2)
-                            Toast.makeText(RegisterAccountActivity.this,"Username taken", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(RegisterAccountActivity.this, "Registration Error", Toast.LENGTH_SHORT).show();
 
-                        else
-                            Toast.makeText(RegisterAccountActivity.this,"Registration Error", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(RegisterAccountActivity.this,"Passwords & Username must be between 5-15 characters", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else{
-                    Toast.makeText(RegisterAccountActivity.this,"Passwords are not matching", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(RegisterAccountActivity.this, "Passwords are not matching", Toast.LENGTH_SHORT).show();
                 }
             }
         });

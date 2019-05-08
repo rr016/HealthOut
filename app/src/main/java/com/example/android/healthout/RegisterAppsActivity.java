@@ -2,7 +2,6 @@ package com.example.android.healthout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -39,9 +38,9 @@ public class RegisterAppsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Toast.makeText(getApplicationContext(), "FITBIT ON", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "FITBIT ON", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "FITBIT OFF", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "FITBIT OFF", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -50,9 +49,9 @@ public class RegisterAppsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Toast.makeText(getApplicationContext(), "GOOGLE FIT ON", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "GOOGLE FIT ON", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "GOOGLE FIT OFF", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "GOOGLE FIT OFF", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -118,6 +117,7 @@ public class RegisterAppsActivity extends AppCompatActivity {
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         db.deleteAccountFromUserTable(user.getUser_id());
+                        Toast.makeText(getApplicationContext(), "Account deleted", Toast.LENGTH_SHORT).show();
 
                         Intent moveToLogin = new Intent(RegisterAppsActivity.this, LoginActivity.class);
                         // Prevent user from returning to this page

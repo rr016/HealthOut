@@ -1,9 +1,5 @@
 package com.example.android.healthout.dataEntities;
 
-import android.util.Log;
-
-import com.example.android.healthout.database.DatabaseHelper;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,16 +61,13 @@ public class User implements Serializable {
     }
 
     public boolean isUsernameValid(String username){
-        if (username.length() >= 5 && password.length() <= 15)
-            return true;
+        return username.length() >= 5 && password.length() <= 15;
 
-        return false;
     }
 
     public boolean isPasswordValid(String password, String confirmPassword){
         if (password.length() >= 5 && password.length() <= 15)
-            if (password.equals(confirmPassword))
-                return true;
+            return password.equals(confirmPassword);
 
         return false;
     }

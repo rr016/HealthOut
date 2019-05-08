@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.example.android.healthout.dataEntities.User;
 import com.example.android.healthout.database.DatabaseHelper;
 
+import java.util.Objects;
+
 public class LoginActivity extends AppCompatActivity {
     DatabaseHelper db;
 
@@ -26,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Hide Action bar
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_login);
 
         db = new DatabaseHelper(this);
@@ -44,8 +46,8 @@ public class LoginActivity extends AppCompatActivity {
                 String  susername = usernameEditText.getText().toString();
                 String sPassword = passwordEditText.getText().toString();
 
-                Boolean res = db.checkUserInUserTable(susername, sPassword);
-                if(res == true){
+                boolean res = db.checkUserInUserTable(susername, sPassword);
+                if(res){
                     user.setusername(susername);
                     user.setPassword(sPassword);
                     user.setUser_id(db.getUserIdFromUserTable(susername, sPassword));
@@ -81,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         forgotButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Forgot Password Clicked!", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getApplicationContext(), "Forgot Password Clicked!", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });

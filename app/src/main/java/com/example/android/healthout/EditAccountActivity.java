@@ -56,16 +56,16 @@ public class EditAccountActivity extends AppCompatActivity {
                 long changedusername = 0;
                 long changedPassword = 0;
 
-                if (currentPasswordValid == true) // if current password is valid
+                if (currentPasswordValid) // if current password is valid
                 {
-                    if (newUsernameValid == true)  // then if new username is of valid format
+                    if (newUsernameValid)  // then if new username is of valid format
                         changedusername = db.changeusernameInUserTable(user.getUser_id(), sNewUsername);
-                    if (newPasswordValid == true) // and/or if passwords are of valid format and match
+                    if (newPasswordValid) // and/or if passwords are of valid format and match
                         changedPassword = db.changePasswordInUserTable(user.getUser_id(), sNewPassword);
                 }
 
 
-                if (currentPasswordValid == true && (newUsernameValid == true || newPasswordValid == true)){
+                if (currentPasswordValid && (newUsernameValid || newPasswordValid)){
                     if (changedusername == 1 && changedPassword == 1) // if no errors when changing username and/or password
                     {
                         user.setusername(sNewUsername);
@@ -92,17 +92,17 @@ public class EditAccountActivity extends AppCompatActivity {
                         finish(); // Prevent user from returning to this page
                     }
                 }
-                else if (currentPasswordValid == false){
+                else if (!currentPasswordValid){
                     Toast.makeText(getApplicationContext(), "Incorrect current password", Toast.LENGTH_LONG).show();
                 }
-                else if (sNewUsername.length() > 0 && sNewPassword.length() > 0 && newUsernameValid == false && newPasswordValid == false){
+                else if (sNewUsername.length() > 0 && sNewPassword.length() > 0 && !newUsernameValid && !newPasswordValid){
                     Toast.makeText(getApplicationContext(), "Invalid new username and new password", Toast.LENGTH_LONG).show();
                 }
-                else if (sNewUsername.length() > 0 && newUsernameValid == false){
+                else if (sNewUsername.length() > 0 && !newUsernameValid){
                     Toast.makeText(getApplicationContext(), "Invalid new username", Toast.LENGTH_LONG).show();
                 }
-                else if (sNewPassword.length() > 0 && newPasswordValid == false){
-                    if (sNewPassword.equals(sConfirmNewPassword) == false)
+                else if (sNewPassword.length() > 0 && !newPasswordValid){
+                    if (!sNewPassword.equals(sConfirmNewPassword))
                         Toast.makeText(getApplicationContext(), "New passwords don't match", Toast.LENGTH_LONG).show();
                     else
                         Toast.makeText(getApplicationContext(), "Invalid new password", Toast.LENGTH_LONG).show();
@@ -160,6 +160,7 @@ public class EditAccountActivity extends AppCompatActivity {
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         db.deleteAccountFromUserTable(user.getUser_id());
+                        Toast.makeText(getApplicationContext(), "Account deleted", Toast.LENGTH_SHORT).show();
 
                         Intent moveToLogin = new Intent(EditAccountActivity.this, LoginActivity.class);
                         // Prevent user from returning to this page

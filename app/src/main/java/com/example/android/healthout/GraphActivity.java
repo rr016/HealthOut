@@ -2,7 +2,6 @@ package com.example.android.healthout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.DatabaseUtils;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -20,10 +19,7 @@ import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class GraphActivity extends AppCompatActivity {
@@ -50,6 +46,7 @@ public class GraphActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+        assert extras != null;
         user = (User)extras.getSerializable("user");
         app_id = extras.getLong("app_id");
         type_id = extras.getLong("type_id");
@@ -80,7 +77,7 @@ public class GraphActivity extends AppCompatActivity {
 
         /*
         // Log Table -- Display
-        Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_SHORT).show();
         for (int i = 0; i < appLogListToBeGraphed.size(); i++)
             Toast.makeText(GraphActivity.this, appLogListToBeGraphed.get(i).getAppLogInfo(), Toast.LENGTH_SHORT).show();
         */
@@ -218,6 +215,7 @@ public class GraphActivity extends AppCompatActivity {
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         db.deleteAccountFromUserTable(user.getUser_id());
+                        Toast.makeText(getApplicationContext(), "Account deleted", Toast.LENGTH_SHORT).show();
 
                         Intent moveToLogin = new Intent(GraphActivity.this, LoginActivity.class);
                         // Prevent user from returning to this page

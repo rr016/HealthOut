@@ -1,7 +1,5 @@
 package com.example.android.healthout.dataEntities;
 
-import com.example.android.healthout.dataEntities.ThirdPartyAppAndApi;
-
 import java.io.Serializable;
 
 public class Goal implements Serializable {
@@ -108,7 +106,6 @@ public class Goal implements Serializable {
     }
 
     public String getAllGoalData(){
-        String result = (app_id + ", " + type_id + ", " + period_id + ", " + target_value);
-        return result;
+        return (app_id + ", " + type_id + ", " + period_id + ", " + target_value);
     }
 }

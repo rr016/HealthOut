@@ -28,12 +28,12 @@ public class EditGoalsActivity extends AppCompatActivity {
     LayoutInflater inflater;
 
     User user;
-    String goalItem[];
-    String item_type[];
-    String item_period[];
-    String item_app[];
-    String item_target[];
-    Integer imageID[];
+    String[] goalItem;
+    String[] item_type;
+    String[] item_period;
+    String[] item_app;
+    String[] item_target;
+    Integer[] imageID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +104,7 @@ public class EditGoalsActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class);
                     Bundle extras = new Bundle();
-                    extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
+                    extras.putSerializable("user", getIntent().getSerializableExtra("user"));
                     extras.putLong("goal_id", user.goalList.get(position).getGoal_id());
                     extras.putInt("position_index", position);
                     moveToEditGoalDetail.putExtras(extras);
@@ -119,7 +119,7 @@ public class EditGoalsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent moveToEditGoalDetail = new Intent(EditGoalsActivity.this, EditGoalDetailActivity.class);
                 Bundle extras = new Bundle();
-                extras.putSerializable("user", (User)getIntent().getSerializableExtra("user"));
+                extras.putSerializable("user", getIntent().getSerializableExtra("user"));
                 extras.putLong("goal_id", -1);
                 moveToEditGoalDetail.putExtras(extras);
                 startActivity(moveToEditGoalDetail);
@@ -182,6 +182,7 @@ public class EditGoalsActivity extends AppCompatActivity {
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         db.deleteAccountFromUserTable(user.getUser_id());
+                        Toast.makeText(getApplicationContext(), "Account deleted", Toast.LENGTH_SHORT).show();
 
                         Intent moveToLogin = new Intent(EditGoalsActivity.this, LoginActivity.class);
                         // Prevent user from returning to this page

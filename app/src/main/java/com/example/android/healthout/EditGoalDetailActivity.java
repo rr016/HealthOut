@@ -48,6 +48,7 @@ public class EditGoalDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+        assert extras != null;
         user = (User)extras.getSerializable("user");
         goal_id = extras.getLong("goal_id");
         position_index = extras.getInt("position_index");
@@ -84,8 +85,8 @@ public class EditGoalDetailActivity extends AppCompatActivity {
                 sTarget = targetEditText.getText().toString();
                 sPeriod = periodSpinner.getSelectedItem().toString();
 
-                if(sTarget.isEmpty() || sTarget.equals("") || sTarget.matches(".*[a-z].*")){
-                    Toast.makeText(getApplicationContext(), "Error: target field empty", Toast.LENGTH_LONG).show();
+                if(sTarget.isEmpty() || sTarget.matches(".*[a-z].*")){
+                    Toast.makeText(getApplicationContext(), "Error: target field empty", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     if(goal_id < 0){
@@ -123,7 +124,7 @@ public class EditGoalDetailActivity extends AppCompatActivity {
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
-                        db.deleteGoalFromUserTable(goal_id);
+                        db.deleteGoalFromGoalTable(goal_id);
                         user.goalList = db.getGoalListFromGoalTable(user.getUser_id()); // update goalList
 
                         Intent moveToEditGoals = new Intent(EditGoalDetailActivity.this, EditGoalsActivity.class).putExtra("user", user);
@@ -191,6 +192,7 @@ public class EditGoalDetailActivity extends AppCompatActivity {
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         db.deleteAccountFromUserTable(user.getUser_id());
+                        Toast.makeText(getApplicationContext(), "Account deleted", Toast.LENGTH_SHORT).show();
 
                         Intent moveToLogin = new Intent(EditGoalDetailActivity.this, LoginActivity.class);
                         // Prevent user from returning to this page

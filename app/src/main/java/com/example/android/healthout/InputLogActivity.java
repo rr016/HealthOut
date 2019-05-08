@@ -5,9 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,16 +19,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.text.ParseException;
-import java.time.format.DateTimeFormatter;
 
 import com.example.android.healthout.dataEntities.User;
 import com.example.android.healthout.database.DatabaseHelper;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class InputLogActivity extends AppCompatActivity {
     DatabaseHelper db;
@@ -50,6 +45,7 @@ public class InputLogActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+        assert extras != null;
         user = (User)extras.getSerializable("user");
 
         appSpinner = findViewById(R.id.spinner_appname_log);
@@ -63,7 +59,7 @@ public class InputLogActivity extends AppCompatActivity {
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int day) {
                 calendarView.setDate((new Date(year-1900, month, day)).getTime());
                 calendarView.setDate((new Date(year-1900, month, day)).getTime());
                 //eventOccursOn = c.getTimeInMillis(); //this is what you want to use later
@@ -85,19 +81,19 @@ public class InputLogActivity extends AppCompatActivity {
                 if (selectedDate < today && logText.length() > 0){
                     switch ((int) db.getTypeIdFromTypeTable(goalTypeSpinner.getSelectedItem().toString())) {
                         case 1:
-                            db.addStepsWalkedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), Long.valueOf(selectedDate));
+                            db.addStepsWalkedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), selectedDate, user.getDateString(selectedDate));
                             break;
                         case 2:
-                            db.addMilesWalkedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Double.valueOf(logText), Long.valueOf(selectedDate));
+                            db.addMilesWalkedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Double.valueOf(logText), selectedDate, user.getDateString(selectedDate));
                             break;
                         case 3:
-                            db.addCaloriesBurnedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), Long.valueOf(selectedDate));
+                            db.addCaloriesBurnedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), selectedDate, user.getDateString(selectedDate));
                             break;
                         case 4:
-                            db.addCaloriesConsumedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), Long.valueOf(selectedDate));
+                            db.addCaloriesConsumedToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), selectedDate, user.getDateString(selectedDate));
                             break;
                         case 5:
-                            db.addPulseToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), Long.valueOf(selectedDate));
+                            db.addPulseToLogTable(user.getUser_id(), db.getAppIdFromAppTable(sApp), Long.valueOf(logText), selectedDate, user.getDateString(selectedDate));
                             break;
                     }
 
@@ -109,7 +105,6 @@ public class InputLogActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(getApplicationContext(), "Error: future date selected", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
@@ -169,6 +164,7 @@ public class InputLogActivity extends AppCompatActivity {
                         }).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         db.deleteAccountFromUserTable(user.getUser_id());
+                        Toast.makeText(getApplicationContext(), "Account deleted", Toast.LENGTH_SHORT).show();
 
                         Intent moveToLogin = new Intent(InputLogActivity.this, LoginActivity.class);
                         // Prevent user from returning to this page

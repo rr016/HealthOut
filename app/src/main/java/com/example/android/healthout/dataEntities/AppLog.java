@@ -9,7 +9,8 @@ public class AppLog implements Serializable {
     private long calories_burned;
     private long calories_consumed;
     private long pulse;
-    private long date;
+    private long date_long;
+    private  String date_string;
 
     public AppLog(){
         this.log_id = 0;
@@ -18,7 +19,8 @@ public class AppLog implements Serializable {
         this.calories_burned = 0;
         this.calories_consumed = 0;
         this.pulse = 0;
-        this.date = 0;
+        this.date_long = 0;
+        this.date_string = null;
     }
 
     public long getLog_id() {
@@ -67,11 +69,21 @@ public class AppLog implements Serializable {
         this.pulse = pulse;
     }
 
-    public long getDate() {
-        return date;
+    public String getDate_string() {
+        return date_string;
     }
 
-    public void setDate (long date) { this.date = date; }
+    public void setDate_string(String date_string) {
+        this.date_string = date_string;
+    }
+
+    public long getDate_long() {
+        return date_long;
+    }
+
+    public void setDate_long(long date_long) {
+        this.date_long = date_long;
+    }
 
     public void combineAppLogs (AppLog appLog){
         this.log_id = -1;
@@ -87,9 +99,7 @@ public class AppLog implements Serializable {
     }
 
     public String getAppLogInfo(){
-        String info = getSteps_walked() + "; " + String.format("%.2f", getMiles_walked()) + "; " + getCalories_burned() + "; "
-                + getCalories_consumed() + "; " + getPulse();
-        return info;
+        return getSteps_walked() + "; " + String.format("%.2f", getMiles_walked()) + "; " + getCalories_burned() + "; "
+                + getCalories_consumed() + "; " + getPulse()+ "; " + getDate_string();
     }
-
 }
