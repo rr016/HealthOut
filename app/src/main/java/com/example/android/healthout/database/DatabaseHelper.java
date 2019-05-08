@@ -884,7 +884,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (updatedFirst || updatedLast){
                 db.update(TABLE_DATE, values, USER_ID + " = " + user_id + " and "
                         + APP_ID + " = " + app_id, null);
-                Log.e("Here!!!","updateFirst: " + updatedFirst + " -- updateLast: " + updatedLast);
+                //Log.e("Database_Debug","updateFirst: " + updatedFirst + " -- updateLast: " + updatedLast);
             }
         }
     }
@@ -903,12 +903,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             long firstDate = cursor.getLong(cursor.getColumnIndex(DATE_FIRST));
             long lastDate = cursor.getLong(cursor.getColumnIndex(DATE_LAST));
 
-            Log.e("Here!!!", date_long + " vs " + firstDate);
+            //Log.e("Database_Debug", date_long + " vs " + firstDate);
             daysBetween = (date_long - firstDate)/(24*60*60*1000);
             if (daysBetween < 0){
                 return daysBetween;
             }
-            Log.e("Here!!!", date_long + " vs " + lastDate);
+            //Log.e("Database_Debug", date_long + " vs " + lastDate);
             daysBetween = (date_long - lastDate)/(24*60*60*1000);
             if (daysBetween > 0){
                 return daysBetween;
@@ -949,7 +949,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             long daysBetween = getDaysBetweenInDateTable(user_id, app_id, date_long);
 
-            Log.e("Here!!!", "daysBetween: " + daysBetween);
+            //Log.e("Database_Debug", "daysBetween: " + daysBetween);
 
             if (daysBetween < -1){
                 for (long i = daysBetween; i < 0; i++){
@@ -959,7 +959,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cal.add(Calendar.DAY_OF_YEAR, (int) -i);
                     values.put(LOG_DATE_LONG, cal.getTimeInMillis());
                     values.put(LOG_DATE_STRING, sdf.format(new Date(cal.getTimeInMillis())));
-                    Log.e("Here!!!", "" + sdf.format(new Date(cal.getTimeInMillis())));
+                    //Log.e("Database_Debug", "" + sdf.format(new Date(cal.getTimeInMillis())));
                     db.insert(TABLE_LOG, null, values);
                 }
             }
@@ -971,7 +971,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cal.add(Calendar.DAY_OF_YEAR, (int) -i);
                     values.put(LOG_DATE_LONG, cal.getTimeInMillis());
                     values.put(LOG_DATE_STRING, sdf.format(new Date(cal.getTimeInMillis())));
-                    Log.e("Here!!!", "" + sdf.format(new Date(cal.getTimeInMillis())));
+                    //Log.e("Database_Debug", "" + sdf.format(new Date(cal.getTimeInMillis())));
                     db.insert(TABLE_LOG, null, values);
                 }
             }
@@ -979,7 +979,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else{
             long today = new Date().getTime();
             long daysBetween = (date_long - today)/(24*60*60*1000);
-            Log.e("Here!!!", "No dates in Date Table: " + daysBetween);
+            //Log.e("Database_Debug", "No dates in Date Table: " + daysBetween);
 
             if (daysBetween < 0){
                 for (long i = daysBetween; i < 0; i++){
@@ -990,7 +990,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cal.add(Calendar.DAY_OF_YEAR, (int) -i);
                     values.put(LOG_DATE_LONG, cal.getTimeInMillis());
                     values.put(LOG_DATE_STRING, sdf.format(new Date(cal.getTimeInMillis())));
-                    Log.e("Here!!!", "" + sdf.format(new Date(cal.getTimeInMillis())));
+                    //("Database_Debug", "" + sdf.format(new Date(cal.getTimeInMillis())));
                     db.insert(TABLE_LOG, null, values);
                 }
             }
@@ -1023,17 +1023,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long result = -1;
         int count = cursor.getCount();
 
-        Log.e("Here!!!", "count: " + count);
+        //Log.e("Database_Debug", "count: " + count);
         if (count < 1){
             db.insert(TABLE_LOG, null, values);
             addDateToDateTable(user_id, app_id, date_long);
-            Log.e("Here!!!", "Added Log: " + date_string);
+            //Log.e("Database_Debug", "Added Log: " + date_string);
         }
         else{
             db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
                     + APP_ID + " = " + app_id + " and " + LOG_DATE_STRING + " = " + "'" + date_string + "'", null);
             addDateToDateTable(user_id, app_id, date_long);
-            Log.e("Here!!!", "Update Log: " + date_string);
+            //Log.e("Database_Debug", "Update Log: " + date_string);
         }
         db.close();
         return result;
@@ -1059,17 +1059,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         int count = cursor.getCount();
 
-        Log.e("Here!!!", "count: " + count);
+        //Log.e("Database_Debug", "count: " + count);
         if (count < 1){
             db.insert(TABLE_LOG, null, values);
             addDateToDateTable(user_id, app_id, date_long);
-            Log.e("Here!!!", "Added Log: " + date_string);
+            //Log.e("Database_Debug", "Added Log: " + date_string);
         }
         else{
             db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
                     + APP_ID + " = " + app_id + " and " + LOG_DATE_STRING + " = " + "'" + date_string + "'", null);
             addDateToDateTable(user_id, app_id, date_long);
-            Log.e("Here!!!", "Update Log: " + date_string);
+            //Log.e("Database_Debug", "Update Log: " + date_string);
         }
         db.close();
     }
@@ -1096,13 +1096,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (count < 1){
             db.insert(TABLE_LOG, null, values);
             addDateToDateTable(user_id, app_id, date_long);
-            Log.e("Here!!!", "Added Log: " + date_string);
+            //Log.e("Database_Debug", "Added Log: " + date_string);
         }
         else{
             db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
                     + APP_ID + " = " + app_id + " and " + LOG_DATE_STRING + " = " + "'" + date_string + "'", null);
             addDateToDateTable(user_id, app_id, date_long);
-            Log.e("Here!!!", "Update Log: " + date_string);
+            //Log.e("Database_Debug", "Update Log: " + date_string);
         }
         db.close();
     }
@@ -1129,13 +1129,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (count < 1){
             db.insert(TABLE_LOG, null, values);
             addDateToDateTable(user_id, app_id, date_long);
-            Log.e("Here!!!", "Added Log: " + date_string);
+            //("Database_Debug", "Added Log: " + date_string);
         }
         else{
             db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
                     + APP_ID + " = " + app_id + " and " + LOG_DATE_STRING + " = " + "'" + date_string + "'", null);
             addDateToDateTable(user_id, app_id, date_long);
-            Log.e("Here!!!", "Update Log: " + date_string);
+            //Log.e("Database_Debug", "Update Log: " + date_string);
         }
         db.close();
     }
@@ -1162,13 +1162,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (count < 1){
             db.insert(TABLE_LOG, null, values);
             addDateToDateTable(user_id, app_id, date_long);
-            Log.e("Here!!!", "Added Log: " + date_string);
+            //Log.e("Database_Debug", "Added Log: " + date_string);
         }
         else{
             db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
                     + APP_ID + " = " + app_id + " and " + LOG_DATE_STRING + " = " + "'" + date_string + "'", null);
             addDateToDateTable(user_id, app_id, date_long);
-            Log.e("Here!!!", "Update Log: " + date_string);
+            //Log.e("Database_Debug", "Update Log: " + date_string);
         }
         db.close();
     }
@@ -1195,13 +1195,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (count < 1){
             db.insert(TABLE_LOG, null, values);
             addDateToDateTable(user_id, app_id, date_long);
-            Log.e("Here!!!", "Added Log: " + date_string);
+            //Log.e("Database_Debug", "Added Log: " + date_string);
         }
         else{
             db.update(TABLE_LOG, values, USER_ID + " = " + user_id + " and "
                     + APP_ID + " = " + app_id + " and " + LOG_DATE_STRING + " = " + "'" + date_string + "'", null);
             addDateToDateTable(user_id, app_id, date_long);
-            Log.e("Here!!!", "Update Log: " + date_string);
+            //Log.e("Database_Debug", "Update Log: " + date_string);
         }
         db.close();
     }
