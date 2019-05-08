@@ -105,6 +105,8 @@ public class InputLogActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(getApplicationContext(), "Error: future date selected", Toast.LENGTH_SHORT).show();
                 }
+
+                logEditText.setText("");
             }
         });
     }

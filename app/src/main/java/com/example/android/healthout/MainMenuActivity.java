@@ -66,13 +66,6 @@ public class MainMenuActivity extends AppCompatActivity {
         fitbitAppLogList = db.getAppLogListFromLogTable(user_id, 1);
         googleFitAppLogList = db.getAppLogListFromLogTable(user_id, 2);
 
-
-        // Log Table -- Display
-        Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_SHORT).show();
-        for (int i = 0; i < fitbitAppLogList.size(); i++)
-            Toast.makeText(MainMenuActivity.this, fitbitAppLogList.get(i).getAppLogInfo(), Toast.LENGTH_SHORT).show();
-
-
         updateButton = findViewById(R.id.button_update);
         registerAppsButton = findViewById(R.id.button_register_apps);
         editGoalsButton = findViewById(R.id.button_edit_goals);
