@@ -67,11 +67,12 @@ public class MainMenuActivity extends AppCompatActivity {
         googleFitAppLogList = db.getAppLogListFromLogTable(user_id, 2);
 
 
+        /*
         // Log Table -- Display
         Toast.makeText(getApplicationContext(), "Log Table:", Toast.LENGTH_SHORT).show();
         for (int i = 0; i < fitbitAppLogList.size(); i++)
             Toast.makeText(MainMenuActivity.this, fitbitAppLogList.get(i).getAppLogInfo(), Toast.LENGTH_SHORT).show();
-
+        */
 
         updateButton = findViewById(R.id.button_update);
         registerAppsButton = findViewById(R.id.button_register_apps);
@@ -312,8 +313,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 // Monthly
                 db.addGoalToGoalTable(user_id, 1, 1, 3, "70000");
                 db.addGoalToGoalTable(user_id, 1, 2, 3, "70");
-                db.addGoalToGoalTable(user_id, 1, 3, 3, "55000");
-                db.addGoalToGoalTable(user_id, 1, 4, 3, "45000");
+                db.addGoalToGoalTable(user_id, 1, 3, 3, "70000");
+                db.addGoalToGoalTable(user_id, 1, 4, 3, "65000");
                 db.addGoalToGoalTable(user_id, 1, 5, 3, "80");
 
                 // --- Google Fit ---
@@ -332,19 +333,19 @@ public class MainMenuActivity extends AppCompatActivity {
                 // Monthly
                 db.addGoalToGoalTable(user_id, 2, 1, 3, "70000");
                 db.addGoalToGoalTable(user_id, 2, 2, 3, "70");
-                db.addGoalToGoalTable(user_id, 2, 3, 3, "55000");
-                db.addGoalToGoalTable(user_id, 2, 4, 3, "45000");
+                db.addGoalToGoalTable(user_id, 2, 3, 3, "70000");
+                db.addGoalToGoalTable(user_id, 2, 4, 3, "65000");
                 db.addGoalToGoalTable(user_id, 2, 5, 3, "80");
 
                 long test = -1;
 
                 // Fitbit -- Create Random Log Data
-                for (int i = -122; i < 0; i++) {
+                for (int i = -122; i <= 0; i++) {
                     test = db.addLogToLogTable(user_id, 1, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate(i), user.getDateString(user.getCalculatedDate(i)));
                 }
 
                 // Google Fit -- Create Random Log Data
-                for (int i = -122; i < 0; i++) {
+                for (int i = -122; i <= 0; i++) {
                     test = db.addLogToLogTable(user_id, 2, new Random().nextInt(4000) + 1000, (new Random().nextInt(49) + 1) * 0.1, new Random().nextInt(1000) + 2000, new Random().nextInt(1000) + 1750, new Random().nextInt(40) + 60, user.getCalculatedDate(i), user.getDateString(user.getCalculatedDate(i)));
                 }
 
