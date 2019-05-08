@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     user.goalList = db.getGoalListFromGoalTable(user.getUser_id());
 
-                    Toast.makeText(LoginActivity.this,"Login Sucessful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"Login Successful", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class).putExtra("user", user);
                     startActivity(intent);
                     finish(); // Prevent user from returning to this page
