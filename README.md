@@ -1,9 +1,7 @@
 # HealthOut - Software Engineering Group 5 Project ![](https://github.com/rr016/HealthOut/blob/master/app/src/main/res/mipmap-hdpi/icon_healthout.png)
-Android app that pulls health metrics from 3rd party apps; this data is used to compare and graph the user's progress toward's his/her goals.
+Android app that allows users to input health metrics; this data is used to compare and graph the user's progress toward's his/her goals.
 
-
-
-### Project Background
+### Original Project Background
 "There are numerous health apps available but dealing with each app individually is cumbersome. In this project, we want to develop an app (either Android or IOS or both) that accesses each app’s log file and be able to read log data for the visualization of progresses. Some requirements are:"
 -	Set health goal such as number of steps per day, diet, blood pressure, etc.
 -	Select health apps that are closely related to the individual health goal and register to the consolidated app (your project)
